@@ -1,39 +1,71 @@
-import React, { Component } from 'react';
-import './App.css';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { fetchAllCharacters } from './actions/charactersActions';
+import React from 'react'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+const Home = () => (
+  <div>
+    <h2>Home</h2>
+  </div>
+)
 
-  componentDidMount() {
-    this.props.onFetchAllCharacters();
-  }
+const About = () => (
+  <div>
+    <h2>About</h2>
+  </div>
+)
 
-  render() {
-    console.log(this.props);
-    return (
-      <div className="App">
+const Topic = ({ match }) => (
+  <div>
+    <h3>{match.params.topicId}</h3>
+  </div>
+)
 
-      </div>
-    );
-  }
-}
+const Topics = ({ match }) => (
+  <div>
+    <h2>Topics</h2>
+    <ul>
+      <li>
+        <Link to={`${match.url}/rendering`}>
+          Rendering with React
+        </Link>
+      </li>
+      <li>
+        <Link to={`${match.url}/components`}>
+          Components
+        </Link>
+      </li>
+      <li>
+        <Link to={`${match.url}/props-v-state`}>
+          Props v. State
+        </Link>
+      </li>
+    </ul>
 
-// first Parameter is the state
-//second parameter is the props that is passsed from parent component
-const mapStateToProps = (state, props) => {
-  const { characters } = state;
-  return {
-    characters
-  }
-}
-const mapActionsToProp = {
-    onFetchAllCharacters: fetchAllCharacters
-}
+    <Route path={`${match.path}/:topicId`} component={Topic}/>
+    <Route exact path={match.path} render={() => (
+      <h3>Please select a topic.</h3>
+    )}/>
+  </div>
+)
 
+const App = () => (
+  <Router>
+    <div>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/about">About</Link></li>
+        <li><Link to="/topics">Topics</Link></li>
+      </ul>
 
-export default connect(mapStateToProps, mapActionsToProp)(App)
+      <hr/>
+
+      <Route exact path="/" component={Home}/>
+      <Route path="/about" component={About}/>
+      <Route path="/topics" component={Topics}/>
+    </div>
+  </Router>
+)
+export default App

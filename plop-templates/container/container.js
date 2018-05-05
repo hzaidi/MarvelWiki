@@ -1,25 +1,25 @@
 import React, { Component } from 'react';
-import './{{ dashCase name }}.scss';
+import './{{ dashCase name }}.css';
 import { connect } from 'react-redux';
 
 class {{ properCase name }} extends Component {
-  constructor(props) {
-    super(props);
-  }
+	constructor(props) {
+    	super(props);
+  	}
 
-  render() {
-    return (
-      <div className="{{ dashCase name }}">
-		    This is a test Container Component
-      </div>
-    );
-  }
+  	render() {
+		return (
+			<div className="{{ dashCase name }}">
+					This is a test Container Component
+			</div>
+		);
+  	}
 }
 
 const mapStateToProps = (state, props) => {
-  return {
+	return {
 
-  }
+	}
 }
 const mapActionsToProp = {
 

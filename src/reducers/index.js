@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
-import characters from './charactersReducer';
-import creators from './creatorsReducer';
+import charactersState from './charactersReducer';
+import creatorsState from './creatorsReducer';
 
 const rootReducer = combineReducers({
-	characters,
-	creators
+	charactersState,
+	creatorsState
 });
 
 export default rootReducer;

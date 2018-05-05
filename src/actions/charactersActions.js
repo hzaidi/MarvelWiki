@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export const FETCH_CHARACTERS_SUCCESS = 'characters:GetAll';
 export const FETCH_CHARACTERS_REJECTED = 'characters:GetAllRejected';
+export const FETCHING = 'characters:Fetching';
 
 export function fetchAllCharacters() {
 	return (dispatch) => {

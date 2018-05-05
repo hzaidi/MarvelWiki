@@ -18,6 +18,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "@material-ui/icons": "^1.0.0-beta.43",
     "axios": "^0.18.0",
     "material-ui": "^1.0.0-beta.44",
     "node-sass-chokidar": "^1.2.2",

@@ -1,37 +1,32 @@
 import React from 'react';
-import classNames from 'classnames';
 import Avatar from 'material-ui/Avatar';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import Typography from "material-ui/Typography";
+import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 
-const styles = {
-	row: {
-	 	display: 'flex',
-	  	justifyContent: 'center',
-	},
-	bigAvatar: {
-		margin: 10,
-	  	width: 60,
-	  	height: 60,
-	},
-};
+const styles = theme => ({
+	container: {
+		maxWidth: '216px;'
+	}
+});
 
 
 const CharacterTile = (props) => {
 	const { classes } = props;
 	return (
-		<div>
-			 <Avatar
-				alt={ props.character.name }
-				src={ props.character.imageUrl }
-				className={ classes.bigAvatar }
-			/>
+		<div className={ classes.container }>
+			<Typography variant="caption" noWrap={ true } color="primary">
+				{ props.character.name }
+			</Typography>
+			<img src={ props.character.imageUrl('portrait_incredible') } alt={ props.character.name }/>
 		</div>
 	)
 }
 
 
 CharacterTile.propTypes = {
+	character: PropTypes.object.isRequired,
 	classes: PropTypes.object.isRequired,
   };
 

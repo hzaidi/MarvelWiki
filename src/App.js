@@ -1,27 +1,45 @@
 import React, { Component }from "react";
-import AppBar from "material-ui/AppBar";
-import Typography from "material-ui/Typography";
-import Toolbar from "material-ui/Toolbar";
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withStyles } from 'material-ui/styles';
+import AppBar from "material-ui/AppBar";
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import Toolbar from "material-ui/Toolbar";
+import logo from './logo.png'
 import CharactersContainer from './container-components/characters-container/characters-container'
+
+
+
+const theme = createMuiTheme({
+	typography: {
+		fontFamily: 'Ropa Sans',
+	  	htmlFontSize: 10,
+	},
+});
+
+const styles = theme => ({
+
+});
 
 class App extends Component {
 	render(){
 		return (
-			<div>
+			<MuiThemeProvider theme={theme}>
 				<AppBar position="static" color="default">
 					<Toolbar>
-					<Typography variant="title" color="inherit">
-						Title
-					</Typography>
+						<img src={ logo } alt="Marvel Logo" width="150" height="50"/>
 					</Toolbar>
 				</AppBar>
 				<CharactersContainer />
-			</div>
+			</MuiThemeProvider>
 		);
 	}
 
 }
 
 
-export default connect()(App);
+export default compose(
+	withStyles(styles, { name: 'App' }),
+	connect()
+)(App);
+

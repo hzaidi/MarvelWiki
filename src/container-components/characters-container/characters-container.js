@@ -1,33 +1,51 @@
 import React, { Component } from 'react';
-import './characters-container.css';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withStyles } from 'material-ui/styles';
 import { CircularProgress } from 'material-ui/Progress';
-import { fetchAllCharacters } from '../../actions/charactersActions';
-import CharacterTile from '../../presentation-components/character-tile/character-tile'
+import { fetchCharacters, searchCharacter } from '../../actions/charactersActions';
+import CharactersList from '../../presentation-components/characters-list/characters-list'
+
+const styles = theme => ({
+	container: {
+		display: 'flex',
+		justifyContent: 'center',
+		margin: '50px 100px'
+	},
+	progress: {
+	  	margin: theme.spacing.unit * 2,
+	},
+});
 
 class CharactersContainer extends Component {
-  	constructor(props) {
-    	super(props);
-  	}
+
   	componentDidMount() {
-    	this.props.onFetchAllCharacters();
+    	this.props.fetchCharacters();
 	}
 
 	renderContent() {
 		if (this.props.fetching) {
 			return (
-				<CircularProgress />
+				<CircularProgress
+					className={this.props.classes.progress}
+					color="secondary"
+					size={75}
+				/>
 			)
 		}else{
 			return (
-				this.props.characters.map(c => <CharacterTile key={c.id} character={c}/>)
+				<CharactersList
+					characters={ this.props.characters }
+					onSearch={ this.props.searchCharacter }
+					searching={ this.props.searching }
+				/>
 			)
 		}
 	}
 
 	render() {
 		return (
-			<div className="characters-container">
+			<div className={this.props.classes.container}>
 				{ this.renderContent() }
 			</div>
     	);
@@ -35,14 +53,20 @@ class CharactersContainer extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-	const { characters, fetching } = state.charactersState;
+	const { characters, fetching, searching } = state.charactersState;
 	return {
 		characters,
-		fetching
+		fetching,
+		searching
 	}
 }
 const mapActionsToProp = {
-	onFetchAllCharacters: fetchAllCharacters
+	fetchCharacters,
+	searchCharacter
 }
 
-export default connect(mapStateToProps, mapActionsToProp)(CharactersContainer)
+export default compose(
+	withStyles(styles, { name: 'CharactersContainer' }),
+	connect(mapStateToProps, mapActionsToProp)
+)(CharactersContainer);
+

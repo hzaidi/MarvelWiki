@@ -24,6 +24,7 @@ class CharactersContainer extends Component {
 	}
 
 	renderContent() {
+		const { fetching, classes, characters, searchCharacter, searching } = this.props;
 		if (this.props.fetching) {
 			return (
 				<CircularProgress

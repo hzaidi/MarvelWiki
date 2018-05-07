@@ -19,7 +19,7 @@ const debounceSearch = debounce((dispatch, searchText) => {
 		.catch(err => {
 			dispatch({ type: SEARCH_CHARACTER_REJECTED, payload: err});
 		})
-}, 1000);
+}, 500);
 
 export function fetchCharacters() {
 	return (dispatch) => {

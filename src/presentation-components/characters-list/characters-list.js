@@ -5,6 +5,7 @@ import { InputAdornment } from 'material-ui/Input';
 import TextField from 'material-ui/TextField';
 import SearchCircle from '@material-ui/icons/Search';
 import { CircularProgress } from 'material-ui/Progress';
+import Typography from "material-ui/Typography";
 import CharacterTile from '../character-tile/character-tile';
 
 
@@ -30,6 +31,22 @@ const CharactersList = (props) => {
 		props.onSearch(event.target.value);
 	}
 
+	function renderContent() {
+		if(props.characters.length) {
+			return (
+				<div className={ classes.listContainer }>
+					{ props.characters.map(character => <CharacterTile key={ character.id } character={ character }/>) }
+				</div>
+			)
+		}else {
+			return (
+				<Typography variant="caption">
+					Unable to find any result.
+				</Typography>
+			)
+		}
+	}
+
 	return (
 		<div>
 			<TextField
@@ -40,16 +57,12 @@ const CharactersList = (props) => {
 				InputProps={{
 					startAdornment: (
 						<InputAdornment position="start">
-							{props.searching && <CircularProgress color="secondary" size={25} />}
-							{!props.searching && <SearchCircle /> }
+							{ props.searching ? <CircularProgress color="secondary" size={25} /> : <SearchCircle /> }
 						</InputAdornment>
 					),
 				}}
 			/>
-
-			<div className={ classes.listContainer }>
-				{ props.characters.map(character => <CharacterTile key={ character.id } character={ character }/>) }
-			</div>
+			{ renderContent() }
 		</div>
 	)
 }

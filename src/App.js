@@ -11,6 +11,9 @@ import CharactersContainer from './container-components/characters-container/cha
 
 
 const theme = createMuiTheme({
+	palette: {
+		type: 'dark',
+	},
 	typography: {
 		fontFamily: 'Ropa Sans',
 	  	htmlFontSize: 10,

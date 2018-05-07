@@ -26,6 +26,7 @@ const CharactersList = (props) => {
 	const { classes } = props;
 
 	function onChangeFilter(event) {
+		event.persist();
 		props.onSearch(event.target.value);
 	}
 

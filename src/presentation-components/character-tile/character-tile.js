@@ -7,19 +7,35 @@ import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 
 const styles = theme => ({
 	container: {
-		maxWidth: '216px;'
-	}
+		display: 'flex',
+		flexDirection: 'row'
+	},
+	card: {
+		width: 220
+	},
+	media: {
+		height: 0,
+		paddingTop: '400px', // 16:9
+	},
 });
 
 
 const CharacterTile = (props) => {
 	const { classes } = props;
 	return (
-		<div className={ classes.container }>
-			<Typography variant="caption" noWrap={ true } color="primary">
-				{ props.character.name }
-			</Typography>
-			<img src={ props.character.imageUrl('portrait_incredible') } alt={ props.character.name }/>
+		<div>
+			<Card className={classes.card}>
+				<div>
+					<Typography variant="caption" noWrap={ true } color="default">
+						{ props.character.name }
+					</Typography>
+				</div>
+				<CardMedia
+				className={classes.media}
+				image={ props.character.imageUrl('portrait_uncanny') }
+				title={ props.character.name }
+				/>
+			</Card>
 		</div>
 	)
 }

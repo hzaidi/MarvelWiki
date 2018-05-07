@@ -7,7 +7,7 @@ const styles = theme => ({
 
 });
 
-class {{ properCase name }} extends Component {
+class CharacterContainer extends Component {
   	render() {
 		return (
 			<div>
@@ -27,7 +27,7 @@ const mapActionsToProp = {
 }
 
 export default compose(
-	withStyles(styles, { name: '{{ properCase name }}' }),
+	withStyles(styles, { name: 'CharacterContainer' }),
 	connect(mapStateToProps, mapActionsToProp)
-)({{ properCase name }});
+)(CharacterContainer);
 

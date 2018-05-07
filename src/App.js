@@ -5,16 +5,11 @@ import { withStyles } from 'material-ui/styles';
 import AppBar from "material-ui/AppBar";
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import Button from 'material-ui/Button';
-import Tabs, { Tab } from 'material-ui/Tabs';
 import Toolbar from "material-ui/Toolbar";
-import {
-	BrowserRouter as Router,
-	Route,
-	Link
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import logo from './logo.png'
 import CharactersContainer from './container-components/characters-container/characters-container'
-
+import CharacterContainer from './container-components/character-container/character-container'
 
 
 const theme = createMuiTheme({
@@ -33,11 +28,6 @@ const styles = theme => ({
 	}
 });
 
-const About = () => (
-	<div>
-	  <h2>About</h2>
-	</div>
-  )
 
 class App extends Component {
 	render(){
@@ -53,7 +43,7 @@ class App extends Component {
 						</Toolbar>
 					</AppBar>
 					<Route exact path="/" component={CharactersContainer}/>
-					<Route path="/about" component={About}/>
+					<Route path="/character/:characterId" component={CharacterContainer}/>
 				</MuiThemeProvider>
 			</Router>
 		);

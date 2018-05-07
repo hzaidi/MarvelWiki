@@ -35,7 +35,7 @@ const CharactersList = (props) => {
 		if(props.characters.length) {
 			return (
 				<div className={ classes.listContainer }>
-					{ props.characters.map(character => <CharacterTile key={ character.id } character={ character }/>) }
+					{ props.characters.map(character => <CharacterTile key={ character.id } character={ character } onClickCharacter={ props.onClickCharacter }/>) }
 				</div>
 			)
 		}else {
@@ -70,6 +70,7 @@ const CharactersList = (props) => {
 
 CharactersList.propTypes = {
 	searching: PropTypes.bool.isRequired,
+	onClickCharacter: PropTypes.func.isRequired,
 	onSearch: PropTypes.func.isRequired,
 	characters: PropTypes.array.isRequired,
 	classes: PropTypes.object.isRequired,

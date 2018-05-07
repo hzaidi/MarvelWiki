@@ -23,12 +23,16 @@ class CharactersContainer extends Component {
     	this.props.fetchCharacters();
 	}
 
+	onClickCharacter() {
+		this.props.history.push('/character/123');
+	}
+
 	renderContent() {
 		const { fetching, classes, characters, searchCharacter, searching } = this.props;
-		if (this.props.fetching) {
+		if (fetching) {
 			return (
 				<CircularProgress
-					className={this.props.classes.progress}
+					className={ classes.progress }
 					color="secondary"
 					size={75}
 				/>
@@ -36,13 +40,15 @@ class CharactersContainer extends Component {
 		}else{
 			return (
 				<CharactersList
-					characters={ this.props.characters }
-					onSearch={ this.props.searchCharacter }
-					searching={ this.props.searching }
+					characters={ characters }
+					onClickCharacter={ this.onClickCharacter.bind(this) }
+					onSearch={ searchCharacter }
+					searching={ searching }
 				/>
 			)
 		}
 	}
+
 
 	render() {
 		return (

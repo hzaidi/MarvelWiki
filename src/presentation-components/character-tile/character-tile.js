@@ -15,7 +15,7 @@ const styles = theme => ({
 	},
 	media: {
 		height: 0,
-		paddingTop: '400px', // 16:9
+		paddingTop: '100%', // 16:9
 	},
 });
 

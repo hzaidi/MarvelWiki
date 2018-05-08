@@ -92,9 +92,7 @@ const CharactersList = (props) => {
 						native
 						value={filterObject.orderBy}
 						onChange={ onChangeOrderBy }
-						inputProps={{
-						id: 'orderBy-native-simple',
-						}}
+						inputProps={{ id: 'orderBy-native-simple' }}
 					>
 						<option value="modified">Modifed</option>
 						<option value="name">Name</option>

@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
+import Grid from 'material-ui/Grid';
 import { CircularProgress } from 'material-ui/Progress';
 import { fetchCharacterById } from '../../actions/charactersActions';
 
 const styles = theme => ({
 	container: {
-		display: 'flex',
-		justifyContent: 'center',
-		margin: '50px 100px'
+		flexGrow: 1,
+		alignItems: 'stretch'
 	},
 	progress: {
 	  	margin: theme.spacing.unit * 2,
@@ -34,7 +34,14 @@ class CharacterContainer extends Component {
 			)
 		}else {
 			return (
-				<img src={character.imageUrl()} alt=""/>
+				<Grid className={ classes.gridContainer } container spacing={0}>
+					<Grid item xs={4}>
+						<img src={character.imageUrl('portrait_incredible')} alt={ character.name } width="400" height="550" />
+					</Grid>
+					<Grid item xs={8}>
+						This is content
+					</Grid>
+				</Grid>
 			)
 		}
 	}

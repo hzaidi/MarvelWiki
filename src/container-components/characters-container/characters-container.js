@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import { CircularProgress } from 'material-ui/Progress';
-import { fetchCharacters, searchCharacter } from '../../actions/charactersActions';
+import { fetchCharacters, filterCharacters } from '../../actions/charactersActions';
 import CharactersList from '../../presentation-components/characters-list/characters-list'
 
 const styles = theme => ({
@@ -23,13 +23,13 @@ class CharactersContainer extends Component {
     	this.props.fetchCharacters();
 	}
 
-	onClickCharacter() {
-		this.props.history.push('/character/123');
+	onClickCharacter(id) {
+		this.props.history.push(`/character/${id}`);
 	}
 
 	renderContent() {
-		const { fetching, classes, characters, searchCharacter, searching } = this.props;
-		if (fetching) {
+		const { fetching, classes, characters, filterCharacters, searching } = this.props;
+		if (fetching || !Object.keys(characters).length) {
 			return (
 				<CircularProgress
 					className={ classes.progress }
@@ -42,7 +42,7 @@ class CharactersContainer extends Component {
 				<CharactersList
 					characters={ characters }
 					onClickCharacter={ this.onClickCharacter.bind(this) }
-					onSearch={ searchCharacter }
+					onFilter={ filterCharacters }
 					searching={ searching }
 				/>
 			)
@@ -51,8 +51,9 @@ class CharactersContainer extends Component {
 
 
 	render() {
+		const { classes } = this.props;
 		return (
-			<div className={this.props.classes.container}>
+			<div className={ classes.container }>
 				{ this.renderContent() }
 			</div>
     	);
@@ -69,7 +70,7 @@ const mapStateToProps = (state, props) => {
 }
 const mapActionsToProp = {
 	fetchCharacters,
-	searchCharacter
+	filterCharacters
 }
 
 export default compose(

@@ -7,7 +7,9 @@ import SearchCircle from '@material-ui/icons/Search';
 import { CircularProgress } from 'material-ui/Progress';
 import Typography from "material-ui/Typography";
 import CharacterTile from '../character-tile/character-tile';
-
+import { InputLabel } from 'material-ui/Input';
+import Select from 'material-ui/Select';
+import { FormControl } from 'material-ui/Form';
 
 const styles = theme => ({
 	listContainer: {
@@ -16,19 +18,40 @@ const styles = theme => ({
 		flexWrap: 'wrap',
 		justifyContent: 'center'
 	},
+	searchContainer: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center'
+	},
 	margin: {
-		width: '100%',
+		alignItems: 'center',
 		margin: theme.spacing.unit,
-	}
+	},
+	formControl: {
+		alignItems: 'center',
+		margin: theme.spacing.unit
+	},
 });
+
+const filterObject = {
+	nameStartsWith: '',
+	orderBy: 'name'
+}
 
 
 const CharactersList = (props) => {
 	const { classes } = props;
 
-	function onChangeFilter(event) {
+	function onChangeFilterText(event) {
 		event.persist();
-		props.onSearch(event.target.value);
+		filterObject.nameStartsWith = event.target.value;
+		props.onFilter(event.target.value);
+	}
+
+	function onChangeOrderBy(event) {
+		event.persist();
+		filterObject.orderBy = event.target.value;
+		props.onFilter(filterObject);
 	}
 
 	function renderContent() {
@@ -49,19 +72,35 @@ const CharactersList = (props) => {
 
 	return (
 		<div>
-			<TextField
-				className={classes.margin}
-				type="search"
-				onChange={ onChangeFilter }
-				label="Search your hero"
-				InputProps={{
-					startAdornment: (
-						<InputAdornment position="start">
-							{ props.searching ? <CircularProgress color="secondary" size={25} /> : <SearchCircle /> }
-						</InputAdornment>
-					),
-				}}
-			/>
+			<div className={ classes.searchContainer }>
+				<TextField
+					className={classes.margin}
+					type="search"
+					onChange={ onChangeFilterText }
+					label="Search your hero"
+					InputProps={{
+						startAdornment: (
+							<InputAdornment position="start">
+								{ props.searching ? <CircularProgress color="secondary" size={25} /> : <SearchCircle /> }
+							</InputAdornment>
+						),
+					}}
+				/>
+				<FormControl className={classes.formControl}>
+					<InputLabel htmlFor="orderBy-native-simple">Order By</InputLabel>
+					<Select
+						native
+						value={filterObject.orderBy}
+						onChange={ onChangeOrderBy }
+						inputProps={{
+						id: 'orderBy-native-simple',
+						}}
+					>
+						<option value="modified">Modifed</option>
+						<option value="name">Name</option>
+					</Select>
+				</FormControl>
+			</div>
 			{ renderContent() }
 		</div>
 	)
@@ -71,7 +110,7 @@ const CharactersList = (props) => {
 CharactersList.propTypes = {
 	searching: PropTypes.bool.isRequired,
 	onClickCharacter: PropTypes.func.isRequired,
-	onSearch: PropTypes.func.isRequired,
+	onFilter: PropTypes.func.isRequired,
 	characters: PropTypes.array.isRequired,
 	classes: PropTypes.object.isRequired,
   };

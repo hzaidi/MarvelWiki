@@ -5,11 +5,8 @@ import Typography from "material-ui/Typography";
 import Card, { CardMedia } from 'material-ui/Card';
 
 const styles = theme => ({
-	container: {
-		display: 'flex',
-		flexDirection: 'row'
-	},
 	card: {
+		cursor: 'pointer',
 		width: 220
 	},
 	media: {
@@ -22,7 +19,7 @@ const styles = theme => ({
 const CharacterTile = (props) => {
 	const { classes } = props;
 	const onClickTile = () => {
-		props.onClickCharacter();
+		props.onClickCharacter(props.character.id);
 	}
 	return (
 		<div>

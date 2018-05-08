@@ -4,40 +4,56 @@ import debounce from 'debounce';
 
 export const FETCH_CHARACTERS_SUCCESS = 'characters:GetAll';
 export const FETCH_CHARACTERS_REJECTED = 'characters:GetAllRejected';
-export const FETCHING = 'characters:Fetching';
-export const SEARCH_CHARACTER_SUCCESS = 'character:Search';
-export const SEARCH_CHARACTER_REJECTED = 'character:SearchRejected';
-export const SEARCHING = 'character:Searching';
+export const FETCHING = 'characters:AjaxCallToFetch';
+export const SEARCHING = 'characters:Searching';
+export const FETCH_CHARACTER_BY_ID_SUCCESS = 'character:GetOneById';
+export const FETCH_CHARACTER_BY_ID_REJECTED = 'character:Rejected';
 
 
-const debounceSearch = debounce((dispatch, searchText) => {
-	let queryString = (searchText.length) ? `?nameStartsWith=${searchText}` : '';
+const search = ({ dispatch, filter = {} }) => {
+	let filterToQueryString = Object.keys(filter).reduce((prev, curr) => {
+		if (filter[curr]) { prev.push(`${curr}=${filter[curr]}`) }
+		return prev
+	}, []).join('&');
+	let queryString = (filterToQueryString.length) ? `?${filterToQueryString}` : '';
 	axios.get(`${baseUrl}/characters${queryString}`)
 		.then(response => {
-			dispatch({ type: SEARCH_CHARACTER_SUCCESS, payload: response.data});
+			dispatch({ type: FETCH_CHARACTERS_SUCCESS, payload: response.data});
 		})
 		.catch(err => {
-			dispatch({ type: SEARCH_CHARACTER_REJECTED, payload: err});
+			dispatch({ type: FETCH_CHARACTERS_REJECTED, payload: err});
 		})
+}
+
+const debounceSearch = debounce((dispatch, filter) => {
+	search({dispatch, filter})
 }, 500);
+
+
 
 export function fetchCharacters() {
 	return (dispatch) => {
 		dispatch({ type: FETCHING });
-		axios.get(`${baseUrl}/characters`)
-			.then(response => {
-				dispatch({ type: FETCH_CHARACTERS_SUCCESS, payload: response.data});
-			})
-			.catch(err => {
-				dispatch({ type: FETCH_CHARACTERS_REJECTED, payload: err});
-			})
+		search({ dispatch })
 	}
 }
 
-
-export function searchCharacter(searchText) {
+export function filterCharacters(filter) {
 	return (dispatch) => {
 		dispatch({ type: SEARCHING })
-		debounceSearch(dispatch, searchText);
+		debounceSearch(dispatch, filter);
+	}
+}
+
+export function fetchCharacterById(id) {
+	return (dispatch) => {
+		dispatch({ type: FETCHING });
+		axios.get(`${baseUrl}/characters/${id}`)
+			.then(response => {
+				dispatch({ type: FETCH_CHARACTER_BY_ID_SUCCESS, payload: response.data});
+			})
+			.catch(err => {
+				dispatch({ type: FETCH_CHARACTER_BY_ID_REJECTED, payload: err});
+			})
 	}
 }

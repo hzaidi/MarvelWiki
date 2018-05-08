@@ -45,7 +45,7 @@ const CharactersList = (props) => {
 	function onChangeFilterText(event) {
 		event.persist();
 		filterObject.nameStartsWith = event.target.value;
-		props.onFilter(event.target.value);
+		props.onFilter(filterObject);
 	}
 
 	function onChangeOrderBy(event) {

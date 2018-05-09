@@ -16,6 +16,7 @@
   "devDependencies": {
     "@material-ui/icons": "^1.0.0-beta.43",
     "axios": "^0.18.0",
+    "babel-runtime": "^6.26.0",
     "cross-env": "^5.1.4",
     "debounce": "^1.1.0",
     "material-ui": "^1.0.0-beta.44",

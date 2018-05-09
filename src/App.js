@@ -17,8 +17,7 @@ const theme = createMuiTheme({
 		type: 'dark',
 	},
 	typography: {
-		fontFamily: 'Ropa Sans',
-	  	htmlFontSize: 10,
+		fontFamily: 'Ropa Sans'
 	},
 });
 
@@ -39,7 +38,6 @@ class App extends Component {
 						<Toolbar>
 							<img className={ classes.topLogo } src={ logo } alt="Marvel Logo" width="150" height="50"/>
 							<Button href="#flat-buttons" component={ Link } to="/">Characters</Button>
-							<Button href="#flat-buttons" component={ Link } to="/about">Creators</Button>
 						</Toolbar>
 					</AppBar>
 					<Route exact path="/" component={CharactersContainer}/>

@@ -2,18 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
+import Typography from "material-ui/Typography";
 import CharacterTile from '../character-tile/character-tile';
 
 
 const styles = theme => ({
 	root: {
 		flexGrow: 1,
+		height: 'calc(100vh - 64px)'
+	},
+	gridContainer:{
+		height: '100%'
 	},
 	rightPanel: {
 		boxSizing: 'border-box',
 		padding: theme.spacing.unit * 2,
-		height: '100%'
+		height: '100%',
+		borderLeft: `1px solid #707070`
+	},
+	description: {
+		boxSizing: 'border-box',
+		padding: theme.spacing.unit * 2
 	},
 	paper: {
 		padding: theme.spacing.unit * 2,
@@ -27,7 +36,7 @@ const CharacterDetails = (props) => {
 	const { classes, character } = props;
 	return (
 		<div className={ classes.root }>
-			<Grid container spacing={0}>
+			<Grid className={ classes.gridContainer } container spacing={0}>
 				<Grid item xs={ 5 }>
 					<div>
 						<Grid item xs={12}>
@@ -37,12 +46,14 @@ const CharacterDetails = (props) => {
 								onClickCharacter={ ()=> {} }/>
 						</Grid>
 						<Grid item xs={12}>
-							<Paper className={classes.paper}>Some Random Content</Paper>
+							<Typography className={ classes.description } variant="subheading" color="textSecondary">
+								"{ character.description }"
+							</Typography>
 						</Grid>
 					</div>
 				</Grid>
 				<Grid item xs>
-					<Paper className={classes.rightPanel}>Some Random Content</Paper>
+					<div className={classes.rightPanel}>Some Random Content</div>
 				</Grid>
 			</Grid>
 

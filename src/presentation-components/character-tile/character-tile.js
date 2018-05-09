@@ -21,15 +21,19 @@ const styles = theme => ({
 	}
 });
 
-const WIDTH = '100%'
-const HEIGHT = '100%'
+const DEFAULT_WIDTH = '100%';
+const DEFAULT_HEIGHT = '100%';
 const DEFAULT_IMAGE_SIZE = 'portrait_incredible';
+const DEFAULT_VARIANT = 'headline';
+const DEFAULT_COLOR = 'default';
 
 const CharacterTile = (props) => {
 	const { classes } = props;
-	const width = props.width ? props.width : WIDTH;
-	const height = props.height ? props.height : HEIGHT;
+	const width = props.width ? props.width : DEFAULT_WIDTH;
+	const height = props.height ? props.height : DEFAULT_HEIGHT;
 	const imageSize = props.imageSize ? props.imageSize : DEFAULT_IMAGE_SIZE;
+	const variant = DEFAULT_VARIANT;
+	const color = DEFAULT_COLOR;
 
 	const onClickTile = () => {
 		props.onClickCharacter(props.character.id);
@@ -38,7 +42,7 @@ const CharacterTile = (props) => {
 		<div className={ classes.container } >
 			<div className={classes.card} onClick={ onClickTile }>
 				<div className={ classes.title }>
-					<Typography variant="caption" noWrap={ true } color="default">
+					<Typography variant={ variant } noWrap={ true } color={ color }>
 						{ props.character.name }
 					</Typography>
 				</div>

@@ -21,19 +21,19 @@ const styles = theme => ({
 	}
 });
 
-const DEFAULT_WIDTH = '100%';
-const DEFAULT_HEIGHT = '100%';
-const DEFAULT_IMAGE_SIZE = 'portrait_incredible';
-const DEFAULT_VARIANT = 'headline';
-const DEFAULT_COLOR = 'default';
+const default_width = '100%';
+const default_height = '100%';
+const default_image_size = 'portrait_incredible';
+const default_variant = 'headline';
+const default_color = 'default';
 
 const CharacterTile = (props) => {
 	const { classes } = props;
-	const width = props.width ? props.width : DEFAULT_WIDTH;
-	const height = props.height ? props.height : DEFAULT_HEIGHT;
-	const imageSize = props.imageSize ? props.imageSize : DEFAULT_IMAGE_SIZE;
-	const variant = DEFAULT_VARIANT;
-	const color = DEFAULT_COLOR;
+	const width = props.width ? props.width : default_width;
+	const height = props.height ? props.height : default_height;
+	const imageSize = props.imageSize ? props.imageSize : default_image_size;
+	const variant = default_variant;
+	const color = default_color;
 
 	const onClickTile = () => {
 		props.onClickCharacter(props.character.id);

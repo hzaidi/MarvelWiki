@@ -17,10 +17,15 @@ const styles = theme => ({
 	},
 });
 
+const filterObject = {
+	modifiedSince: '01/01/2010'
+}
+
+
 class CharactersContainer extends Component {
 
   	componentDidMount() {
-    	this.props.fetchCharacters();
+    	this.props.fetchCharacters(filterObject);
 	}
 
 	onClickCharacter(id) {

@@ -13,7 +13,7 @@ const styles = theme => ({
 		top:0,
 		background: '#000',
 		opacity: 0.7,
-		padding: '5%',
+		padding: '2% 5%',
 		boxSizing: 'border-box'
 	},
 	card: {

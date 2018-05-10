@@ -31,10 +31,10 @@ const debounceSearch = debounce((dispatch, filter) => {
 
 
 
-export function fetchCharacters() {
+export function fetchCharacters(filter) {
 	return (dispatch) => {
 		dispatch({ type: FETCHING });
-		search({ dispatch })
+		search({ dispatch, filter })
 	}
 }
 

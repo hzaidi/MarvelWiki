@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
-
 import { CircularProgress } from 'material-ui/Progress';
 import { fetchCharacterById } from '../../actions/charactersActions';
 import CharacterDetails from '../../presentation-components/character-details/character-details'

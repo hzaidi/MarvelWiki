@@ -5,6 +5,7 @@ import Typography from "material-ui/Typography";
 import CharacterTile from '../character-tile/character-tile';
 import CharacterSearchFilter from '../character-search-filter/character-search-filter';
 import Grid from 'material-ui/Grid';
+import { searchFilterObject } from '../../actions/charactersActions';
 
 const styles = theme => ({
 	container: {
@@ -12,39 +13,38 @@ const styles = theme => ({
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		justifyContent: 'center'
-	},
-	formControl:{
-		minWidth: '200px',
-		margin: theme.spacing.unit,
 	}
 });
 
-const filterObject = {
-	nameStartsWith: '',
-	orderBy: 'name',
-	modifiedSince: '2010-01-01'
-}
 
 
 const CharactersList = (props) => {
-	const { classes, searching } = props;
+	const { classes, searching, metaRecord } = props;
 
 	function onChangeFilterText(event) {
 		event.persist();
-		filterObject.nameStartsWith = event.target.value;
-		props.onFilter(filterObject);
+		searchFilterObject.nameStartsWith = event.target.value;
+		props.onFilter(searchFilterObject);
 	}
 
 	function onChangeOrderBy(event) {
 		event.persist();
-		filterObject.orderBy = event.target.value;
-		props.onFilter(filterObject);
+		searchFilterObject.orderBy = event.target.value;
+		props.onFilter(searchFilterObject);
 	}
 
 	function onChangeModifiedSince(event) {
 		event.persist();
-		filterObject.modifiedSince = event.target.value;
-		props.onFilter(filterObject);
+		searchFilterObject.modifiedSince = event.target.value;
+		props.onFilter(searchFilterObject);
+	}
+
+	function onNext() {
+		props.onNavigation('next');
+	}
+
+	function onPrevious(){
+		props.onNavigation('previous');
 	}
 
 	function renderContent() {
@@ -70,15 +70,16 @@ const CharactersList = (props) => {
 	}
 
 	return (
-		<div>
-			<div className={classes.searchContainer}>
-				<CharacterSearchFilter
-						searching={ searching }
-						onChangeFilterText={ onChangeFilterText }
-						onChangeOrderBy={ onChangeOrderBy }
-						onChangeModifiedSince={ onChangeModifiedSince }
-						/>
-			</div>
+		<div className={classes.container}>
+			<CharacterSearchFilter
+				metaRecord={ metaRecord }
+				searching={ searching }
+				onChangeFilterText={ onChangeFilterText }
+				onChangeOrderBy={ onChangeOrderBy }
+				onChangeModifiedSince={ onChangeModifiedSince }
+				onNext={ onNext }
+				onPrevious={ onPrevious }
+				/>
 			{ renderContent() }
 		</div>
 	)
@@ -86,9 +87,11 @@ const CharactersList = (props) => {
 
 
 CharactersList.propTypes = {
+	metaRecord: PropTypes.object.isRequired,
 	searching: PropTypes.bool.isRequired,
 	onClickCharacter: PropTypes.func.isRequired,
 	onFilter: PropTypes.func.isRequired,
+	onNavigation: PropTypes.func.isRequired,
 	characters: PropTypes.array.isRequired,
 	classes: PropTypes.object.isRequired,
   };

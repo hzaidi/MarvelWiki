@@ -3,37 +3,40 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
 import { CircularProgress } from 'material-ui/Progress';
-import { fetchCharacters, filterCharacters } from '../../actions/charactersActions';
+import { fetchCharacters, filterCharacters, onNavigation } from '../../actions/charactersActions';
 import CharactersList from '../../presentation-components/characters-list/characters-list'
+import { searchFilterObject } from '../../actions/charactersActions';
 
 const styles = theme => ({
 	container: {
 		display: 'flex',
-		justifyContent: 'center',
-		margin: '50px 100px'
+		justifyContent: 'center'
 	},
 	progress: {
 	  	margin: theme.spacing.unit * 2,
 	},
 });
 
-const filterObject = {
-	modifiedSince: '01/01/2010'
-}
-
 
 class CharactersContainer extends Component {
 
   	componentDidMount() {
-    	this.props.fetchCharacters(filterObject);
+		const { fetchCharacters } = this.props;
+    	fetchCharacters(searchFilterObject);
 	}
 
 	onClickCharacter(id) {
-		this.props.history.push(`/character/${id}`);
+		const { history } = this.props;
+		history.push(`/character/${id}`);
+	}
+
+	onNavigationClick(direction) {
+		const  { metaRecord, onNavigation } = this.props;
+		onNavigation(metaRecord, direction);
 	}
 
 	renderContent() {
-		const { fetching, classes, characters, filterCharacters, searching } = this.props;
+		const { metaRecord, fetching, classes, characters, filterCharacters, searching, onNavigation } = this.props;
 		if (fetching || !Object.keys(characters).length) {
 			return (
 				<CircularProgress
@@ -45,9 +48,11 @@ class CharactersContainer extends Component {
 		}else{
 			return (
 				<CharactersList
+					metaRecord={ metaRecord }
 					characters={ characters }
 					onClickCharacter={ this.onClickCharacter.bind(this) }
 					onFilter={ filterCharacters }
+					onNavigation={ this.onNavigationClick.bind(this) }
 					searching={ searching }
 				/>
 			)
@@ -66,16 +71,18 @@ class CharactersContainer extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-	const { characters, fetching, searching } = state.charactersState;
+	const { characters, fetching, searching, metaRecord } = state.charactersState;
 	return {
 		characters,
 		fetching,
-		searching
+		searching,
+		metaRecord
 	}
 }
 const mapActionsToProp = {
 	fetchCharacters,
-	filterCharacters
+	filterCharacters,
+	onNavigation
 }
 
 export default compose(

@@ -9,6 +9,11 @@ export const SEARCHING = 'characters:Searching';
 export const FETCH_CHARACTER_BY_ID_SUCCESS = 'character:GetOneById';
 export const FETCH_CHARACTER_BY_ID_REJECTED = 'character:Rejected';
 
+export const searchFilterObject = {
+	nameStartsWith: '',
+	orderBy: 'name',
+	modifiedSince: '2010-01-01'
+}
 
 const search = ({ dispatch, filter = {} }) => {
 	let filterToQueryString = Object.keys(filter).reduce((prev, curr) => {
@@ -55,5 +60,11 @@ export function fetchCharacterById(id) {
 			.catch(err => {
 				dispatch({ type: FETCH_CHARACTER_BY_ID_REJECTED, payload: err});
 			})
+	}
+}
+
+export function onNavigation(metaRecord ,direction = 'next') {
+	return (dispatch) => {
+
 	}
 }

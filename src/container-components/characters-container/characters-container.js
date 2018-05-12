@@ -21,8 +21,8 @@ const styles = theme => ({
 class CharactersContainer extends Component {
 
   	componentDidMount() {
-		const { fetchCharacters } = this.props;
-    	fetchCharacters(searchFilterObject);
+		const { fetchCharacters, metaRecord } = this.props;
+    	fetchCharacters({ ...searchFilterObject, ...metaRecord });
 	}
 
 	onClickCharacter(id) {
@@ -32,11 +32,11 @@ class CharactersContainer extends Component {
 
 	onNavigationClick(direction) {
 		const  { metaRecord, onNavigation } = this.props;
-		onNavigation(metaRecord, direction);
+		onNavigation({ ...searchFilterObject, ...metaRecord }, direction);
 	}
 
 	renderContent() {
-		const { metaRecord, fetching, classes, characters, filterCharacters, searching, onNavigation } = this.props;
+		const { metaRecord, fetching, classes, characters, filterCharacters, searching } = this.props;
 		if (fetching || !Object.keys(characters).length) {
 			return (
 				<CircularProgress

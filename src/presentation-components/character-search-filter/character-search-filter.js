@@ -9,7 +9,6 @@ import TextField from 'material-ui/TextField';
 import SearchCircle from '@material-ui/icons/Search';
 import { CircularProgress } from 'material-ui/Progress';
 import { searchFilterObject } from '../../actions/charactersActions';
-import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
 import Typography from "material-ui/Typography";
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
@@ -25,8 +24,9 @@ const styles = theme => ({
 		justifyContent: 'flex-end',
 		backgroundColor:'#383838',
 		padding: '0 20px;',
-		aligItems: 'flex-end',
-		marginBottom: '10px;'
+		marginBottom: '10px;',
+		position: 'sticky',
+		top: '10px'
 	},
 	searchNavigateButtons:{
 		display: 'flex',
@@ -53,7 +53,7 @@ const styles = theme => ({
 
 const CharacterSearchFilter = (props) => {
 	const { metaRecord, classes, searching, onChangeFilterText, onChangeOrderBy, onChangeModifiedSince, onNext, onPrevious} = props;
-	console.log(metaRecord);
+
 	return (
 		<div className={ classes.container }>
 			<div className={ classes.topFilter }>

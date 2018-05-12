@@ -6,6 +6,7 @@ import { CircularProgress } from 'material-ui/Progress';
 import { fetchCharacters, filterCharacters, onNavigation } from '../../actions/charactersActions';
 import CharactersList from '../../presentation-components/characters-list/characters-list'
 import { searchFilterObject } from '../../actions/charactersActions';
+import CharacterSearchFilter from '../../presentation-components/character-search-filter/character-search-filter';
 
 const styles = theme => ({
 	container: {
@@ -25,9 +26,39 @@ class CharactersContainer extends Component {
     	fetchCharacters({ ...searchFilterObject, ...metaRecord });
 	}
 
+	onChangeFilterText(event) {
+		const { filterCharacters } = this.props;
+		event.persist();
+		searchFilterObject.nameStartsWith = event.target.value;
+		filterCharacters(searchFilterObject);
+	}
+
+	onChangeOrderBy(event) {
+		const { filterCharacters } = this.props;
+		event.persist();
+		searchFilterObject.orderBy = event.target.value;
+		filterCharacters(searchFilterObject);
+	}
+
+	onChangeModifiedSince(event) {
+		const { filterCharacters } = this.props;
+		event.persist();
+		searchFilterObject.modifiedSince = event.target.value;
+		filterCharacters(searchFilterObject);
+	}
+
+
 	onClickCharacter(id) {
 		const { history } = this.props;
 		history.push(`/character/${id}`);
+	}
+
+	onNext() {
+		this.onNavigationClick('next');
+	}
+
+	onPrevious() {
+		this.onNavigationClick('previous');
 	}
 
 	onNavigationClick(direction) {
@@ -36,7 +67,7 @@ class CharactersContainer extends Component {
 	}
 
 	renderContent() {
-		const { metaRecord, fetching, classes, characters, filterCharacters, searching } = this.props;
+		const { fetching, classes, characters } = this.props;
 		if (fetching || !Object.keys(characters).length) {
 			return (
 				<CircularProgress
@@ -48,12 +79,8 @@ class CharactersContainer extends Component {
 		}else{
 			return (
 				<CharactersList
-					metaRecord={ metaRecord }
 					characters={ characters }
 					onClickCharacter={ this.onClickCharacter.bind(this) }
-					onFilter={ filterCharacters }
-					onNavigation={ this.onNavigationClick.bind(this) }
-					searching={ searching }
 				/>
 			)
 		}
@@ -61,10 +88,23 @@ class CharactersContainer extends Component {
 
 
 	render() {
-		const { classes } = this.props;
+		const { classes, metaRecord, searching } = this.props;
 		return (
-			<div className={ classes.container }>
-				{ this.renderContent() }
+			<div>
+				<div>
+					<CharacterSearchFilter
+						metaRecord={ metaRecord }
+						searching={ searching }
+						onChangeFilterText={ this.onChangeFilterText.bind(this) }
+						onChangeOrderBy={ this.onChangeOrderBy.bind(this) }
+						onChangeModifiedSince={ this.onChangeModifiedSince.bind(this) }
+						onNext={ this.onNext.bind(this) }
+						onPrevious={ this.onPrevious.bind(this) }
+					/>
+				</div>
+				<div className={ classes.container }>
+					{ this.renderContent() }
+				</div>
 			</div>
     	);
   	}

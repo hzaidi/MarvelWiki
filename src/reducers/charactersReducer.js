@@ -31,8 +31,7 @@ export default function(state = {
 		case FETCH_CHARACTER_BY_ID_SUCCESS:
 			return { ...state,
 					character: new Character(payload.data.results[0]),
-					fetching: false,
-					metaRecord: _payLoadToMetaRecord(payload.data) };
+					fetching: false };
 		default:
 			return state;
 	}

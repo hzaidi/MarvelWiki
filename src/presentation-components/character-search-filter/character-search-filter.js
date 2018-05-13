@@ -46,7 +46,7 @@ const styles = theme => ({
 		flexWrap: 'wrap',
 		justifyContent: 'center',
 		padding: '0 20px;',
-		alignItems: 'flex-end',
+		alignItems: 'flex-start',
 		backgroundColor:'#2d2d2d',
 	}
 });
@@ -103,10 +103,10 @@ const CharacterSearchFilter = (props) => {
 					{ metaRecord.total } heros
 				</Typography>
 				<div className={ [classes.formControl,classes.searchNavigateButtons].join(' ') }>
-					<Button onClick={ onPrevious } variant="flat" size="small">
+					<Button onClick={ onPrevious } disabled={ metaRecord.offset === 0 } variant="flat" size="small">
 						<ChevronLeft/>
 					</Button>
-					<Button onClick={ onNext } variant="flat" size="small" >
+					<Button onClick={ onNext } disabled={ metaRecord.offset >= metaRecord.total } variant="flat" size="small" >
 						<ChevronRight/>
 					</Button>
 				</div>

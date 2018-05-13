@@ -65,8 +65,9 @@ const CharacterSearchFilter = (props) => {
 						onChange={ onChangeOrderBy }
 						inputProps={{ id: 'orderBy-native-simple' }}
 					>
+						<option value="name">A-Z</option>
+						<option value="-name">Z-A</option>
 						<option value="modified">Modifed</option>
-						<option value="name">Name</option>
 					</Select>
 				</FormControl>
 

@@ -17,7 +17,7 @@ const styles = theme => ({
 
 
 const CharactersList = (props) => {
-	const { classes, searching } = props;
+	const { classes } = props;
 
 	function renderContent() {
 		if(props.characters.length) {

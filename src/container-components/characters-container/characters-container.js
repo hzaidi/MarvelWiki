@@ -16,6 +16,11 @@ const styles = theme => ({
 	progress: {
 	  	margin: theme.spacing.unit * 2,
 	},
+	sticky: {
+		position: 'sticky',
+		top: '64px;',
+		zIndex: '100'
+	}
 });
 
 
@@ -27,24 +32,24 @@ class CharactersContainer extends Component {
 	}
 
 	onChangeFilterText(event) {
-		const { filterCharacters } = this.props;
+		const { filterCharacters, metaRecord } = this.props;
 		event.persist();
 		searchFilterObject.nameStartsWith = event.target.value;
-		filterCharacters(searchFilterObject);
+		filterCharacters({ ...searchFilterObject, ...metaRecord });
 	}
 
 	onChangeOrderBy(event) {
-		const { filterCharacters } = this.props;
+		const { filterCharacters, metaRecord } = this.props;
 		event.persist();
 		searchFilterObject.orderBy = event.target.value;
-		filterCharacters(searchFilterObject);
+		filterCharacters({ ...searchFilterObject, ...metaRecord });
 	}
 
 	onChangeModifiedSince(event) {
-		const { filterCharacters } = this.props;
+		const { filterCharacters, metaRecord } = this.props;
 		event.persist();
-		searchFilterObject.modifiedSince = event.target.value;
-		filterCharacters(searchFilterObject);
+		searchFilterObject.modifiedSince = `${event.target.value}-01-01`;
+		filterCharacters({ ...searchFilterObject, ...metaRecord });
 	}
 
 
@@ -91,7 +96,7 @@ class CharactersContainer extends Component {
 		const { classes, metaRecord, searching } = this.props;
 		return (
 			<div>
-				<div>
+				<div className={ classes.sticky }>
 					<CharacterSearchFilter
 						metaRecord={ metaRecord }
 						searching={ searching }

@@ -25,10 +25,8 @@ const styles = theme => ({
 		backgroundColor:'#383838',
 		padding: '0 20px;',
 		marginBottom: '10px;',
-		position: 'sticky',
-		top: '10px'
 	},
-	searchNavigateButtons:{
+	alignRight :{
 		display: 'flex',
 		justifyContent: 'flex-end'
 	},
@@ -40,51 +38,27 @@ const styles = theme => ({
 		display: 'flex',
 		alignItems: 'center'
 	},
-	topFilter: {
-		display: 'flex',
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		justifyContent: 'center',
-		padding: '0 20px;',
-		alignItems: 'flex-start',
-		backgroundColor:'#2d2d2d',
+	rightFilters: {
+		marginLeft: '5px;'
 	}
 });
 
+const listOfYears = () => {
+	let currentdate = new Date();
+	let currentYear = currentdate.getFullYear();
+	let years = [];
+	for(let i=currentYear; i >= currentYear - 10; i--){
+		years.push(i);
+	}
+	return years;
+}
+
+
 const CharacterSearchFilter = (props) => {
 	const { metaRecord, classes, searching, onChangeFilterText, onChangeOrderBy, onChangeModifiedSince, onNext, onPrevious} = props;
-
+	const defaultYear = (new Date(searchFilterObject.modifiedSince)).getUTCFullYear();
 	return (
 		<div className={ classes.container }>
-			<div className={ classes.topFilter }>
-				<FormControl className={ classes.formControl }>
-					<InputLabel htmlFor="orderBy-native-simple">Order By</InputLabel>
-					<Select
-						native
-						value={searchFilterObject.orderBy}
-						onChange={ onChangeOrderBy }
-						inputProps={{ id: 'orderBy-native-simple' }}
-					>
-						<option value="name">A-Z</option>
-						<option value="-name">Z-A</option>
-						<option value="modified">Modifed</option>
-					</Select>
-				</FormControl>
-
-				<FormControl className={ classes.formControl }>
-					<TextField
-						id="date"
-						label="Modified Since"
-						type="date"
-						onChange={ onChangeModifiedSince }
-						defaultValue={ searchFilterObject.modifiedSince }
-						helperText="Heros that are modified after date specifed above"
-						InputLabelProps={{
-							shrink: true,
-						}}
-					/>
-				</FormControl>
-			</div>
 			<div className={ classes.searchContainer }>
 				<FormControl className={ classes.formControl }>
 					<TextField
@@ -103,15 +77,41 @@ const CharacterSearchFilter = (props) => {
 				<Typography className={ classes.total } variant="subheading" noWrap={ true } color="default">
 					{ metaRecord.total } heros
 				</Typography>
-				<div className={ [classes.formControl,classes.searchNavigateButtons].join(' ') }>
-					<Button onClick={ onPrevious } disabled={ metaRecord.offset === 0 } variant="flat" size="small">
+
+				<div className={ [classes.formControl,classes.alignRight ].join(' ') }>
+					<FormControl className={ classes.rightFilters }>
+						<InputLabel htmlFor="orderBy-native-simple">Order By</InputLabel>
+						<Select
+							native
+							value={searchFilterObject.orderBy}
+							onChange={ onChangeOrderBy }
+							inputProps={{ id: 'year-native-simple' }}
+						>
+							<option value="name">A-Z</option>
+							<option value="-name">Z-A</option>
+							<option value="modified">Modifed</option>
+						</Select>
+					</FormControl>
+					<FormControl className={ classes.rightFilters }>
+						<InputLabel htmlFor="year-native-simple">Modified Since</InputLabel>
+						<Select
+							native
+							value={ defaultYear }
+							onChange={ onChangeModifiedSince }
+							inputProps={{ id: 'orderBy-native-simple' }}
+						>
+							{ listOfYears().map(year => <option key={ year } value={ year }>{ year }</option>) }
+						</Select>
+					</FormControl>
+					<Button  className={ classes.rightFilters } onClick={ onPrevious } disabled={ metaRecord.offset === 0 } variant="flat" size="small">
 						<ChevronLeft/>
 					</Button>
-					<Button onClick={ onNext } disabled={ metaRecord.offset >= metaRecord.total } variant="flat" size="small" >
+					<Button  className={ classes.rightFilters } onClick={ onNext } disabled={ metaRecord.offset >= metaRecord.total } variant="flat" size="small" >
 						<ChevronRight/>
 					</Button>
 				</div>
 			</div>
+
 		</div>
 	)
 }

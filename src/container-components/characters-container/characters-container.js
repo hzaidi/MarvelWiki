@@ -7,14 +7,12 @@ import { fetchCharacters, filterCharacters, onNavigation } from '../../actions/c
 import CharactersList from '../../presentation-components/characters-list/characters-list'
 import { searchFilterObject } from '../../actions/charactersActions';
 import CharacterSearchFilter from '../../presentation-components/character-search-filter/character-search-filter';
+import CharactersLoading from '../../presentation-components/characters-loading/characters-loading';
 
 const styles = theme => ({
 	container: {
 		display: 'flex',
 		justifyContent: 'center'
-	},
-	progress: {
-	  	margin: theme.spacing.unit * 2,
 	},
 	sticky: {
 		position: 'sticky',
@@ -75,11 +73,7 @@ class CharactersContainer extends Component {
 		const { fetching, classes, characters } = this.props;
 		if (fetching || !Object.keys(characters).length) {
 			return (
-				<CircularProgress
-					className={ classes.progress }
-					color="secondary"
-					size={75}
-				/>
+					<CharactersLoading />
 			)
 		}else{
 			return (

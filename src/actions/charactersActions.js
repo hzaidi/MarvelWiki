@@ -26,7 +26,8 @@ export function fetchCharacters(filter) {
 
 export function filterCharacters(filter) {
 	return (dispatch) => {
-		dispatch({ type: SEARCHING })
+		dispatch({ type: SEARCHING });
+		dispatch({ type: FETCHING });
 		_debounceSearch(dispatch, filter);
 	}
 }

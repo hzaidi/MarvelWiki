@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from 'material-ui/styles';
-import { CircularProgress } from 'material-ui/Progress';
 import { fetchCharacters, filterCharacters, onNavigation } from '../../actions/charactersActions';
 import CharactersList from '../../presentation-components/characters-list/characters-list'
 import { searchFilterObject } from '../../actions/charactersActions';
@@ -37,17 +36,17 @@ class CharactersContainer extends Component {
 	}
 
 	onChangeOrderBy(event) {
-		const { filterCharacters, metaRecord } = this.props;
+		const { fetchCharacters, metaRecord } = this.props;
 		event.persist();
 		searchFilterObject.orderBy = event.target.value;
-		filterCharacters({ ...searchFilterObject, ...metaRecord });
+		fetchCharacters({ ...searchFilterObject, ...metaRecord });
 	}
 
 	onChangeModifiedSince(event) {
-		const { filterCharacters, metaRecord } = this.props;
+		const { fetchCharacters, metaRecord } = this.props;
 		event.persist();
 		searchFilterObject.modifiedSince = `${event.target.value}-01-01`;
-		filterCharacters({ ...searchFilterObject, ...metaRecord });
+		fetchCharacters({ ...searchFilterObject, ...metaRecord });
 	}
 
 
@@ -70,7 +69,7 @@ class CharactersContainer extends Component {
 	}
 
 	renderContent() {
-		const { fetching, classes, characters } = this.props;
+		const { fetching, characters } = this.props;
 		if (fetching || !Object.keys(characters).length) {
 			return (
 					<CharactersLoading />

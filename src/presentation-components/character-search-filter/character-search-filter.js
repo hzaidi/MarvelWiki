@@ -65,7 +65,6 @@ const CharacterSearchFilter = (props) => {
 					<TextField
 						type="search"
 						onChange={ onChangeFilterText }
-						value={ searchFilterObject.nameStartsWith }
 						label="Search your hero"
 						InputProps={{
 							startAdornment: (
@@ -85,7 +84,7 @@ const CharacterSearchFilter = (props) => {
 						<InputLabel htmlFor="orderBy-native-simple">Order By</InputLabel>
 						<Select
 							native
-							value={searchFilterObject.orderBy}
+							value={ searchFilterObject.orderBy }
 							onChange={ onChangeOrderBy }
 							inputProps={{ id: 'year-native-simple' }}
 						>

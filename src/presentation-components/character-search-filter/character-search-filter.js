@@ -65,6 +65,7 @@ const CharacterSearchFilter = (props) => {
 					<TextField
 						type="search"
 						onChange={ onChangeFilterText }
+						value={ searchFilterObject.nameStartsWith }
 						label="Search your hero"
 						InputProps={{
 							startAdornment: (

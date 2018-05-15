@@ -78,5 +78,5 @@ function _search({ dispatch, filter = {} }) {
 
 let _debounceSearch = debounce((dispatch, filter) => {
 	_search({dispatch, filter})
-}, 500)
+}, 1000)
 

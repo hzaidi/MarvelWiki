@@ -1,62 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Grid from 'material-ui/Grid';
 import Typography from "material-ui/Typography";
-import CharacterTile from '../character-tile/character-tile';
-
+import banner from '../../marvel_banner.jpg'
 
 const styles = theme => ({
-	root: {
+	container: {
+		display: 'flex'
+	},
+	imageContainer: {
+		display: 'flex',
 		flexGrow: 1,
-		height: 'calc(100vh - 64px)'
+		flexFlow: 'wrap',
+		justifyContent: 'center'
 	},
-	gridContainer:{
-		height: '100%'
+	image:{
+		width: '100%',
+		filter: 'grayscale(100%)'
 	},
-	rightPanel: {
-		boxSizing: 'border-box',
-		padding: theme.spacing.unit * 2,
-		height: '100%',
-		borderLeft: `1px solid #707070`
+	imageContainerItem:{
+		marginTop: -140
 	},
-	description: {
-		boxSizing: 'border-box',
-		padding: theme.spacing.unit * 2
+	imageAvaterContainer:{
+		width: 890,
+		display: 'flex',
+		zIndex: 1,
+		marginLeft: 'auto',
+		marginRight: 'auto'
 	},
-	paper: {
-		padding: theme.spacing.unit * 2,
-		textAlign: 'center',
-		color: theme.palette.text.secondary,
+	avatar:{
+		border: '5px solid #fff',
+		borderRadius: 150
 	},
+	name:{
+		flexGrow: 5,
+		alignSelf: 'center',
+    	marginTop: 50,
+    	marginLeft: 20
+	}
 });
 
 
 const CharacterDetails = (props) => {
 	const { classes, character } = props;
 	return (
-		<div className={ classes.root }>
-			<Grid className={ classes.gridContainer } container spacing={0}>
-				<Grid item xs={ 5 }>
-					<div>
-						<Grid item xs={12}>
-							<CharacterTile
-								character={ character }
-								imageSize={ 'landscape_medium' }
-								onClickCharacter={ ()=> {} }/>
-						</Grid>
-						<Grid item xs={12}>
-							<Typography className={ classes.description } variant="subheading" color="textSecondary">
-								"{ character.description }"
-							</Typography>
-						</Grid>
-					</div>
-				</Grid>
-				<Grid item xs>
-					<div className={classes.rightPanel}>Some Random Content</div>
-				</Grid>
-			</Grid>
+		<div className={ classes.container }>
+			<div className={ classes.imageContainer }>
+				<div className={ classes.imageContainerItem }>
+					<img src={ banner } alt="banner" className={ classes.image }/>
+				</div>
+				<div className={ [classes.imageContainerItem, classes.imageAvaterContainer ].join(' ') }>
+					<img className={ classes.avatar } src={ character.imageUrl('standard_fantastic') } alt={ character.name } />
+					<Typography className={ classes.name } variant="headline" noWrap={ true } color="default">
+						{ character.name }
+					</Typography>
+				</div>
+			</div>
+			{/* <div className={ classes.contentContainer }>
 
+			</div> */}
 		</div>
 	)
 }

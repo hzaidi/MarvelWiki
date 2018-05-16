@@ -11,7 +11,7 @@ import {
 export default function(state = {
 	characters: {},
 	character: {},
-	metaRecord: { limit: 10 }, //Keep the track of 'Total Records', 'Limit', 'Offset' for more fetching
+	metaRecord: { limit: 12 }, //Keep the track of 'Total Records', 'Limit', 'Offset' for more fetching
 	fetching: true,
 	searching: false
 }, { type, payload }) {

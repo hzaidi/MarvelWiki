@@ -2,21 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import { CircularProgress } from 'material-ui/Progress';
+import Grid from 'material-ui/Grid';
 
 const styles = theme => ({
 	container: {
-		width: '100%',
-		display: 'flex',
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		justifyContent: 'center'
+
 	},
 	tiles: {
 		display: 'flex',
 		justifyContent: 'center',
 		margin: '1px',
 		background: '#2d2d2d',
-		width: '216px',
+		width: '100%',
 		height: '324px;',
 		opacity: 0.8
 	},
@@ -30,19 +27,25 @@ const styles = theme => ({
 const CharactersLoading = (props) => {
 	const { classes } = props;
 	const generateTiles = () => {
-		return Array.from({length: 10}).map((x, i) => i);
+		return Array.from({length: 12}).map((x, i) => i);
 	}
 	return (
 		<div className={ classes.container }>
-			{
-				generateTiles().map(i => <div key={ i } className={ classes.tiles }>
+				<Grid container spacing={8}>
+					{
+						generateTiles().map(i =>
+									<Grid item key={ i } xs={6} sm={4} md={3} lg={2}>
+										<div className={ classes.tiles }>
 											<CircularProgress
 												className={ classes.progress }
 												color="secondary"
 												size={50}
 											/>
-										</div>)
-			}
+										</div>
+									</Grid>
+									)
+					}
+				</Grid>
 		</div>
 	)
 }

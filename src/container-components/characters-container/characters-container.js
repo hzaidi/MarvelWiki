@@ -10,8 +10,8 @@ import CharactersLoading from '../../presentation-components/characters-loading/
 
 const styles = theme => ({
 	container: {
-		display: 'flex',
-		justifyContent: 'center'
+		width: '90%',
+    	margin: '0 auto'
 	},
 	sticky: {
 		position: 'sticky',

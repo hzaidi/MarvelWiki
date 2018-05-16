@@ -7,10 +7,6 @@ import Grid from 'material-ui/Grid';
 
 const styles = theme => ({
 	container: {
-		display: 'flex',
-		flexDirection: 'row',
-		flexWrap: 'wrap',
-		justifyContent: 'center'
 	}
 });
 
@@ -22,10 +18,10 @@ const CharactersList = (props) => {
 	function renderContent() {
 		if(props.characters.length) {
 			return (
-					<Grid container spacing={0} className={ classes.container }>
+					<Grid container spacing={8} className={ classes.container }>
 					{
 						props.characters.map(character => {
-							return <Grid  key={ character.id } item>
+							return <Grid key={ character.id } xs={6} sm={4} md={3} lg={2} item>
 										<CharacterTile character={ character } onClickCharacter={ props.onClickCharacter }/>
 									</Grid>
 						})

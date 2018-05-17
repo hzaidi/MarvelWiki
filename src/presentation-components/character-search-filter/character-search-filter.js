@@ -13,6 +13,8 @@ import Button from 'material-ui/Button';
 import Typography from "material-ui/Typography";
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
+import Grid from 'material-ui/Grid';
+
 
 const styles = theme => ({
 	container:{
@@ -22,25 +24,20 @@ const styles = theme => ({
 	searchContainer: {
 		display: 'flex',
 		flexDirection: 'row',
-		justifyContent: 'flex-end',
 		backgroundColor:'#383838',
-		padding: '0 20px;',
+		padding: '15px;',
 		marginBottom: '10px;',
-	},
-	alignRight :{
-		display: 'flex',
-		justifyContent: 'flex-end'
-	},
-	formControl:{
-		margin: theme.spacing.unit,
-		flexGrow: 1,
-	},
-	total:{
-		display: 'flex',
-		alignItems: 'center'
 	},
 	rightFilters: {
 		marginLeft: '5px;'
+	},
+	flexBox:{
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	flexItem: {
+		flexGrow: 1
 	}
 });
 
@@ -48,7 +45,7 @@ const listOfYears = () => {
 	let currentdate = new Date();
 	let currentYear = currentdate.getFullYear();
 	let years = [];
-	for(let i=currentYear; i >= currentYear - 10; i--){
+	for(let i=currentYear; i >= currentYear - 20; i--){
 		years.push(i);
 	}
 	return years;
@@ -61,56 +58,62 @@ const CharacterSearchFilter = (props) => {
 	return (
 		<div className={ classes.container }>
 			<div className={ classes.searchContainer }>
-				<FormControl className={ classes.formControl }>
-					<TextField
-						type="search"
-						onChange={ onChangeFilterText }
-						label="Search your hero"
-						InputProps={{
-							startAdornment: (
-								<InputAdornment position="start">
-									{ searching ? <CircularProgress color="secondary" size={25} /> : <SearchCircle /> }
-								</InputAdornment>
-							),
-						}}
-					/>
-				</FormControl>
-				<Typography className={ classes.total } variant="subheading" noWrap={ true } color="default">
-					{ metaRecord.total } heros
-				</Typography>
-
-				<div className={ [classes.formControl,classes.alignRight ].join(' ') }>
-					<FormControl className={ classes.rightFilters }>
-						<InputLabel htmlFor="orderBy-native-simple">Order By</InputLabel>
-						<Select
-							native
-							value={ searchFilterObject.orderBy }
-							onChange={ onChangeOrderBy }
-							inputProps={{ id: 'year-native-simple' }}
-						>
-							<option value="name">A-Z</option>
-							<option value="-name">Z-A</option>
-							<option value="modified">Modifed</option>
-						</Select>
-					</FormControl>
-					<FormControl className={ classes.rightFilters }>
-						<InputLabel htmlFor="year-native-simple">Modified Since</InputLabel>
-						<Select
-							native
-							value={ defaultYear }
-							onChange={ onChangeModifiedSince }
-							inputProps={{ id: 'orderBy-native-simple' }}
-						>
-							{ listOfYears().map(year => <option key={ year } value={ year }>{ year }</option>) }
-						</Select>
-					</FormControl>
-					<Button  className={ classes.rightFilters } onClick={ onPrevious } disabled={ metaRecord.offset === 0 } variant="flat" size="small">
-						<ChevronLeft/>
-					</Button>
-					<Button  className={ classes.rightFilters } onClick={ onNext } disabled={ metaRecord.offset >= metaRecord.total } variant="flat" size="small" >
-						<ChevronRight/>
-					</Button>
-				</div>
+				<Grid container spacing={24} direction="row">
+					<Grid item xs={12} lg={7} md={7} className={ classes.flexBox }>
+						<TextField
+							className={ classes.flexItem }
+							type="search"
+							onChange={ onChangeFilterText }
+							label="Search your hero"
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										{ searching ? <CircularProgress color="secondary" size={25} /> : <SearchCircle /> }
+									</InputAdornment>
+								),
+							}}
+						/>
+						<Typography variant="headline" noWrap={ true } color="textSecondary">
+							{ (metaRecord.total) ? metaRecord.total : <CircularProgress color="secondary" size={25} /> } heros
+						</Typography>
+					</Grid>
+					<Grid item xs={12} lg={1} md={1}  className={ classes.flexBox }>
+						<FormControl className={ [classes.rightFilters, classes.flexItem].join(' ') }>
+							<InputLabel htmlFor="orderBy-native-simple">Order By</InputLabel>
+							<Select
+								native
+								value={ searchFilterObject.orderBy }
+								onChange={ onChangeOrderBy }
+								inputProps={{ id: 'year-native-simple' }}
+							>
+								<option value="name">A-Z</option>
+								<option value="-name">Z-A</option>
+								<option value="modified">Modifed</option>
+							</Select>
+						</FormControl>
+					</Grid>
+					<Grid item xs={12} lg={2} md={2}  className={ classes.flexBox }>
+						<FormControl className={ [classes.rightFilters, classes.flexItem].join(' ') }>
+							<InputLabel htmlFor="year-native-simple">Modified Since</InputLabel>
+							<Select
+								native
+								value={ defaultYear }
+								onChange={ onChangeModifiedSince }
+								inputProps={{ id: 'orderBy-native-simple' }}
+							>
+								{ listOfYears().map(year => <option key={ year } value={ year }>{ year }</option>) }
+							</Select>
+						</FormControl>
+					</Grid>
+					<Grid item xs={12} lg={2} md={2} className={ classes.flexBox }>
+						<Button  className={ classes.rightFilters } onClick={ onPrevious } disabled={ metaRecord.offset === 0 } variant="flat" size="small">
+							<ChevronLeft/>
+						</Button>
+						<Button  className={ classes.rightFilters } onClick={ onNext } disabled={ metaRecord.offset >= metaRecord.total } variant="flat" size="small" >
+							<ChevronRight/>
+						</Button>
+					</Grid>
+				</Grid>
 			</div>
 
 		</div>

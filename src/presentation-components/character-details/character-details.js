@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Typography from "material-ui/Typography";
 import banner from '../../marvel_banner.jpg'
-import Grid from 'material-ui/Grid';
 
 const styles = theme => ({
 	container: {

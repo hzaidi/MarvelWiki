@@ -7,15 +7,17 @@ import Grid from 'material-ui/Grid';
 
 const styles = theme => ({
 	container: {
-		width: '100%',
+		width: '90%',
+		margin: '0 auto',
 	},
 	topSectionContainer:{
-		position: 'relative',
-
+		display: 'flex',
+		justifyContent: 'center',
+		flexWrap: 'wrap'
 	},
 	topBarBg:{
 		position: 'absolute',
-		top: 0,
+		top: 50,
 		left: 0,
 		right: 0,
 		height: 200,
@@ -27,12 +29,16 @@ const styles = theme => ({
 	avatar:{
 		border: '5px solid #fff',
 		borderRadius: 150,
-		margin: '65px 40px 0'
+		margin: '20px 20px 0',
+		alignSelf: 'flex-end'
 	},
 	name:{
-		position: 'absolute',
-		top: '13.2rem',
-		left: '19.5rem'
+		alignSelf: 'flex-end',
+		flexGrow: 2
+	},
+	content:{
+		width: '90%',
+		margin: '0 auto'
 	}
 });
 
@@ -41,36 +47,16 @@ const CharacterDetails = (props) => {
 	const { classes, character } = props;
 	return (
 		<div className={ classes.container }>
-			<Grid spacing={8} container>
-				<Grid xs={12} sm={12} md={12} lg={12} xl={12} item>
-					<div className={ classes.topSectionContainer }>
-						<div className={ classes.topBarBg }></div>
-						<img className={ classes.avatar } src={ character.imageUrl('standard_fantastic') } alt={ character.name } />
-						<Typography className={ classes.name } gutterBottom variant="display2" noWrap={ true } color="textSecondary">
-							{ character.name }
-						</Typography>
-					</div>
-				</Grid>
-				<Grid xs={12} sm={12} md={12} lg={12} xl={12} item>
-					<Typography variant="headline" noWrap={ true } color="default">
-						{ character.name }
-					</Typography>
-				</Grid>
-			</Grid>
-			{/* <div className={ classes.imageContainer }>
-				<div className={ classes.imageContainerItem }>
-					<img src={ banner } alt="banner" className={ classes.image }/>
-				</div>
-				<div className={ [classes.imageContainerItem, classes.imageAvaterContainer ].join(' ') }>
-					<img className={ classes.avatar } src={ character.imageUrl('standard_fantastic') } alt={ character.name } />
-					<Typography className={ classes.name } variant="headline" noWrap={ true } color="default">
-						{ character.name }
-					</Typography>
-				</div>
-			</div> */}
-			{/* <div className={ classes.contentContainer }>
-
-			</div> */}
+			<div className={ classes.topSectionContainer }>
+				<div className={ classes.topBarBg }></div>
+				<img className={ classes.avatar } src={ character.imageUrl('standard_fantastic') } alt={ character.name } />
+				<Typography className={ classes.name } gutterBottom variant="display2" noWrap={ true } color="textSecondary">
+					{ character.name }
+				</Typography>
+			</div>
+			<div className={ classes.content }>
+				contetn
+			</div>
 		</div>
 	)
 }

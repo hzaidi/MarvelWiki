@@ -1,11 +1,11 @@
 import React, { Component }from "react";
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withStyles } from 'material-ui/styles';
-import AppBar from "material-ui/AppBar";
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-import Button from 'material-ui/Button';
-import Toolbar from "material-ui/Toolbar";
+import { withStyles } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import logo from './logo.png'
 import CharactersContainer from './container-components/characters-container/characters-container'

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withStyles } from 'material-ui/styles';
-import { CircularProgress } from 'material-ui/Progress';
+import { withStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { fetchCharacterById } from '../../actions/charactersActions';
-import CharacterDetails from '../../presentation-components/character-details/character-details'
+import CharacterDetailsTopSection from '../../presentation-components/character-details-top-section/character-details-top-section'
+import CharacterDetailsContentSection from '../../presentation-components/character-details-content-section/character-details-content-section'
 
 const styles = theme => ({
 	container: {
@@ -34,7 +35,11 @@ class CharacterContainer extends Component {
 			)
 		}else {
 			return (
-				<CharacterDetails character={ character } />
+				<div>
+					<CharacterDetailsTopSection character={ character } />
+					<CharacterDetailsContentSection/>
+				</div>
+
 			)
 		}
 	}

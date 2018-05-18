@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { fetchCharacters, filterCharacters, onNavigation } from '../../actions/charactersActions';
 import CharactersList from '../../presentation-components/characters-list/characters-list'
 import { searchFilterObject } from '../../actions/charactersActions';
@@ -15,7 +15,7 @@ const styles = theme => ({
 	},
 	sticky: {
 		position: 'sticky',
-		top: '64px;',
+		top: 64,
 		zIndex: '100'
 	}
 });

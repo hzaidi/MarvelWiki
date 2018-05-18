@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import { InputLabel } from 'material-ui/Input';
-import Select from 'material-ui/Select';
-import { FormControl } from 'material-ui/Form';
-import { InputAdornment } from 'material-ui/Input';
-import TextField from 'material-ui/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputAdornment from '@material-ui/core/InputAdornment'
+import TextField from '@material-ui/core/TextField';
 import SearchCircle from '@material-ui/icons/Search';
-import { CircularProgress } from 'material-ui/Progress';
-import { searchFilterObject } from '../../actions/charactersActions';
-import Button from 'material-ui/Button';
-import Typography from "material-ui/Typography";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
-import Grid from 'material-ui/Grid';
+import Grid from '@material-ui/core/Grid';
+import { searchFilterObject } from '../../actions/charactersActions';
+
 
 
 const styles = theme => ({

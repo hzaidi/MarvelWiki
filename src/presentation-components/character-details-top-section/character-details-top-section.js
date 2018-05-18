@@ -42,7 +42,7 @@ const styles = theme => ({
 });
 
 
-const CharacterDetails = (props) => {
+const CharacterDetailsTopSection = (props) => {
 	const { classes, character } = props;
 	return (
 		<div className={ classes.container }>
@@ -61,9 +61,9 @@ const CharacterDetails = (props) => {
 }
 
 
-CharacterDetails.propTypes = {
+CharacterDetailsTopSection.propTypes = {
 	character: PropTypes.object.isRequired,
 	classes: PropTypes.object.isRequired,
   };
 
-  export default withStyles(styles)(CharacterDetails);
+  export default withStyles(styles)(CharacterDetailsTopSection);

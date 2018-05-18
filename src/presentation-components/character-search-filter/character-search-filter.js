@@ -56,6 +56,7 @@ const listOfYears = () => {
 const CharacterSearchFilter = (props) => {
 	const { metaRecord, classes, searching, onChangeFilterText, onChangeOrderBy, onChangeModifiedSince, onNext, onPrevious} = props;
 	const defaultYear = (new Date(searchFilterObject.modifiedSince)).getUTCFullYear();
+	console.log('metaRecord => ', metaRecord)
 	return (
 		<div className={ classes.container }>
 			<div className={ classes.searchContainer }>
@@ -110,7 +111,7 @@ const CharacterSearchFilter = (props) => {
 						<Button  className={ classes.rightFilters } onClick={ onPrevious } disabled={ metaRecord.offset === 0 } variant="flat" size="small">
 							<ChevronLeft/>
 						</Button>
-						<Button  className={ classes.rightFilters } onClick={ onNext } disabled={ metaRecord.offset >= metaRecord.total } variant="flat" size="small" >
+						<Button  className={ classes.rightFilters } onClick={ onNext } disabled={  (metaRecord.total < metaRecord.limit) || (metaRecord.offset >= metaRecord.total) } variant="flat" size="small" >
 							<ChevronRight/>
 						</Button>
 					</Grid>

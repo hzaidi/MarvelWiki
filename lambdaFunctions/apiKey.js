@@ -10,12 +10,12 @@ exports.handler = function(event, context, callback) {
 
 	const body = {
 		ts,
-		apikey: PUBLIC_KEY,
+		apikey:PUBLIC_KEY,
 		hash
 	}
 
     callback(null, {
 		statusCode: 200,
-		body
+		body: JSON.stringify(body)
 	});
 }

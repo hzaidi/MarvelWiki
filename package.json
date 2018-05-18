@@ -9,7 +9,11 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development react-scripts start",
-    "build": "cross-env NODE_ENV=production react-scripts build",
+	"build": "cross-env NODE_ENV=production react-scripts build",
+	"buildLambda": "yarn buildLambda:dl && yarn buildLambda:fn",
+    "buildLambda:dl": "del ./dist",
+	"buildLambda:fn": "netlify-lambda build ./lambdaFunctions",
+	"serve:fn": "netlify-lambda serve ./lambdaFunctions",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
@@ -19,7 +23,6 @@
     "axios": "^0.18.0",
     "cross-env": "^5.1.5",
     "debounce": "^1.1.0",
-    "md5": "^2.2.1",
     "npm-run-all": "^4.1.2",
     "plop": "^2.0.0",
     "react-redux": "^5.0.7",

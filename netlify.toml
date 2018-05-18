@@ -1,0 +1,7 @@
+[build]
+  publish = "dist"
+  command = "yarn buildLambda"
+  functions = "dist/λ"
+
+[environment]
+  NODE_VERSION = "8.11.1"

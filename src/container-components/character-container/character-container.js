@@ -37,7 +37,7 @@ class CharacterContainer extends Component {
 			return (
 				<div>
 					<CharacterDetailsTopSection character={ character } />
-					<CharacterDetailsContentSection/>
+					<CharacterDetailsContentSection character={ character }/>
 				</div>
 
 			)

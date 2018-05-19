@@ -1,79 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
+import CharacterResourceTypeDetails from '../character-resource-type-details/character-resource-type-details'
 
 const styles = theme => ({
 	container: {
 
-	},
-	heading: {
-		fontSize: theme.typography.pxToRem(15),
-		fontWeight: theme.typography.fontWeightRegular,
 	}
 });
 
 
 const CharacterDetailsContentSection = (props) => {
-
-	const { classes } = props;
+	const { classes, character } = props;
 	return (
 		<div className={ classes.container }>
-			 <ExpansionPanel>
-				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography className={classes.heading}>Comics</Typography>
-				</ExpansionPanelSummary>
-				<ExpansionPanelDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-						sit amet blandit leo lobortis eget.
-					</Typography>
-				</ExpansionPanelDetails>
-			</ExpansionPanel>
-			<ExpansionPanel>
-				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography className={classes.heading}>Events</Typography>
-				</ExpansionPanelSummary>
-				<ExpansionPanelDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-						sit amet blandit leo lobortis eget.
-					</Typography>
-				</ExpansionPanelDetails>
-			</ExpansionPanel>
-			<ExpansionPanel>
-				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography className={classes.heading}>Series</Typography>
-				</ExpansionPanelSummary>
-				<ExpansionPanelDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-						sit amet blandit leo lobortis eget.
-					</Typography>
-				</ExpansionPanelDetails>
-			</ExpansionPanel>
-			<ExpansionPanel>
-				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography className={classes.heading}>Stories</Typography>
-				</ExpansionPanelSummary>
-				<ExpansionPanelDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-						sit amet blandit leo lobortis eget.
-					</Typography>
-				</ExpansionPanelDetails>
-			</ExpansionPanel>
+			{ 	character.comics.items.length > 0 &&
+					<CharacterResourceTypeDetails resourceTypeString="Comics" resourceTypeData={ character.comics }/>
+			}
+			{	character.events.items.length > 0 &&
+					<CharacterResourceTypeDetails resourceTypeString="Events" resourceTypeData={ character.events }/>
+			}
+			{	character.series.items.length > 0 &&
+					<CharacterResourceTypeDetails resourceTypeString="Series" resourceTypeData={ character.series }/>
+			}
+			{	character.stories.items.length > 0 &&
+					<CharacterResourceTypeDetails resourceTypeString="Stories" resourceTypeData={ character.stories }/>
+			}
 		</div>
 	)
 }
 
 
 CharacterDetailsContentSection.propTypes = {
+	character: PropTypes.object.isRequired,
 	classes: PropTypes.object.isRequired,
   };
 

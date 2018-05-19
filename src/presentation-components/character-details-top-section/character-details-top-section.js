@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 import banner from '../../marvel_banner.jpg'
 
 const styles = theme => ({
@@ -38,7 +39,13 @@ const styles = theme => ({
 	content:{
 		width: '90%',
 		margin: '0 auto'
-	}
+	},
+	root: theme.mixins.gutters({
+		paddingTop: 16,
+		paddingBottom: 16,
+		marginTop: theme.spacing.unit * 3,
+		marginBottom: theme.spacing.unit * 3,
+	}),
 });
 
 
@@ -54,7 +61,15 @@ const CharacterDetailsTopSection = (props) => {
 				</Typography>
 			</div>
 			<div className={ classes.content }>
-				contetn
+			{
+				character.description ?
+						<Paper className={classes.root} elevation={4}>
+							<Typography component="p">
+								{ character.description }
+							</Typography>
+						</Paper>
+					: ''
+			}
 			</div>
 		</div>
 	)

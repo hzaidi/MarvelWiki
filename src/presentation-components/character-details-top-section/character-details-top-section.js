@@ -13,7 +13,8 @@ const styles = theme => ({
 	topSectionContainer:{
 		display: 'flex',
 		justifyContent: 'center',
-		flexWrap: 'wrap'
+		flexWrap: 'wrap',
+		width: '100%'
 	},
 	topBarBg:{
 		position: 'absolute',
@@ -68,7 +69,7 @@ const CharacterDetailsTopSection = (props) => {
 								{ character.description }
 							</Typography>
 						</Paper>
-					: ''
+					: null
 			}
 			</div>
 		</div>

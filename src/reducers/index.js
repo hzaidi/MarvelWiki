@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 
 import charactersState from './charactersReducer';
-import creatorsState from './creatorsReducer';
+import comicsState from './comicsReducer';
 
 const rootReducer = combineReducers({
 	charactersState,
-	creatorsState
+	comicsState
 });
 
 export default rootReducer;

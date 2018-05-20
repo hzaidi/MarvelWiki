@@ -1,7 +1,6 @@
 import React, { Component }from "react";
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';

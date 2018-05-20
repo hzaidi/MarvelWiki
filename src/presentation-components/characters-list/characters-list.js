@@ -22,7 +22,11 @@ const CharactersList = (props) => {
 					{
 						props.characters.map(character => {
 							return <Grid key={ character.id } xs={6} sm={4} md={3} lg={2} item>
-										<CharacterTile character={ character } onClickCharacter={ props.onClickCharacter }/>
+										<CharacterTile
+											id={character.id}
+											title={ character.name }
+											imageUrl={ character.imageUrl }
+											onClick={ props.onClickCharacter }/>
 									</Grid>
 						})
 					}

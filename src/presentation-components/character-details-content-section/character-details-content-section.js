@@ -5,26 +5,36 @@ import CharacterResourceTypeDetails from '../character-resource-type-details/cha
 
 const styles = theme => ({
 	container: {
+		width: '90%',
+		display: 'flex',
+		margin: '0 auto'
+	},
 
-	}
 });
 
 
 const CharacterDetailsContentSection = (props) => {
-	const { classes, character } = props;
+	const populateResourceTypes = (character) => {
+		let resourceType = [];
+		if(character.comics.items.length) { resourceType.push({typeName: 'Comics' }) }
+		if(character.events.items.length) { resourceType.push({typeName: 'Events' }) }
+		if(character.series.items.length) { resourceType.push({typeName: 'Series' }) }
+		if(character.stories.items.length) { resourceType.push({typeName: 'Stories' }) }
+		return resourceType;
+	}
+	const { classes, character, fetching, resourceData , tabValue, metaRecord} = props;
+	let resourceTypes = populateResourceTypes(character)
 	return (
 		<div className={ classes.container }>
-			{ 	character.comics.items.length > 0 &&
-					<CharacterResourceTypeDetails resourceTypeString="Comics" resourceTypeData={ character.comics }/>
-			}
-			{	character.events.items.length > 0 &&
-					<CharacterResourceTypeDetails resourceTypeString="Events" resourceTypeData={ character.events }/>
-			}
-			{	character.series.items.length > 0 &&
-					<CharacterResourceTypeDetails resourceTypeString="Series" resourceTypeData={ character.series }/>
-			}
-			{	character.stories.items.length > 0 &&
-					<CharacterResourceTypeDetails resourceTypeString="Stories" resourceTypeData={ character.stories }/>
+			{
+				resourceTypes.map((rt, idx) => {
+					return tabValue === idx && <CharacterResourceTypeDetails
+								key={ idx }
+								resourceTypeString={ rt.typeName }
+								resourceTypeData={ resourceData }
+								fetching={ fetching }
+								metaRecord={ metaRecord }/>
+				})
 			}
 		</div>
 	)
@@ -32,6 +42,10 @@ const CharacterDetailsContentSection = (props) => {
 
 
 CharacterDetailsContentSection.propTypes = {
+	fetching: PropTypes.bool.isRequired,
+	metaRecord: PropTypes.object.isRequired,
+	tabValue: PropTypes.number.isRequired,
+	resourceData: PropTypes.array.isRequired,
 	character: PropTypes.object.isRequired,
 	classes: PropTypes.object.isRequired,
   };

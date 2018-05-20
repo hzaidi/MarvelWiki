@@ -8,7 +8,9 @@ export const FETCH_CHARACTERS_REJECTED = 'characters:GetAllRejected';
 export const FETCHING = 'characters:AjaxCallToFetch';
 export const SEARCHING = 'characters:Searching';
 export const FETCH_CHARACTER_BY_ID_SUCCESS = 'character:GetOneById';
-export const FETCH_CHARACTER_BY_ID_REJECTED = 'character:Rejected';
+export const FETCH_CHARACTER_BY_ID_REJECTED = 'character:GetOneByIdRejected';
+
+
 
 export const searchFilterObject = {
 	nameStartsWith: '',

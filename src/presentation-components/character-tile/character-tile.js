@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
 	container: {
-		position: 'relative'
+		position: 'relative',
+		transition: '0.70s'
 	},
 	title:{
 		position: 'absolute',
@@ -17,7 +19,15 @@ const styles = theme => ({
 		boxSizing: 'border-box'
 	},
 	card: {
-		cursor: 'pointer'
+		cursor: 'pointer',
+		transition: '0.70s',
+		'&:hover':{
+			transition: '0.70s',
+			transform: 'rotateY(1deg) rotateZ(1deg)'
+		}
+	},
+	buttonWrapper:{
+		padding:0
 	}
 });
 
@@ -36,32 +46,38 @@ const CharacterTile = (props) => {
 	const color = default_color;
 
 	const onClickTile = () => {
-		props.onClickCharacter(props.character.id);
+		props.onClick(props.id);
 	}
 	return (
-		<div className={ classes.container } >
-			<div className={classes.card} onClick={ onClickTile }>
-				<div className={ classes.title }>
-					<Typography variant={ variant } noWrap={ true } color={ color }>
-						{ props.character.name }
-					</Typography>
+		<Button className={ classes.buttonWrapper }>
+			<div className={ classes.container } >
+				<div className={classes.card} onClick={ onClickTile }>
+					{	props.title && props.title.length > 0 &&
+						<div className={ classes.title } title={ props.title }>
+							<Typography variant={ variant } noWrap={ true } color={ color }>
+								{ props.title }
+							</Typography>
+						</div>
+					}
+					<img
+						width={ width }
+						height={ height }
+						className={ classes.img }
+						src={ props.imageUrl(imageSize) }
+						alt={ props.title }
+					/>
 				</div>
-				<img
-					width={ width }
-					height={ height }
-					className={ classes.img }
-					src={ props.character.imageUrl(imageSize) }
-					alt={ props.character.name }
-				/>
 			</div>
-		</div>
+		</Button>
 	)
 }
 
 
 CharacterTile.propTypes = {
-	onClickCharacter: PropTypes.func.isRequired,
-	character: PropTypes.object.isRequired,
+	id: PropTypes.number.isRequired,
+	title: PropTypes.string,
+	onClick: PropTypes.func.isRequired,
+	imageUrl: PropTypes.func.isRequired,
 	classes: PropTypes.object.isRequired,
   };
 

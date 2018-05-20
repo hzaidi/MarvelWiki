@@ -9,7 +9,7 @@ import {
 
 
 export default function(state = {
-	characters: {},
+	characters: [],
 	character: {},
 	metaRecord: { limit: 12 }, //Keep the track of 'Total Records', 'Limit', 'Offset' for more fetching
 	fetching: true,

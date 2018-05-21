@@ -23,7 +23,7 @@ const styles = theme => ({
 		transition: '0.70s',
 		'&:hover':{
 			transition: '0.70s',
-			transform: 'rotateY(1deg) rotateZ(1deg)'
+			transform: 'rotateY(1deg) rotateZ(1deg) scale(1.03)'
 		}
 	},
 	buttonWrapper:{
@@ -36,15 +36,16 @@ const default_height = '100%';
 const default_image_size = 'portrait_incredible';
 const default_variant = 'headline';
 const default_color = 'default';
+const defualt_noWrap = true;
 
 const CharacterTile = (props) => {
 	const { classes } = props;
 	const width = props.width ? props.width : default_width;
 	const height = props.height ? props.height : default_height;
 	const imageSize = props.imageSize ? props.imageSize : default_image_size;
-	const variant = default_variant;
-	const color = default_color;
-
+	const variant = props.variant ? props.variant : default_variant;
+	const color = props.color ? props.color : default_color;
+	const noWrap = props.noWrap === undefined ? defualt_noWrap : props.noWrap;
 	const onClickTile = () => {
 		props.onClick(props.id);
 	}
@@ -54,7 +55,7 @@ const CharacterTile = (props) => {
 				<div className={classes.card} onClick={ onClickTile }>
 					{	props.title && props.title.length > 0 &&
 						<div className={ classes.title } title={ props.title }>
-							<Typography variant={ variant } noWrap={ true } color={ color }>
+							<Typography variant={ variant } noWrap={ noWrap } color={ color }>
 								{ props.title }
 							</Typography>
 						</div>
@@ -76,6 +77,8 @@ const CharacterTile = (props) => {
 CharacterTile.propTypes = {
 	id: PropTypes.number.isRequired,
 	title: PropTypes.string,
+	variant: PropTypes.string,
+	noWrap: PropTypes.bool,
 	onClick: PropTypes.func.isRequired,
 	imageUrl: PropTypes.func.isRequired,
 	classes: PropTypes.object.isRequired,

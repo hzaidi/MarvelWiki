@@ -24,8 +24,12 @@ const styles = theme => ({
 class CharactersContainer extends Component {
 
   	componentDidMount() {
-		const { fetchCharacters, metaRecord } = this.props;
-    	fetchCharacters({ ...searchFilterObject, ...metaRecord });
+		const { fetchCharacters, metaRecord, characters } = this.props;
+		/*
+			This if check ensures you are not coming to this componenet for the first time
+			and does not make the call that can add duplicate records
+		*/
+		if(!characters.length){	fetchCharacters({ ...searchFilterObject, ...metaRecord }); }
 	}
 
 	onChangeFilterText(event) {

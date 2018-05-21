@@ -55,12 +55,14 @@ const CharacterResourceTypeDetails = (props) => {
 			return (
 				<Grid container spacing={24} justify="center">
 					{resourceTypeData.map(resource => (
-						<Grid key={ resource.id } xs={4} sm={4} md={2} lg={2} item>
+						<Grid key={ resource.id } xs={6} sm={6} md={2} lg={2} item>
 							<CharacterTile
 								id={resource.id}
+								variant="body1"
 								title={ resource.title }
 								imageUrl={ resource.imageUrl }
-								imageSize="portrait_fantastic"
+								imageSize="standard_fantastic"
+								noWrap={ false }
 								onClick={ onClikc }/>
 						</Grid>
 					))}

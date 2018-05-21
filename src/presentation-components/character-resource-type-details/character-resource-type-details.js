@@ -55,7 +55,7 @@ const CharacterResourceTypeDetails = (props) => {
 			return (
 				<Grid container spacing={24} justify="center">
 					{resourceTypeData.map(resource => (
-						<Grid key={ resource.id } xs={3} sm={2} md={2} lg={2} item>
+						<Grid key={ resource.id } xs={4} sm={4} md={2} lg={2} item>
 							<CharacterTile
 								id={resource.id}
 								title={ resource.title }

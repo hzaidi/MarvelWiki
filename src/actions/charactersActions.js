@@ -46,21 +46,15 @@ export function fetchCharacterById(id) {
 	}
 }
 
-export function onNavigation(filter ,direction = 'next') {
+export function onLoadMore(filter) {
 	return (dispatch) => {
-		dispatch({ type: FETCHING });
-		_onNavigation(dispatch, filter, direction);
+		_onNavigation(dispatch, filter);
 	}
 }
 
 
 function _onNavigation(dispatch, filter, direction = 'next') {
-	let filterObj;
-	if(direction === 'next') {
-		filterObj = Object.assign({}, filter, { offset: filter.offset + filter.count })
-	} else {
-		filterObj = Object.assign({}, filter, { offset: filter.offset - filter.count })
-	}
+	let filterObj = Object.assign({}, filter, { offset: filter.offset + filter.count })
 	_search({ dispatch, filter: filterObj });
 }
 

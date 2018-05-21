@@ -4,20 +4,34 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import CharacterTile from '../character-tile/character-tile';
 import Grid from '@material-ui/core/Grid';
+import InfiniteScroll from 'react-infinite-scroller';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
 	container: {
+	},
+	loader:{
+		display: 'flex',
+		justifyContent: 'center'
 	}
 });
 
 
 
 const CharactersList = (props) => {
-	const { classes } = props;
-
+	const { classes, loadMore, metaRecord } = props;
+	function loadFunc() {
+		loadMore();
+	}
 	function renderContent() {
 		if(props.characters.length) {
 			return (
+				<InfiniteScroll
+						pageStart={0}
+						loadMore={loadFunc}
+						hasMore={ (metaRecord.offset <= metaRecord.total) }
+						loader={<div className="loader" key={0}><CircularProgress className={ classes.progress } color="secondary" size={50}/></div>}
+					>
 					<Grid container spacing={8} className={ classes.container }>
 					{
 						props.characters.map(character => {
@@ -31,6 +45,7 @@ const CharactersList = (props) => {
 						})
 					}
 					</Grid>
+				</InfiniteScroll>
 				)
 		}else {
 			return (
@@ -51,6 +66,8 @@ const CharactersList = (props) => {
 
 CharactersList.propTypes = {
 	onClickCharacter: PropTypes.func.isRequired,
+	metaRecord: PropTypes.object.isRequired,
+	loadMore: PropTypes.func.isRequired,
 	characters: PropTypes.array.isRequired,
 	classes: PropTypes.object.isRequired,
   };

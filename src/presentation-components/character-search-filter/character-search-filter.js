@@ -8,10 +8,7 @@ import InputAdornment from '@material-ui/core/InputAdornment'
 import TextField from '@material-ui/core/TextField';
 import SearchCircle from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
 import Grid from '@material-ui/core/Grid';
 import { searchFilterObject } from '../../actions/charactersActions';
 
@@ -54,14 +51,13 @@ const listOfYears = () => {
 
 
 const CharacterSearchFilter = (props) => {
-	const { metaRecord, classes, searching, onChangeFilterText, onChangeOrderBy, onChangeModifiedSince, onNext, onPrevious} = props;
+	const { metaRecord, classes, searching, onChangeFilterText, onChangeOrderBy, onChangeModifiedSince } = props;
 	const defaultYear = (new Date(searchFilterObject.modifiedSince)).getUTCFullYear();
-	console.log('metaRecord => ', metaRecord)
 	return (
 		<div className={ classes.container }>
 			<div className={ classes.searchContainer }>
 				<Grid container spacing={24} direction="row">
-					<Grid item xs={12} lg={7} md={7} className={ classes.flexBox }>
+					<Grid item xs={12} lg={9} md={9} className={ classes.flexBox }>
 						<TextField
 							className={ classes.flexItem }
 							type="search"
@@ -107,14 +103,6 @@ const CharacterSearchFilter = (props) => {
 							</Select>
 						</FormControl>
 					</Grid>
-					<Grid item xs={12} lg={2} md={2} className={ classes.flexBox }>
-						<Button  className={ classes.rightFilters } onClick={ onPrevious } disabled={ metaRecord.offset === 0 } variant="flat" size="small">
-							<ChevronLeft/>
-						</Button>
-						<Button  className={ classes.rightFilters } onClick={ onNext } disabled={  (metaRecord.total < metaRecord.limit) || (metaRecord.offset >= metaRecord.total) } variant="flat" size="small" >
-							<ChevronRight/>
-						</Button>
-					</Grid>
 				</Grid>
 			</div>
 
@@ -129,9 +117,7 @@ CharacterSearchFilter.propTypes = {
 	onChangeFilterText: PropTypes.func.isRequired,
 	onChangeOrderBy: PropTypes.func.isRequired,
 	onChangeModifiedSince: PropTypes.func.isRequired,
-	searching: PropTypes.bool.isRequired,
-	onNext: PropTypes.func.isRequired,
-	onPrevious: PropTypes.func.isRequired
+	searching: PropTypes.bool.isRequired
   };
 
   export default withStyles(styles)(CharacterSearchFilter);

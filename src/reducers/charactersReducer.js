@@ -11,14 +11,14 @@ import {
 export default function(state = {
 	characters: [],
 	character: {},
-	metaRecord: { limit: 12 }, //Keep the track of 'Total Records', 'Limit', 'Offset' for more fetching
+	metaRecord: { limit: 24 }, //Keep the track of 'Total Records', 'Limit', 'Offset' for more fetching
 	fetching: true,
 	searching: false
 }, { type, payload }) {
 	switch (type) {
 		case FETCH_CHARACTERS_SUCCESS:
 			return { ...state,
-					characters: payload.data.results.map(c => new Character(c)),
+					characters: state.characters.concat(payload.data.results.map(c => new Character(c))),
 					metaRecord: _payLoadToMetaRecord(payload.data),
 					fetching: false,
 					searching: false };

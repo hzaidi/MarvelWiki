@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { fetchCharacters, filterCharacters, onNavigation } from '../../actions/charactersActions';
+import { fetchCharacters, filterCharacters, onLoadMore } from '../../actions/charactersActions';
 import CharactersList from '../../presentation-components/characters-list/characters-list'
 import { searchFilterObject } from '../../actions/charactersActions';
 import CharacterSearchFilter from '../../presentation-components/character-search-filter/character-search-filter';
@@ -55,21 +55,13 @@ class CharactersContainer extends Component {
 		history.push(`/character/${id}`);
 	}
 
-	onNext() {
-		this.onNavigationClick('next');
-	}
-
-	onPrevious() {
-		this.onNavigationClick('previous');
-	}
-
-	onNavigationClick(direction) {
-		const  { metaRecord, onNavigation } = this.props;
-		onNavigation({ ...searchFilterObject, ...metaRecord }, direction);
+	onNavigationTrigger() {
+		const  { metaRecord, onLoadMore } = this.props;
+		onLoadMore({ ...searchFilterObject, ...metaRecord });
 	}
 
 	renderContent() {
-		const { fetching, characters } = this.props;
+		const { fetching, characters, metaRecord } = this.props;
 		if (fetching || !Object.keys(characters).length) {
 			return (
 					<CharactersLoading />
@@ -79,6 +71,8 @@ class CharactersContainer extends Component {
 				<CharactersList
 					characters={ characters }
 					onClickCharacter={ this.onClickCharacter.bind(this) }
+					loadMore={ this.onNavigationTrigger.bind(this) }
+					metaRecord={ metaRecord }
 				/>
 			)
 		}
@@ -96,8 +90,6 @@ class CharactersContainer extends Component {
 						onChangeFilterText={ this.onChangeFilterText.bind(this) }
 						onChangeOrderBy={ this.onChangeOrderBy.bind(this) }
 						onChangeModifiedSince={ this.onChangeModifiedSince.bind(this) }
-						onNext={ this.onNext.bind(this) }
-						onPrevious={ this.onPrevious.bind(this) }
 					/>
 				</div>
 				<div className={ classes.container }>
@@ -120,7 +112,7 @@ const mapStateToProps = (state, props) => {
 const mapActionsToProp = {
 	fetchCharacters,
 	filterCharacters,
-	onNavigation
+	onLoadMore
 }
 
 export default compose(

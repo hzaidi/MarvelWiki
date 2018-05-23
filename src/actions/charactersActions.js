@@ -22,21 +22,21 @@ export function updateFilters(filter) {
 export function fetchCharacters(filter) {
 	return (dispatch) => {
 		dispatch({ type: FETCHING });
-		_search({ dispatch, filter, dispatchTypeSuccess: FETCH_CHARACTERS_SUCCESS, dispatchTypeRejected: FETCH_CHARACTERS_REJECTED  })
+		return _search({ dispatch, filter, dispatchTypeSuccess: FETCH_CHARACTERS_SUCCESS, dispatchTypeRejected: FETCH_CHARACTERS_REJECTED  })
 	}
 }
 
 export function filterCharacters(filter) {
 	return (dispatch) => {
 		dispatch({ type: SEARCHING });
-		_debounceSearch(dispatch, filter);
+		return _debounceSearch(dispatch, filter);
 	}
 }
 
 export function fetchCharacterById(id) {
 	return (dispatch) => {
 		dispatch({ type: FETCHING });
-		axios.get(`${baseUrl}/characters/${id}`)
+		return axios.get(`${baseUrl}/characters/${id}`)
 			.then(response => {
 				dispatch({ type: FETCH_CHARACTER_BY_ID_SUCCESS, payload: response.data});
 			})
@@ -49,13 +49,13 @@ export function fetchCharacterById(id) {
 export function onLoadMore(filter) {
 	return (dispatch) => {
 		let filterObj = Object.assign({}, filter, { offset: filter.offset + filter.count })
-		_search({ dispatch, filter: filterObj, dispatchTypeSuccess: LOAD_MORE_SUCCESS, dispatchTypeRejected: LOAD_MORE_REJECTED });
+		return _search({ dispatch, filter: filterObj, dispatchTypeSuccess: LOAD_MORE_SUCCESS, dispatchTypeRejected: LOAD_MORE_REJECTED });
 	}
 }
 
 let _debounceSearch = debounce((dispatch, filter) => {
 	dispatch({ type: FETCHING });
-	_search({dispatch, filter, dispatchTypeSuccess: FETCH_CHARACTERS_SUCCESS, dispatchTypeRejected: FETCH_CHARACTERS_REJECTED })
+	return _search({dispatch, filter, dispatchTypeSuccess: FETCH_CHARACTERS_SUCCESS, dispatchTypeRejected: FETCH_CHARACTERS_REJECTED })
 }, 1000)
 
 
@@ -63,7 +63,7 @@ function _search({ dispatch, filter = {}, dispatchTypeSuccess , dispatchTypeReje
 	const { total, count, ...newFilterObj } = filter;
 	let filterToQueryStringVal = filterToQueryString(newFilterObj);
 	let queryString = (filterToQueryStringVal.length) ? `?${filterToQueryStringVal}` : '';
-	axios.get(`${baseUrl}/characters${queryString}`)
+	return axios.get(`${baseUrl}/characters${queryString}`)
 		.then(response => {
 			dispatch({ type: dispatchTypeSuccess, payload: response.data});
 		})

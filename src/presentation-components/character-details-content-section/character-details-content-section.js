@@ -14,27 +14,15 @@ const styles = theme => ({
 
 
 const CharacterDetailsContentSection = (props) => {
-	const populateResourceTypes = (character) => {
-		let resourceType = [];
-		if(character.comics.items.length) { resourceType.push({typeName: 'Comics' }) }
-		if(character.events.items.length) { resourceType.push({typeName: 'Events' }) }
-		if(character.series.items.length) { resourceType.push({typeName: 'Series' }) }
-		if(character.stories.items.length) { resourceType.push({typeName: 'Stories' }) }
-		return resourceType;
-	}
-	const { classes, character, fetching, resourceData , tabValue, metaRecord} = props;
-	let resourceTypes = populateResourceTypes(character)
+	const { classes, fetching, resourceData , resourceTypeString, metaRecord} = props;
 	return (
 		<div className={ classes.container }>
 			{
-				resourceTypes.map((rt, idx) => {
-					return tabValue === idx && <CharacterResourceTypeDetails
-								key={ idx }
-								resourceTypeString={ rt.typeName }
-								resourceTypeData={ resourceData }
-								fetching={ fetching }
-								metaRecord={ metaRecord }/>
-				})
+				<CharacterResourceTypeDetails
+					resourceTypeString={ resourceTypeString }
+					resourceTypeData={ resourceData }
+					fetching={ fetching }
+					metaRecord={ metaRecord }/>
 			}
 		</div>
 	)
@@ -44,9 +32,8 @@ const CharacterDetailsContentSection = (props) => {
 CharacterDetailsContentSection.propTypes = {
 	fetching: PropTypes.bool.isRequired,
 	metaRecord: PropTypes.object.isRequired,
-	tabValue: PropTypes.number.isRequired,
 	resourceData: PropTypes.array.isRequired,
-	character: PropTypes.object.isRequired,
+	resourceTypeString: PropTypes.string.isRequired,
 	classes: PropTypes.object.isRequired,
   };
 

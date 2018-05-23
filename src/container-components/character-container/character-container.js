@@ -13,31 +13,47 @@ import CharacterDetailsContentSection from '../../presentation-components/charac
 
 const styles = theme => ({
 	container: {
-		display: 'flex',
-		justifyContent: 'center'
+		width: '100%'
 	},
 	progress: {
 	  	margin: theme.spacing.unit * 2,
 	},
 	alignButtons:{
 		textAlign: 'center'
+	},
+	buttonContainer: {
+		padding: 20,
+		marginTop:20
 	}
 });
 
+const populateResourceTypes = (character) => {
+	let resourceType = [];
+	if(character.comics.items.length) { resourceType.push({typeName: 'Comics', items: character.comics.items,resourceCount: character.comics.available }) }
+	if(character.events.items.length) { resourceType.push({typeName: 'Events', items: character.events.items,resourceCount: character.events.available }) }
+	if(character.series.items.length) { resourceType.push({typeName: 'Series', items: character.series.items,resourceCount: character.series.available }) }
+	if(character.stories.items.length) { resourceType.push({typeName: 'Stories', items: character.stories.items,resourceCount: character.stories.available }) }
+	return resourceType;
+}
+
 class CharacterContainer extends Component {
 	state = {
-		value: 0
+		resource: null,
+		resourceTypes: [] //populateResourceTypes(character)
 	};
 
-	handleChange = (event, value) => {
-		this.setState({ value });
-		debugger;
+	handleChange = (event, resource) => {
+		this.setState({ resource });
 	};
 
 	componentDidMount() {
 		const { comicsMetaRecord } = this.props;
-		this.props.fetchCharacterById(this.props.params.characterId);
-		this.props.fetchComicsByCharacterId(this.props.params.characterId, comicsMetaRecord);
+		this.props.fetchCharacterById(this.props.params.characterId).then(() => {
+			const resourceTypes = populateResourceTypes(this.props.character);
+			this.setState({ resourceTypes });
+		});
+
+
 	};
 
 	renderContent() {
@@ -52,49 +68,26 @@ class CharacterContainer extends Component {
 			)
 		} else {
 			return (
-				<div>
+				<div className={ classes.container }>
 					<CharacterDetailsTopSection character={ character } />
-					<div>
-						<Grid container>
+					<div className={ classes.buttonContainer }>
+						<Grid container spacing={16}>
 							{
-								character.comics.items.length > 0  &&
-								<Grid item xs={3} className={ classes.alignButtons }>
-									<Badge color="primary" badgeContent={character.comics.available} className={classes.margin}>
-										<Button variant="flat">Comics</Button>
-									</Badge>
-								</Grid>
-							}
-							{
-								character.events.items.length > 0  &&
-								<Grid item xs={3} className={ classes.alignButtons }>
-									<Badge color="primary" badgeContent={character.events.available} className={classes.margin}>
-										<Button variant="flat">Events</Button>
-									</Badge>
-								</Grid>
-							}
-							{
-								character.series.items.length > 0 &&
-								<Grid item xs={3} className={ classes.alignButtons }>
-									<Badge color="primary" badgeContent={character.series.available} className={classes.margin}>
-										<Button variant="flat">Series</Button>
-									</Badge>
-								</Grid>
-							}
-							{
-								character.stories.items.length > 0 &&
-								<Grid item xs={3} className={ classes.alignButtons }>
-									<Badge color="primary" badgeContent={character.stories.available} className={classes.margin}>
-										<Button variant="flat">Stories</Button>
-									</Badge>
-								</Grid>
+								this.state.resourceTypes.map(rt => {
+									return rt.items.length > 0 &&
+										<Grid item xs={3} className={ classes.alignButtons } key={ rt.typeName }>
+											<Badge color="primary" badgeContent={rt.resourceCount} className={classes.margin}>
+												<Button size="large" variant="flat">{ rt.typeName }</Button>
+											</Badge>
+										</Grid>
+								})
 							}
 						</Grid>
 					</div>
 					<div>
 						<CharacterDetailsContentSection
-							character={ character }
-							tabValue={ this.state.value }
 							fetching={ fetchingComics }
+							resourceTypeString = "Comics"
 							resourceData= { comics }
 							metaRecord= { comicsMetaRecord }
 						/>

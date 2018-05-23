@@ -34,7 +34,7 @@ class CharactersContainer extends Component {
 	}
 
 	onChangeFilterText(event) {
-		const { filterCharacters, filter } = this.props;
+		const { filterCharacters, filter, updateFilters } = this.props;
 		event.persist();
 		const updatedFilter = Object.assign({}, filter, { nameStartsWith: event.target.value });
 		updateFilters(updatedFilter)
@@ -42,16 +42,15 @@ class CharactersContainer extends Component {
 	}
 
 	onChangeOrderBy(event) {
-		const { fetchCharacters, filter } = this.props;
+		const { fetchCharacters, filter, updateFilters } = this.props;
 		event.persist();
 		const updatedFilter = Object.assign({}, filter, { orderBy: event.target.value });
-		debugger;
 		updateFilters(updatedFilter)
 		fetchCharacters(updatedFilter);
 	}
 
 	onChangeModifiedSince(event) {
-		const { fetchCharacters, filter } = this.props;
+		const { fetchCharacters, filter, updateFilters } = this.props;
 		event.persist();
 		const updatedFilter = Object.assign({}, filter, { modifiedSince: `${event.target.value}-01-01` });
 		updateFilters(updatedFilter)

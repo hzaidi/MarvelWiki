@@ -9,8 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const styles = theme => ({
 	container: {
 		position: 'relative',
-		border: '1px solid #7c7c7c',
-		borderRadius: 5
+		width: '100%'
 	},
 	contentContainer: {
 		padding: 10
@@ -19,10 +18,7 @@ const styles = theme => ({
 		margin: theme.spacing.unit * 2,
 	  },
 	header: {
-		padding: 10,
-		borderTopLeftRadius: 5,
-		borderTopRightRadius: 5,
-		backgroundColor: '#403e3e'
+		padding: 10
 	},
 	footer:{
 		position:'absolute',
@@ -75,7 +71,7 @@ const CharacterResourceTypeDetails = (props) => {
 	}
 	return (
 		<div className={ classes.container }>
-			<Typography gutterBottom variant="display1" noWrap={ true } color="textSecondary" className={ classes.header }>
+			<Typography gutterBottom variant="display1" noWrap={ true } color="default" className={ classes.header }>
 				{ resourceTypeString }
 			</Typography>
 			<div className={ classes.contentContainer } style={ (metaRecord.total > metaRecord.limit) ? { marginBottom: 40 } : {} }>

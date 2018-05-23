@@ -22,7 +22,6 @@ export default function(state = {
 		orderBy: 'name',
 		modifiedSince: '2010-01-01'
 	},
-	metaRecord: { limit: 24 }, //Keep the track of 'Total Records', 'Limit', 'Offset' for more fetching
 	fetching: true,
 	searching: false
 }, { type, payload }) {

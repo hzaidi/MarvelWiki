@@ -14,15 +14,14 @@ const styles = theme => ({
 
 
 const CharacterDetailsContentSection = (props) => {
-	const { classes, fetching, resourceData , resourceTypeString, metaRecord} = props;
+	const { classes, resourceData, resourceTypeString } = props;
 	return (
 		<div className={ classes.container }>
 			{
 				<CharacterResourceTypeDetails
 					resourceTypeString={ resourceTypeString }
 					resourceTypeData={ resourceData }
-					fetching={ fetching }
-					metaRecord={ metaRecord }/>
+					/>
 			}
 		</div>
 	)
@@ -30,10 +29,8 @@ const CharacterDetailsContentSection = (props) => {
 
 
 CharacterDetailsContentSection.propTypes = {
-	fetching: PropTypes.bool.isRequired,
-	metaRecord: PropTypes.object.isRequired,
-	resourceData: PropTypes.array.isRequired,
-	resourceTypeString: PropTypes.string.isRequired,
+	resourceData: PropTypes.object.isRequired,
+	resourceTypeString: PropTypes.string,
 	classes: PropTypes.object.isRequired,
   };
 

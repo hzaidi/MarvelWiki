@@ -8,8 +8,16 @@ import Badge from '@material-ui/core/Badge';
 import Button from '@material-ui/core/Button';
 import { fetchCharacterById } from '../../actions/charactersActions';
 import { fetchComicsByCharacterId } from '../../actions/comicsActions';
+import { fetchEventsByCharacterId } from '../../actions/eventsActions';
+import { fetchSeriesByCharacterId } from '../../actions/seriesActions';
+import { fetchStoriesByCharacterId } from '../../actions/storiesAction';
 import CharacterDetailsTopSection from '../../presentation-components/character-details-top-section/character-details-top-section'
 import CharacterDetailsContentSection from '../../presentation-components/character-details-content-section/character-details-content-section'
+
+const COMICS = 'Comics';
+const EVENTS = 'Events';
+const SERIES = 'Series';
+const STORIES = 'Stories';
 
 const styles = theme => ({
 	container: {
@@ -29,35 +37,56 @@ const styles = theme => ({
 
 const populateResourceTypes = (character) => {
 	let resourceType = [];
-	if(character.comics.items.length) { resourceType.push({typeName: 'Comics', items: character.comics.items,resourceCount: character.comics.available }) }
-	if(character.events.items.length) { resourceType.push({typeName: 'Events', items: character.events.items,resourceCount: character.events.available }) }
-	if(character.series.items.length) { resourceType.push({typeName: 'Series', items: character.series.items,resourceCount: character.series.available }) }
-	if(character.stories.items.length) { resourceType.push({typeName: 'Stories', items: character.stories.items,resourceCount: character.stories.available }) }
+	if(character.comics.items.length) { resourceType.push({typeName: COMICS, resourceCount: character.comics.available }) }
+	if(character.events.items.length) { resourceType.push({typeName: EVENTS, resourceCount: character.events.available }) }
+	if(character.series.items.length) { resourceType.push({typeName: SERIES, resourceCount: character.series.available }) }
+	if(character.stories.items.length) { resourceType.push({typeName: STORIES, resourceCount: character.stories.available }) }
 	return resourceType;
 }
 
 class CharacterContainer extends Component {
 	state = {
 		resource: null,
-		resourceTypes: [] //populateResourceTypes(character)
+		resourceTypes: []
 	};
 
-	handleChange = (event, resource) => {
+	handleChange = (resource) => {
 		this.setState({ resource });
+		this.fetchDataByResourceType({ type: resource, characterId: this.props.params.characterId });
 	};
+
+	fetchDataByResourceType({ type, characterId }) {
+		const { fetchComicsByCharacterId, fetchEventsByCharacterId, fetchSeriesByCharacterId, fetchStoriesByCharacterId } = this.props;
+		switch (type) {
+			case COMICS:
+				fetchComicsByCharacterId(characterId);
+				break;
+			case EVENTS:
+				fetchEventsByCharacterId(characterId);
+				break;
+			case SERIES:
+				fetchSeriesByCharacterId(characterId);
+				break;
+			case STORIES:
+				fetchStoriesByCharacterId(characterId);
+				break;
+			default:
+				throw new Error('Invalid Type')
+		}
+	}
 
 	componentDidMount() {
-		const { comicsMetaRecord } = this.props;
-		this.props.fetchCharacterById(this.props.params.characterId).then(() => {
+		const { fetchCharacterById } = this.props;
+		fetchCharacterById(this.props.params.characterId).then(() => {
 			const resourceTypes = populateResourceTypes(this.props.character);
-			this.setState({ resourceTypes });
+			const resource = resourceTypes[0];
+			this.setState({ resource: resource.typeName, resourceTypes });
+			this.fetchDataByResourceType({ type: resource.typeName, characterId: this.props.params.characterId });
 		});
-
-
 	};
 
 	renderContent() {
-		const { fetchingCharacter, character , classes, comics , fetchingComics , comicsMetaRecord} = this.props;
+		const { fetchingCharacter, character , classes, comicsState, eventsState, storiesState, seriesState } = this.props;
 		if(fetchingCharacter || !Object.keys(character).length)  {
 			return (
 				<CircularProgress
@@ -74,10 +103,10 @@ class CharacterContainer extends Component {
 						<Grid container spacing={16}>
 							{
 								this.state.resourceTypes.map(rt => {
-									return rt.items.length > 0 &&
+									return rt.resourceCount > 0 &&
 										<Grid item xs={3} className={ classes.alignButtons } key={ rt.typeName }>
 											<Badge color="primary" badgeContent={rt.resourceCount} className={classes.margin}>
-												<Button size="large" variant="flat">{ rt.typeName }</Button>
+												<Button size="large" variant="flat" onClick={ () => this.handleChange(rt.typeName) }>{ rt.typeName }</Button>
 											</Badge>
 										</Grid>
 								})
@@ -85,12 +114,35 @@ class CharacterContainer extends Component {
 						</Grid>
 					</div>
 					<div>
-						<CharacterDetailsContentSection
-							fetching={ fetchingComics }
-							resourceTypeString = "Comics"
-							resourceData= { comics }
-							metaRecord= { comicsMetaRecord }
-						/>
+						{
+							this.state.resource === COMICS &&
+								<CharacterDetailsContentSection
+									resourceTypeString = { this.state.resource }
+									resourceData= { comicsState }
+								/>
+						}
+						{
+							this.state.resource === EVENTS &&
+							<CharacterDetailsContentSection
+								resourceTypeString = { this.state.resource }
+								resourceData= { eventsState }
+							/>
+						}
+						{
+							this.state.resource === SERIES &&
+							<CharacterDetailsContentSection
+								resourceTypeString = { this.state.resource }
+								resourceData= { seriesState }
+							/>
+						}
+						{
+							this.state.resource === STORIES &&
+							<CharacterDetailsContentSection
+								resourceTypeString = { this.state.resource }
+								resourceData= { storiesState }
+							/>
+						}
+
 					</div>
 				</div>
 
@@ -111,22 +163,27 @@ class CharacterContainer extends Component {
 const mapStateToProps = (state, props) => {
 	const { params } = props.match;
 	const { character } = state.charactersState;
-	const { comics } = state.comicsState;
 	const fetchingCharacter = state.charactersState.fetching;
-	const fetchingComics = state.comicsState.fetching;
-	const comicsMetaRecord = state.comicsState.metaRecord;
+	const { comic, ...comicsState } = state.comicsState;
+	const { event, ...eventsState } = state.eventsState;
+	const { serial, ...seriesState } = state.seriesState;
+	const { story, ...storiesState } = state.storiesState;
 	return {
 		params,
 		character,
 		fetchingCharacter,
-		comics,
-		fetchingComics,
-		comicsMetaRecord
+		comicsState,
+		eventsState,
+		seriesState,
+		storiesState
 	}
 }
 const mapActionsToProp = {
 	fetchCharacterById,
-	fetchComicsByCharacterId
+	fetchComicsByCharacterId,
+	fetchEventsByCharacterId,
+	fetchSeriesByCharacterId,
+	fetchStoriesByCharacterId
 }
 
 export default compose(

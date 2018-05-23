@@ -36,10 +36,9 @@ const styles = theme => ({
 
 
 const CharacterResourceTypeDetails = (props) => {
-	const { classes, resourceTypeData, resourceTypeString, fetching, metaRecord } = props;
-	console.log(metaRecord)
+	const { classes, resourceTypeData, resourceTypeString } = props;
 	function renderContent() {
-		if(fetching){
+		if(resourceTypeData.fetching){
 			return (
 				<CircularProgress
 					className={ classes.progress }
@@ -50,14 +49,14 @@ const CharacterResourceTypeDetails = (props) => {
 		}else{
 			return (
 				<Grid container spacing={24} justify="center">
-					{resourceTypeData.map(resource => (
+					{resourceTypeData.comics.map(resource => (
 						<Grid key={ resource.id } xs={6} sm={6} md={2} lg={2} item>
 							<CharacterTile
 								id={resource.id}
 								variant="body1"
 								title={ resource.title }
 								imageUrl={ resource.imageUrl }
-								imageSize="standard_fantastic"
+								imageSize="portrait_uncanny"
 								noWrap={ false }
 								onClick={ onClikc }/>
 						</Grid>
@@ -74,12 +73,12 @@ const CharacterResourceTypeDetails = (props) => {
 			<Typography gutterBottom variant="display1" noWrap={ true } color="default" className={ classes.header }>
 				{ resourceTypeString }
 			</Typography>
-			<div className={ classes.contentContainer } style={ (metaRecord.total > metaRecord.limit) ? { marginBottom: 40 } : {} }>
+			<div className={ classes.contentContainer }>
 				{ renderContent() }
 			</div>
-			{
-				(metaRecord.total > metaRecord.limit) ? <div className={ classes.footer }></div> : null
-			}
+			{/* {
+				(resourceTypeData.metaRecord.total > resourceTypeData.metaRecord.limit) ? <div className={ classes.footer }></div> : null
+			} */}
 
 		</div>
 	)
@@ -87,10 +86,8 @@ const CharacterResourceTypeDetails = (props) => {
 
 
 CharacterResourceTypeDetails.propTypes = {
-	resourceTypeString: PropTypes.string.isRequired,
-	resourceTypeData: PropTypes.array.isRequired,
-	metaRecord: PropTypes.object.isRequired,
-	fetching: PropTypes.bool.isRequired,
+	resourceTypeString: PropTypes.string,
+	resourceTypeData: PropTypes.object.isRequired,
 	classes: PropTypes.object.isRequired,
   };
 

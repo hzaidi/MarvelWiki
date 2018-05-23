@@ -1,10 +1,10 @@
 import Comic from '../objects/comics';
-import { FETCH_COMICS_BY_CHARACTER_ID_SUCCESS,
-		FETCH_COMICS_BY_CHARACTER_ID_REJECTED,
-		FETCHING } from '../actions/comicsActions'
+import { FETCH_STORIES_BY_CHARACTER_ID_SUCCESS,
+		FETCH_STORIES_BY_CHARACTER_ID_REJECTED,
+		FETCHING } from '../actions/storiesAction'
 export default function(state = {
-	comics: [],
-	comic: {},
+	stories: [],
+	story: {},
 	filter:{
 		limit: 24
 	},
@@ -12,9 +12,9 @@ export default function(state = {
 	searching: false
 }, { type, payload }) {
 	switch (type) {
-		case FETCH_COMICS_BY_CHARACTER_ID_SUCCESS:
+		case FETCH_STORIES_BY_CHARACTER_ID_SUCCESS:
 			return { ...state,
-					comics: payload.data.results.map(c => new Comic(c)),
+					stories: payload.data.results.map(c => new Comic(c)),
 					metaRecord: _payLoadToMetaRecord(payload.data),
 					fetching: false,
 					searching: false };

@@ -2,21 +2,22 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { fetchCharacters, filterCharacters, onLoadMore } from '../../actions/charactersActions';
+import { fetchCharacters, filterCharacters, onLoadMore, updateFilters } from '../../actions/charactersActions';
 import CharactersList from '../../presentation-components/characters-list/characters-list'
-import { searchFilterObject } from '../../actions/charactersActions';
 import CharacterSearchFilter from '../../presentation-components/character-search-filter/character-search-filter';
 import CharactersLoading from '../../presentation-components/characters-loading/characters-loading';
 
 const styles = theme => ({
 	container: {
 		width: '90%',
-    	margin: '0 auto'
+		margin: '0 auto',
+		paddingTop: 85
 	},
 	sticky: {
-		position: 'sticky',
-		top: 64,
-		zIndex: '100'
+		position: 'fixed',
+		top: 0,
+		zIndex: '100',
+		width: '100%'
 	}
 });
 
@@ -24,33 +25,37 @@ const styles = theme => ({
 class CharactersContainer extends Component {
 
   	componentDidMount() {
-		const { fetchCharacters, metaRecord, characters } = this.props;
+		const { fetchCharacters,  characters, filter } = this.props;
 		/*
 			This if check ensures you are not coming to this componenet for the first time
 			and does not make the call that can add duplicate records
 		*/
-		if(!characters.length){	fetchCharacters({ ...searchFilterObject, ...metaRecord }); }
+		if(!characters.length){	fetchCharacters(filter); }
 	}
 
 	onChangeFilterText(event) {
-		const { filterCharacters, metaRecord } = this.props;
+		const { filterCharacters, filter } = this.props;
 		event.persist();
-		searchFilterObject.nameStartsWith = event.target.value;
-		filterCharacters({ ...searchFilterObject, ...metaRecord });
+		const updatedFilter = Object.assign({}, filter, { nameStartsWith: event.target.value });
+		updateFilters(updatedFilter)
+		filterCharacters(updatedFilter);
 	}
 
 	onChangeOrderBy(event) {
-		const { fetchCharacters, metaRecord } = this.props;
+		const { fetchCharacters, filter } = this.props;
 		event.persist();
-		searchFilterObject.orderBy = event.target.value;
-		fetchCharacters({ ...searchFilterObject, ...metaRecord });
+		const updatedFilter = Object.assign({}, filter, { orderBy: event.target.value });
+		debugger;
+		updateFilters(updatedFilter)
+		fetchCharacters(updatedFilter);
 	}
 
 	onChangeModifiedSince(event) {
-		const { fetchCharacters, metaRecord } = this.props;
+		const { fetchCharacters, filter } = this.props;
 		event.persist();
-		searchFilterObject.modifiedSince = `${event.target.value}-01-01`;
-		fetchCharacters({ ...searchFilterObject, ...metaRecord });
+		const updatedFilter = Object.assign({}, filter, { modifiedSince: `${event.target.value}-01-01` });
+		updateFilters(updatedFilter)
+		fetchCharacters(updatedFilter);
 	}
 
 
@@ -59,13 +64,13 @@ class CharactersContainer extends Component {
 		history.push(`/character/${id}`);
 	}
 
-	onNavigationTrigger() {
-		const  { metaRecord, onLoadMore } = this.props;
-		onLoadMore({ ...searchFilterObject, ...metaRecord });
+	onLoadMoreTrigger() {
+		const  { onLoadMore, filter } = this.props;
+		onLoadMore(filter);
 	}
 
 	renderContent() {
-		const { fetching, characters, metaRecord } = this.props;
+		const { fetching, characters, filter } = this.props;
 		if (fetching || !Object.keys(characters).length) {
 			return (
 					<CharactersLoading />
@@ -75,8 +80,8 @@ class CharactersContainer extends Component {
 				<CharactersList
 					characters={ characters }
 					onClickCharacter={ this.onClickCharacter.bind(this) }
-					loadMore={ this.onNavigationTrigger.bind(this) }
-					metaRecord={ metaRecord }
+					loadMore={ this.onLoadMoreTrigger.bind(this) }
+					filter={ filter }
 				/>
 			)
 		}
@@ -84,12 +89,12 @@ class CharactersContainer extends Component {
 
 
 	render() {
-		const { classes, metaRecord, searching } = this.props;
+		const { classes, searching, filter } = this.props;
 		return (
 			<div>
 				<div className={ classes.sticky }>
 					<CharacterSearchFilter
-						metaRecord={ metaRecord }
+						filter={ filter }
 						searching={ searching }
 						onChangeFilterText={ this.onChangeFilterText.bind(this) }
 						onChangeOrderBy={ this.onChangeOrderBy.bind(this) }
@@ -105,18 +110,19 @@ class CharactersContainer extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-	const { characters, fetching, searching, metaRecord } = state.charactersState;
+	const { characters, fetching, searching, filter } = state.charactersState;
 	return {
 		characters,
 		fetching,
 		searching,
-		metaRecord
+		filter
 	}
 }
 const mapActionsToProp = {
 	fetchCharacters,
 	filterCharacters,
-	onLoadMore
+	onLoadMore,
+	updateFilters
 }
 
 export default compose(

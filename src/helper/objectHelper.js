@@ -5,3 +5,6 @@ export const filterToQueryString = (filter) => {
 	}, []).join('&')
 };
 
+export const pick = (object, props) => {
+	return props.reduce((a, c) => ({ ...a, [c]: object[c] }), {});
+}

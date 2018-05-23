@@ -10,7 +10,6 @@ import SearchCircle from '@material-ui/icons/Search';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { searchFilterObject } from '../../actions/charactersActions';
 
 
 
@@ -23,8 +22,10 @@ const styles = theme => ({
 		display: 'flex',
 		flexDirection: 'row',
 		backgroundColor:'#383838',
-		padding: '15px;',
+		padding: 15,
+		paddingTop: 70,
 		marginBottom: '10px;',
+		boxSizing: 'border-box'
 	},
 	rightFilters: {
 		marginLeft: '5px;'
@@ -51,8 +52,8 @@ const listOfYears = () => {
 
 
 const CharacterSearchFilter = (props) => {
-	const { metaRecord, classes, searching, onChangeFilterText, onChangeOrderBy, onChangeModifiedSince } = props;
-	const defaultYear = (new Date(searchFilterObject.modifiedSince)).getUTCFullYear();
+	const { filter, classes, searching, onChangeFilterText, onChangeOrderBy, onChangeModifiedSince } = props;
+	const defaultYear = (new Date(filter.modifiedSince)).getUTCFullYear();
 	return (
 		<div className={ classes.container }>
 			<div className={ classes.searchContainer }>
@@ -60,6 +61,7 @@ const CharacterSearchFilter = (props) => {
 					<Grid item xs={12} lg={9} md={9} className={ classes.flexBox }>
 						<TextField
 							className={ classes.flexItem }
+							value={ filter.nameStartsWith }
 							type="search"
 							onChange={ onChangeFilterText }
 							label="Search your hero"
@@ -72,15 +74,15 @@ const CharacterSearchFilter = (props) => {
 							}}
 						/>
 						<Typography variant="headline" noWrap={ true } color="textSecondary">
-							{ (metaRecord.total) ? metaRecord.total : <CircularProgress color="secondary" size={25} /> } heros
+							{ (!searching) ? filter.total : <CircularProgress color="secondary" size={25} /> } heros
 						</Typography>
 					</Grid>
-					<Grid item xs={12} lg={1} md={1}  className={ classes.flexBox }>
+					<Grid item xs={6} lg={1} md={1}  className={ classes.flexBox }>
 						<FormControl className={ [classes.rightFilters, classes.flexItem].join(' ') }>
 							<InputLabel htmlFor="orderBy-native-simple">Order By</InputLabel>
 							<Select
 								native
-								value={ searchFilterObject.orderBy }
+								value={ filter.orderBy }
 								onChange={ onChangeOrderBy }
 								inputProps={{ id: 'year-native-simple' }}
 							>
@@ -90,7 +92,7 @@ const CharacterSearchFilter = (props) => {
 							</Select>
 						</FormControl>
 					</Grid>
-					<Grid item xs={12} lg={2} md={2}  className={ classes.flexBox }>
+					<Grid item xs={6} lg={2} md={2}  className={ classes.flexBox }>
 						<FormControl className={ [classes.rightFilters, classes.flexItem].join(' ') }>
 							<InputLabel htmlFor="year-native-simple">Modified Since</InputLabel>
 							<Select
@@ -112,7 +114,7 @@ const CharacterSearchFilter = (props) => {
 
 
 CharacterSearchFilter.propTypes = {
-	metaRecord: PropTypes.object.isRequired,
+	filter: PropTypes.object.isRequired,
 	classes: PropTypes.object.isRequired,
 	onChangeFilterText: PropTypes.func.isRequired,
 	onChangeOrderBy: PropTypes.func.isRequired,

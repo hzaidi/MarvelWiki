@@ -19,7 +19,7 @@ const styles = theme => ({
 
 
 const CharactersList = (props) => {
-	const { classes, loadMore, metaRecord } = props;
+	const { classes, loadMore, filter } = props;
 	function loadFunc() {
 		loadMore();
 	}
@@ -30,7 +30,7 @@ const CharactersList = (props) => {
 						pageStart={0}
 						initialLoad={ false }
 						loadMore={loadFunc}
-						hasMore={ (metaRecord.offset <= metaRecord.total) }
+						hasMore={ (filter.offset <= filter.total) }
 						loader={<div className={ classes.loader } key={0}><CircularProgress className={ classes.progress } color="secondary" size={50}/></div>}
 					>
 					<Grid container spacing={8} className={ classes.container }>
@@ -67,7 +67,7 @@ const CharactersList = (props) => {
 
 CharactersList.propTypes = {
 	onClickCharacter: PropTypes.func.isRequired,
-	metaRecord: PropTypes.object.isRequired,
+	filter: PropTypes.object.isRequired,
 	loadMore: PropTypes.func.isRequired,
 	characters: PropTypes.array.isRequired,
 	classes: PropTypes.object.isRequired,

@@ -7,22 +7,22 @@ export const FETCH_CHARACTERS_SUCCESS = 'characters:GetAll';
 export const FETCH_CHARACTERS_REJECTED = 'characters:GetAllRejected';
 export const FETCHING = 'characters:AjaxCallToFetch';
 export const SEARCHING = 'characters:Searching';
+export const LOAD_MORE_SUCCESS = 'characters:LoadMoreSuccess';
+export const LOAD_MORE_REJECTED = 'characters:LoadMoreRejected';
 export const FETCH_CHARACTER_BY_ID_SUCCESS = 'character:GetOneById';
 export const FETCH_CHARACTER_BY_ID_REJECTED = 'character:GetOneByIdRejected';
+export const UPDATE_FILTERS = 'character:UpdateFilters';
 
-
-
-export const searchFilterObject = {
-	nameStartsWith: '',
-	orderBy: 'name',
-	modifiedSince: '2010-01-01'
+export function updateFilters(filter) {
+	return (dispatch) => {
+		dispatch({ type: UPDATE_FILTERS, payload: filter });
+	}
 }
-
 
 export function fetchCharacters(filter) {
 	return (dispatch) => {
 		dispatch({ type: FETCHING });
-		_search({ dispatch, filter })
+		_search({ dispatch, filter, dispatchTypeSuccess: FETCH_CHARACTERS_SUCCESS, dispatchTypeRejected: FETCH_CHARACTERS_REJECTED  })
 	}
 }
 
@@ -48,31 +48,27 @@ export function fetchCharacterById(id) {
 
 export function onLoadMore(filter) {
 	return (dispatch) => {
-		_onNavigation(dispatch, filter);
+		let filterObj = Object.assign({}, filter, { offset: filter.offset + filter.count })
+		_search({ dispatch, filter: filterObj, dispatchTypeSuccess: LOAD_MORE_SUCCESS, dispatchTypeRejected: LOAD_MORE_REJECTED });
 	}
 }
 
+let _debounceSearch = debounce((dispatch, filter) => {
+	dispatch({ type: FETCHING });
+	_search({dispatch, filter, dispatchTypeSuccess: FETCH_CHARACTERS_SUCCESS, dispatchTypeRejected: FETCH_CHARACTERS_REJECTED })
+}, 1000)
 
-function _onNavigation(dispatch, filter, direction = 'next') {
-	let filterObj = Object.assign({}, filter, { offset: filter.offset + filter.count })
-	_search({ dispatch, filter: filterObj });
-}
 
-function _search({ dispatch, filter = {} }) {
+function _search({ dispatch, filter = {}, dispatchTypeSuccess , dispatchTypeRejected }) {
 	const { total, count, ...newFilterObj } = filter;
 	let filterToQueryStringVal = filterToQueryString(newFilterObj);
 	let queryString = (filterToQueryStringVal.length) ? `?${filterToQueryStringVal}` : '';
 	axios.get(`${baseUrl}/characters${queryString}`)
 		.then(response => {
-			dispatch({ type: FETCH_CHARACTERS_SUCCESS, payload: response.data});
+			dispatch({ type: dispatchTypeSuccess, payload: response.data});
 		})
 		.catch(err => {
-			dispatch({ type: FETCH_CHARACTERS_REJECTED, payload: err});
+			dispatch({ type: dispatchTypeRejected, payload: err});
 		})
 }
-
-let _debounceSearch = debounce((dispatch, filter) => {
-	dispatch({ type: FETCHING });
-	_search({dispatch, filter})
-}, 1000)
 

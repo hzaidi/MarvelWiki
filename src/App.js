@@ -42,6 +42,8 @@ class App extends Component {
 							<img className={ classes.topLogo } src={ logo } alt="Marvel Logo" width="150" height="50"/>
 							<Button href="#flat-buttons" component={ Link } to="/">Characters</Button>
 						</Toolbar>
+						<div data-netlify-identity-menu></div>
+						<div data-netlify-identity-button>Login with Netlify Identity</div>
 					</AppBar>
 					<div className={ classes.routeContainer }>
 						<Route exact path="/" component={CharactersContainer}/>

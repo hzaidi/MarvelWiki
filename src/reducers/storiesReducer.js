@@ -1,9 +1,9 @@
 import Comic from '../objects/comics';
 import { FETCH_STORIES_BY_CHARACTER_ID_SUCCESS,
-		FETCH_STORIES_BY_CHARACTER_ID_REJECTED,
+		//FETCH_STORIES_BY_CHARACTER_ID_REJECTED,
 		FETCHING } from '../actions/storiesAction'
 export default function(state = {
-	stories: [],
+	collection: [],
 	story: {},
 	filter:{
 		limit: 24
@@ -14,7 +14,7 @@ export default function(state = {
 	switch (type) {
 		case FETCH_STORIES_BY_CHARACTER_ID_SUCCESS:
 			return { ...state,
-					stories: payload.data.results.map(c => new Comic(c)),
+					collection: payload.data.results.map(c => new Comic(c)),
 					metaRecord: _payLoadToMetaRecord(payload.data),
 					fetching: false,
 					searching: false };

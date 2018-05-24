@@ -38,7 +38,7 @@ const default_variant = 'headline';
 const default_color = 'default';
 const defualt_noWrap = true;
 
-const CharacterTile = (props) => {
+const ImageTile = (props) => {
 	const { classes } = props;
 	const width = props.width ? props.width : default_width;
 	const height = props.height ? props.height : default_height;
@@ -74,7 +74,7 @@ const CharacterTile = (props) => {
 }
 
 
-CharacterTile.propTypes = {
+ImageTile.propTypes = {
 	id: PropTypes.number.isRequired,
 	title: PropTypes.string,
 	variant: PropTypes.string,
@@ -84,4 +84,4 @@ CharacterTile.propTypes = {
 	classes: PropTypes.object.isRequired,
   };
 
-  export default withStyles(styles)(CharacterTile);
+  export default withStyles(styles)(ImageTile);

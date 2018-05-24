@@ -24,7 +24,7 @@ const styles = theme => ({
 });
 
 
-const CharactersLoading = (props) => {
+const ImageTileLoading = (props) => {
 	const { classes } = props;
 	const generateTiles = () => {
 		return Array.from({length: 12}).map((x, i) => i);
@@ -51,8 +51,8 @@ const CharactersLoading = (props) => {
 }
 
 
-CharactersLoading.propTypes = {
+ImageTileLoading.propTypes = {
 	classes: PropTypes.object.isRequired,
   };
 
-  export default withStyles(styles)(CharactersLoading);
+  export default withStyles(styles)(ImageTileLoading);

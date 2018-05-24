@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { fetchCharacters, filterCharacters, onLoadMore, updateFilters } from '../../actions/charactersActions';
 import CharactersList from '../../presentation-components/characters-list/characters-list'
 import CharacterSearchFilter from '../../presentation-components/character-search-filter/character-search-filter';
-import CharactersLoading from '../../presentation-components/characters-loading/characters-loading';
+import ImageTileLoading from '../../presentation-components/image-tile-loading/image-tile-loading';
 
 const styles = theme => ({
 	container: {
@@ -25,12 +25,12 @@ const styles = theme => ({
 class CharactersContainer extends Component {
 
   	componentDidMount() {
-		const { fetchCharacters,  characters, filter } = this.props;
+		const { fetchCharacters,  collection, filter } = this.props;
 		/*
 			This if check ensures you are not coming to this componenet for the first time
 			and does not make the call that can add duplicate records
 		*/
-		if(!characters.length){	fetchCharacters(filter); }
+		if(!collection.length){	fetchCharacters(filter); }
 	}
 
 	onChangeFilterText(event) {
@@ -69,15 +69,15 @@ class CharactersContainer extends Component {
 	}
 
 	renderContent() {
-		const { fetching, characters, filter } = this.props;
-		if (fetching || !Object.keys(characters).length) {
+		const { fetching, collection, filter } = this.props;
+		if (fetching || !Object.keys(collection).length) {
 			return (
-					<CharactersLoading />
+					<ImageTileLoading />
 			)
 		}else{
 			return (
 				<CharactersList
-					characters={ characters }
+					characters={ collection }
 					onClickCharacter={ this.onClickCharacter.bind(this) }
 					loadMore={ this.onLoadMoreTrigger.bind(this) }
 					filter={ filter }
@@ -109,9 +109,9 @@ class CharactersContainer extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-	const { characters, fetching, searching, filter } = state.charactersState;
+	const { collection, fetching, searching, filter } = state.charactersState;
 	return {
-		characters,
+		collection,
 		fetching,
 		searching,
 		filter

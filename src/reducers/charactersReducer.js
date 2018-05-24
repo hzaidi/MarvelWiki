@@ -7,12 +7,12 @@ import {
 	FETCH_CHARACTER_BY_ID_SUCCESS,
 	UPDATE_FILTERS,
 	LOAD_MORE_SUCCESS,
-	LOAD_MORE_REJECTED
+	//LOAD_MORE_REJECTED
 } from '../actions/charactersActions';
 
 
 export default function(state = {
-	characters: [],
+	collection: [],
 	character: {},
 	filter:{
 		limit: 24,
@@ -28,18 +28,18 @@ export default function(state = {
 	switch (type) {
 		case FETCH_CHARACTERS_SUCCESS:
 			return { ...state,
-					characters: payload.data.results.map(c => new Character(c)),
+					collection: payload.data.results.map(c => new Character(c)),
 					filter: _payLoadToMetaRecord({ ...state.filter, ...payload.data }),
 					fetching: false,
 					searching: false };
 		case LOAD_MORE_SUCCESS:
 			return { ...state,
-					characters: state.characters.concat(payload.data.results.map(c => new Character(c))),
+					collection: state.collection.concat(payload.data.results.map(c => new Character(c))),
 					filter: _payLoadToMetaRecord({ ...state.filter, ...payload.data }),
 					fetching: false,
 					searching: false }
 		case FETCH_CHARACTERS_REJECTED:
-			return { ...state, characters: {} , fetching: false };
+			return { ...state, collection: {} , fetching: false };
 		case FETCHING:
 			return { ...state, fetching: true };
 		case SEARCHING:

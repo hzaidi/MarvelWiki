@@ -40,7 +40,7 @@ const populateResourceTypes = (character) => {
 	if(character.comics.items.length) { resourceType.push({typeName: COMICS, resourceCount: character.comics.available }) }
 	if(character.events.items.length) { resourceType.push({typeName: EVENTS, resourceCount: character.events.available }) }
 	if(character.series.items.length) { resourceType.push({typeName: SERIES, resourceCount: character.series.available }) }
-	if(character.stories.items.length) { resourceType.push({typeName: STORIES, resourceCount: character.stories.available }) }
+	//if(character.stories.items.length) { resourceType.push({typeName: STORIES, resourceCount: character.stories.available }) }
 	return resourceType;
 }
 

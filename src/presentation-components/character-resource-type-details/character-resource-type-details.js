@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import CharacterTile from '../character-tile/character-tile';
+import ImageTile from '../image-tile/image-tile';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -49,9 +49,9 @@ const CharacterResourceTypeDetails = (props) => {
 		}else{
 			return (
 				<Grid container spacing={24} justify="center">
-					{resourceTypeData.comics.map(resource => (
+					{resourceTypeData.collection.map(resource => (
 						<Grid key={ resource.id } xs={6} sm={6} md={2} lg={2} item>
-							<CharacterTile
+							<ImageTile
 								id={resource.id}
 								variant="body1"
 								title={ resource.title }

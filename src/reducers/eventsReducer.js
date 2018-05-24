@@ -1,9 +1,9 @@
-import Comic from '../objects/comics';
+import Event from '../objects/events';
 import { FETCH_EVENTS_BY_CHARACTER_ID_SUCCESS,
-		FETCH_EVENTS_BY_CHARACTER_ID_REJECTED,
+		//FETCH_EVENTS_BY_CHARACTER_ID_REJECTED,
 		FETCHING } from '../actions/eventsActions'
 export default function(state = {
-	events: [],
+	collection: [],
 	event: {},
 	filter:{
 		limit: 24
@@ -14,7 +14,7 @@ export default function(state = {
 	switch (type) {
 		case FETCH_EVENTS_BY_CHARACTER_ID_SUCCESS:
 			return { ...state,
-					events: payload.data.results.map(c => new Comic(c)),
+					collection: payload.data.results.map(c => new Event(c)),
 					metaRecord: _payLoadToMetaRecord(payload.data),
 					fetching: false,
 					searching: false };

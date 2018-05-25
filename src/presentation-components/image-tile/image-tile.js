@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Fade from '@material-ui/core/Fade';
+import Slide from '@material-ui/core/Slide';
 
 const styles = theme => ({
 	container: {
@@ -51,24 +53,26 @@ const ImageTile = (props) => {
 	}
 	return (
 		<Button className={ classes.buttonWrapper }>
-			<div className={ classes.container } >
-				<div className={classes.card} onClick={ onClickTile }>
-					{	props.title && props.title.length > 0 &&
-						<div className={ classes.title } title={ props.title }>
-							<Typography variant={ variant } noWrap={ noWrap } color={ color }>
-								{ props.title }
-							</Typography>
-						</div>
-					}
-					<img
-						width={ width }
-						height={ height }
-						className={ classes.img }
-						src={ props.imageUrl(imageSize) }
-						alt={ props.title }
-					/>
+			<Fade in={ props.imageUrl != null } style={{ transformOrigin: '0 0 0' }}>
+				<div className={ classes.container } >
+					<div className={classes.card} onClick={ onClickTile }>
+						{	props.title && props.title.length > 0 &&
+							<div className={ classes.title } title={ props.title }>
+								<Typography variant={ variant } noWrap={ noWrap } color={ color }>
+									{ props.title }
+								</Typography>
+							</div>
+						}
+						<img
+							width={ width }
+							height={ height }
+							className={ classes.img }
+							src={ props.imageUrl(imageSize) }
+							alt={ props.title }
+						/>
+					</div>
 				</div>
-			</div>
+			</Fade>
 		</Button>
 	)
 }

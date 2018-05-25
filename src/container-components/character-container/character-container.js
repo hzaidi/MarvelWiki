@@ -18,7 +18,11 @@ const EVENTS = 'Events';
 const SERIES = 'Series';
 
 const styles = theme => ({
-	container: {
+	container:{
+		display: 'flex',
+		justifyContent: 'center'
+	},
+	contentContainer: {
 		width: '100%'
 	},
 	progress: {
@@ -76,8 +80,8 @@ class CharacterContainer extends Component {
 
 	componentDidMount() {
 		const { fetchCharacterById, character, params } = this.props;
-		let functionToCall = character.id && parseInt(params.characterId) === character.id ?
-								{ then: (cb) => cb()} :
+		let functionToCall = character.id && parseInt(params.characterId, 10) === character.id ?
+								{ then: (cb) => cb() } :
 								fetchCharacterById(this.props.params.characterId);
 		functionToCall.then(() => {
 			const resourceTypes = populateResourceTypes(this.props.character);
@@ -102,7 +106,7 @@ class CharacterContainer extends Component {
 			)
 		} else {
 			return (
-				<div className={ classes.container }>
+				<div className={ classes.contentContainer }>
 					<CharacterDetailsTopSection character={ character } />
 					<div className={ classes.buttonContainer }>
 						<Grid container spacing={16}>

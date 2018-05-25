@@ -6,7 +6,7 @@ export default function(state = {
 	collection: [],
 	serial: {},
 	filter:{
-		limit: 20
+		limit: 24
 	},
 	fetching: true,
 	searching: false

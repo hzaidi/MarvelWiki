@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Grow from '@material-ui/core/Grow';
+import Slide from '@material-ui/core/Slide';
 import banner from '../../marvel_banner.jpg'
 
 const styles = theme => ({
@@ -56,10 +58,14 @@ const CharacterDetailsTopSection = (props) => {
 		<div className={ classes.container }>
 			<div className={ classes.topSectionContainer }>
 				<div className={ classes.topBarBg }></div>
-				<img className={ classes.avatar } src={ character.imageUrl('standard_fantastic') } alt={ character.name } />
-				<Typography className={ classes.name } gutterBottom variant="display2" color="textSecondary">
-					{ character.name }
-				</Typography>
+				<Grow in={ character != null }>
+					<img className={ classes.avatar } src={ character.imageUrl('standard_fantastic') } alt={ character.name } />
+				</Grow>
+				<Slide direction="left" in={ character != null } mountOnEnter unmountOnExit>
+					<Typography className={ classes.name } gutterBottom variant="display2" color="textSecondary">
+						{ character.name }
+					</Typography>
+				</Slide>
 			</div>
 			<div className={ classes.content }>
 			{

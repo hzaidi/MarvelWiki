@@ -5,6 +5,7 @@ import ImageTile from '../image-tile/image-tile';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ImageTileLoading from '../image-tile-loading/image-tile-loading'
 
 const styles = theme => ({
 	container: {
@@ -14,9 +15,6 @@ const styles = theme => ({
 	contentContainer: {
 		padding: 10
 	},
-	progress: {
-		margin: theme.spacing.unit * 2,
-	  },
 	header: {
 		padding: 10
 	},
@@ -40,11 +38,7 @@ const CharacterResourceTypeDetails = (props) => {
 	function renderContent() {
 		if(resourceTypeData.fetching){
 			return (
-				<CircularProgress
-					className={ classes.progress }
-					color="secondary"
-					size={50}
-				/>
+				<ImageTileLoading xs={6} sm={6} md={2} lg={2}/>
 			)
 		}else{
 			return (

@@ -72,7 +72,7 @@ class CharactersContainer extends Component {
 		const { fetching, collection, filter } = this.props;
 		if (fetching || !Object.keys(collection).length) {
 			return (
-					<ImageTileLoading />
+					<ImageTileLoading xs={6} sm={4} md={3} lg={2}/>
 			)
 		}else{
 			return (

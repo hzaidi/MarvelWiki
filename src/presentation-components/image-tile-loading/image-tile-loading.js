@@ -14,7 +14,7 @@ const styles = theme => ({
 		margin: '1px',
 		background: '#2d2d2d',
 		width: '100%',
-		height: '324px;',
+		height: 300,
 		opacity: 0.8
 	},
 	progress: {

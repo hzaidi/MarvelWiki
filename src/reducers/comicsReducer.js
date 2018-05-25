@@ -6,7 +6,7 @@ export default function(state = {
 	collection: [],
 	comic: {},
 	filter:{
-		limit: 24
+		limit: 20
 	},
 	fetching: true,
 	searching: false
@@ -15,7 +15,7 @@ export default function(state = {
 		case FETCH_COMICS_BY_CHARACTER_ID_SUCCESS:
 			return { ...state,
 					collection: payload.data.results.map(c => new Comic(c)),
-					metaRecord: _payLoadToMetaRecord(payload.data),
+					filter: _payLoadToMetaRecord(payload.data),
 					fetching: false,
 					searching: false };
 		case FETCHING:

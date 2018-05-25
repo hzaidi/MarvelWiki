@@ -20,9 +20,9 @@ const styles = theme => ({
 	},
 	card: {
 		cursor: 'pointer',
-		transition: '0.70s',
+		transition: '0.40s',
 		'&:hover':{
-			transition: '0.70s',
+			transition: '0.40s',
 			transform: 'rotateY(1deg) rotateZ(1deg) scale(1.03)'
 		}
 	},

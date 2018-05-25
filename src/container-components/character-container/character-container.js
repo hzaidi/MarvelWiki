@@ -10,14 +10,12 @@ import { fetchCharacterById } from '../../actions/charactersActions';
 import { fetchComicsByCharacterId } from '../../actions/comicsActions';
 import { fetchEventsByCharacterId } from '../../actions/eventsActions';
 import { fetchSeriesByCharacterId } from '../../actions/seriesActions';
-import { fetchStoriesByCharacterId } from '../../actions/storiesAction';
 import CharacterDetailsTopSection from '../../presentation-components/character-details-top-section/character-details-top-section'
 import CharacterDetailsContentSection from '../../presentation-components/character-details-content-section/character-details-content-section'
 
 const COMICS = 'Comics';
 const EVENTS = 'Events';
 const SERIES = 'Series';
-const STORIES = 'Stories';
 
 const styles = theme => ({
 	container: {
@@ -40,14 +38,15 @@ const populateResourceTypes = (character) => {
 	if(character.comics.items.length) { resourceType.push({typeName: COMICS, resourceCount: character.comics.available }) }
 	if(character.events.items.length) { resourceType.push({typeName: EVENTS, resourceCount: character.events.available }) }
 	if(character.series.items.length) { resourceType.push({typeName: SERIES, resourceCount: character.series.available }) }
-	//if(character.stories.items.length) { resourceType.push({typeName: STORIES, resourceCount: character.stories.available }) }
 	return resourceType;
 }
 
 class CharacterContainer extends Component {
+	//Local Component State
 	state = {
 		resource: null,
-		resourceTypes: []
+		resourceTypes: [],
+		resourceState: { collection:[], fetching: true }
 	};
 
 	handleChange = (resource) => {
@@ -56,19 +55,19 @@ class CharacterContainer extends Component {
 	};
 
 	fetchDataByResourceType({ type, characterId }) {
-		const { fetchComicsByCharacterId, fetchEventsByCharacterId, fetchSeriesByCharacterId, fetchStoriesByCharacterId } = this.props;
+		const { fetchComicsByCharacterId,
+				fetchEventsByCharacterId,
+				fetchSeriesByCharacterId } = this.props;
+		this.setState({ resourceState: { collection:[], fetching: true } });
 		switch (type) {
 			case COMICS:
-				fetchComicsByCharacterId(characterId);
+				fetchComicsByCharacterId(characterId, this.props.comicsState.filter).then(_ => this.setState({ resourceState: this.props.comicsState }));
 				break;
 			case EVENTS:
-				fetchEventsByCharacterId(characterId);
+				fetchEventsByCharacterId(characterId, this.props.eventsState.filter).then(_ => this.setState({ resourceState: this.props.eventsState }));
 				break;
 			case SERIES:
-				fetchSeriesByCharacterId(characterId);
-				break;
-			case STORIES:
-				fetchStoriesByCharacterId(characterId);
+				fetchSeriesByCharacterId(characterId, this.props.seriesState.filter).then(_ => this.setState({ resourceState: this.props.seriesState }));
 				break;
 			default:
 				throw new Error('Invalid Type')
@@ -76,17 +75,23 @@ class CharacterContainer extends Component {
 	}
 
 	componentDidMount() {
-		const { fetchCharacterById } = this.props;
-		fetchCharacterById(this.props.params.characterId).then(() => {
+		const { fetchCharacterById, character, params } = this.props;
+		let functionToCall = character.id && parseInt(params.characterId) === character.id ?
+								{ then: (cb) => cb()} :
+								fetchCharacterById(this.props.params.characterId);
+		functionToCall.then(() => {
 			const resourceTypes = populateResourceTypes(this.props.character);
-			const resource = resourceTypes[0];
-			this.setState({ resource: resource.typeName, resourceTypes });
-			this.fetchDataByResourceType({ type: resource.typeName, characterId: this.props.params.characterId });
+			if(resourceTypes.length){
+				const resource = resourceTypes[0];
+				this.setState({ resource: resource.typeName, resourceTypes });
+				this.handleChange(resource.typeName);
+			}
 		});
+
 	};
 
 	renderContent() {
-		const { fetchingCharacter, character , classes, comicsState, eventsState, storiesState, seriesState } = this.props;
+		const { fetchingCharacter, character , classes } = this.props;
 		if(fetchingCharacter || !Object.keys(character).length)  {
 			return (
 				<CircularProgress
@@ -115,34 +120,11 @@ class CharacterContainer extends Component {
 					</div>
 					<div>
 						{
-							this.state.resource === COMICS &&
-								<CharacterDetailsContentSection
-									resourceTypeString = { this.state.resource }
-									resourceData= { comicsState }
-								/>
-						}
-						{
-							this.state.resource === EVENTS &&
 							<CharacterDetailsContentSection
 								resourceTypeString = { this.state.resource }
-								resourceData= { eventsState }
+								resourceData= { this.state.resourceState }
 							/>
 						}
-						{
-							this.state.resource === SERIES &&
-							<CharacterDetailsContentSection
-								resourceTypeString = { this.state.resource }
-								resourceData= { seriesState }
-							/>
-						}
-						{
-							this.state.resource === STORIES &&
-							<CharacterDetailsContentSection
-								resourceTypeString = { this.state.resource }
-								resourceData= { storiesState }
-							/>
-						}
-
 					</div>
 				</div>
 
@@ -167,23 +149,20 @@ const mapStateToProps = (state, props) => {
 	const { comic, ...comicsState } = state.comicsState;
 	const { event, ...eventsState } = state.eventsState;
 	const { serial, ...seriesState } = state.seriesState;
-	const { story, ...storiesState } = state.storiesState;
 	return {
 		params,
 		character,
 		fetchingCharacter,
 		comicsState,
 		eventsState,
-		seriesState,
-		storiesState
+		seriesState
 	}
 }
 const mapActionsToProp = {
 	fetchCharacterById,
 	fetchComicsByCharacterId,
 	fetchEventsByCharacterId,
-	fetchSeriesByCharacterId,
-	fetchStoriesByCharacterId
+	fetchSeriesByCharacterId
 }
 
 export default compose(

@@ -14,7 +14,7 @@ export function fetchComicsByCharacterId(id, filter = {}) {
 		let filterToQueryStringVal = filterToQueryString(newFilterObj);
 		let queryString = (filterToQueryStringVal.length) ? `?${filterToQueryStringVal}` : '';
 		dispatch({ type: FETCHING });
-		axios.get(`${baseUrl}/characters/${id}/comics${queryString}`)
+		return axios.get(`${baseUrl}/characters/${id}/comics${queryString}`)
 			.then(response => {
 				dispatch({ type: FETCH_COMICS_BY_CHARACTER_ID_SUCCESS, payload: response.data});
 			})

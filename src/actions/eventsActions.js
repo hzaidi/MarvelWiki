@@ -14,7 +14,7 @@ export function fetchEventsByCharacterId(id, filter = {}) {
 		let filterToQueryStringVal = filterToQueryString(newFilterObj);
 		let queryString = (filterToQueryStringVal.length) ? `?${filterToQueryStringVal}` : '';
 		dispatch({ type: FETCHING });
-		axios.get(`${baseUrl}/characters/${id}/events${queryString}`)
+		return axios.get(`${baseUrl}/characters/${id}/events${queryString}`)
 			.then(response => {
 				dispatch({ type: FETCH_EVENTS_BY_CHARACTER_ID_SUCCESS, payload: response.data});
 			})

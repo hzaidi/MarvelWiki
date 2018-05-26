@@ -38,7 +38,8 @@ class CharactersContainer extends Component {
 		event.persist();
 		const updatedFilter = Object.assign({}, filter, { nameStartsWith: event.target.value });
 		updateFilters(updatedFilter)
-		filterCharacters(updatedFilter);
+
+		//filterCharacters(updatedFilter);
 	}
 
 	onChangeOrderBy(event) {

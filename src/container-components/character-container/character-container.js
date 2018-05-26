@@ -6,12 +6,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Badge from '@material-ui/core/Badge';
 import Button from '@material-ui/core/Button';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import { fetchCharacterById } from '../../actions/charactersActions';
-import { fetchComicsByCharacterId } from '../../actions/comicsActions';
+import { fetchComicsByCharacterId, onLoadMore as loadMoreComics, updateFilters as updateFiltersForComics } from '../../actions/comicsActions';
 import { fetchEventsByCharacterId } from '../../actions/eventsActions';
 import { fetchSeriesByCharacterId } from '../../actions/seriesActions';
 import CharacterDetailsTopSection from '../../presentation-components/character-details-top-section/character-details-top-section'
-import CharacterDetailsContentSection from '../../presentation-components/character-details-content-section/character-details-content-section'
+import CharacterResourceTypeDetails from '../../presentation-components/character-resource-type-details/character-resource-type-details'
 
 const COMICS = 'Comics';
 const EVENTS = 'Events';
@@ -32,67 +34,52 @@ const styles = theme => ({
 		textAlign: 'center'
 	},
 	buttonContainer: {
-		padding: 20,
 		marginTop:20
+	},
+	padding: {
+		padding: `0 ${theme.spacing.unit * 2}px`,
 	}
 });
 
-const populateResourceTypes = (character) => {
-	let resourceType = [];
-	if(character.comics.items.length) { resourceType.push({typeName: COMICS, resourceCount: character.comics.available }) }
-	if(character.events.items.length) { resourceType.push({typeName: EVENTS, resourceCount: character.events.available }) }
-	if(character.series.items.length) { resourceType.push({typeName: SERIES, resourceCount: character.series.available }) }
-	return resourceType;
-}
+
 
 class CharacterContainer extends Component {
 	//Local Component State
 	state = {
-		resource: null,
-		resourceTypes: [],
-		resourceState: { collection:[], fetching: true }
+		value: 0
 	};
 
-	handleChange = (resource) => {
-		this.setState({ resource });
-		this.fetchDataByResourceType({ type: resource, characterId: this.props.params.characterId });
-	};
-
-	fetchDataByResourceType({ type, characterId }) {
-		const { fetchComicsByCharacterId,
-				fetchEventsByCharacterId,
-				fetchSeriesByCharacterId } = this.props;
-		this.setState({ resourceState: { collection:[], fetching: true } });
-		switch (type) {
-			case COMICS:
-				fetchComicsByCharacterId(characterId, this.props.comicsState.filter).then(_ => this.setState({ resourceState: this.props.comicsState }));
-				break;
-			case EVENTS:
-				fetchEventsByCharacterId(characterId, this.props.eventsState.filter).then(_ => this.setState({ resourceState: this.props.eventsState }));
-				break;
-			case SERIES:
-				fetchSeriesByCharacterId(characterId, this.props.seriesState.filter).then(_ => this.setState({ resourceState: this.props.seriesState }));
-				break;
-			default:
-				throw new Error('Invalid Type')
-		}
+	get resources() {
+		const { fetchComicsByCharacterId, fetchEventsByCharacterId, fetchSeriesByCharacterId, character } = this.props;
+		if(!Object.keys(character).length) { return []; }
+		let resourceType = [];
+		if(character.comics.items.length) { resourceType.push({typeName: COMICS, stateName: 'comicsState', resourceCount: character.comics.available, dataCall: fetchComicsByCharacterId }) }
+		if(character.events.items.length) { resourceType.push({typeName: EVENTS, stateName: 'eventsState', resourceCount: character.events.available, dataCall: fetchEventsByCharacterId }) }
+		if(character.series.items.length) { resourceType.push({typeName: SERIES, stateName: 'seriesState', resourceCount: character.series.available, dataCall: fetchSeriesByCharacterId }) }
+		return resourceType;
 	}
 
 	componentDidMount() {
-		const { fetchCharacterById, character, params } = this.props;
-		let functionToCall = character.id && parseInt(params.characterId, 10) === character.id ?
-								{ then: (cb) => cb() } :
-								fetchCharacterById(this.props.params.characterId);
-		functionToCall.then(() => {
-			const resourceTypes = populateResourceTypes(this.props.character);
-			if(resourceTypes.length){
-				const resource = resourceTypes[0];
-				this.setState({ resource: resource.typeName, resourceTypes });
-				this.handleChange(resource.typeName);
-			}
-		});
-
+		const { fetchingCharacter, fetchCharacterById, character, params } = this.props;
+		fetchCharacterById(this.props.params.characterId).then(this.triggerDataCall.bind(this));
 	};
+
+	handleChange = (event, value) => {
+		this.setState({ value },this.triggerDataCall.bind(this));
+	};
+
+	triggerDataCall(){
+		const { params } = this.props;
+		const selectedResource = this.resources[this.state.value];
+		selectedResource.dataCall(params.characterId);
+	}
+
+	loadMoreComicsTrigger() {
+		console.log('fired')
+		const { loadMoreComics, updateFiltersForComics, comicsState, params } = this.props;
+		const { filter } = comicsState;
+		loadMoreComics(params.characterId, filter);
+	}
 
 	renderContent() {
 		const { fetchingCharacter, character , classes } = this.props;
@@ -109,25 +96,27 @@ class CharacterContainer extends Component {
 				<div className={ classes.contentContainer }>
 					<CharacterDetailsTopSection character={ character } />
 					<div className={ classes.buttonContainer }>
-						<Grid container spacing={16}>
-							{
-								this.state.resourceTypes.map(rt => {
-									return rt.resourceCount > 0 &&
-										<Grid item xs={3} className={ classes.alignButtons } key={ rt.typeName }>
-											<Badge color="primary" badgeContent={rt.resourceCount} className={classes.margin}>
-												<Button size="large" variant="flat" onClick={ () => this.handleChange(rt.typeName) }>{ rt.typeName }</Button>
-											</Badge>
-										</Grid>
-								})
-							}
-						</Grid>
-					</div>
-					<div>
+						<Tabs value={this.state.value} onChange={this.handleChange} centered indicatorColor="secondary" textColor="secondary">
 						{
-							<CharacterDetailsContentSection
-								resourceTypeString = { this.state.resource }
-								resourceData= { this.state.resourceState }
-							/>
+							this.resources.map(r => {
+								return <Tab key={ r.typeName } label={
+									<Badge className={classes.padding} color="secondary" badgeContent={r.resourceCount}>
+										{ r.typeName }
+									</Badge>
+								}/>
+							})
+						}
+						</Tabs>
+						{
+							this.resources.map((r, idx) => {
+								return this.state.value === idx &&
+									<CharacterResourceTypeDetails
+										key={ r.typeName }
+										resourceTypeString={ r.typeName }
+										resourceTypeData={ this.props[r.stateName] }
+										loadMore={ this.loadMoreComicsTrigger.bind(this) }
+									/>
+							})
 						}
 					</div>
 				</div>
@@ -166,7 +155,9 @@ const mapActionsToProp = {
 	fetchCharacterById,
 	fetchComicsByCharacterId,
 	fetchEventsByCharacterId,
-	fetchSeriesByCharacterId
+	fetchSeriesByCharacterId,
+	loadMoreComics,
+	updateFiltersForComics
 }
 
 export default compose(

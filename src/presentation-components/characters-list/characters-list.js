@@ -30,7 +30,7 @@ const CharactersList = (props) => {
 						pageStart={0}
 						initialLoad={ false }
 						loadMore={loadFunc}
-						hasMore={ (filter.total > filter.count) }
+						hasMore={ (props.characters.length < filter.total) }
 						loader={<div className={ classes.loader } key={0}><CircularProgress className={ classes.progress } color="secondary" size={50}/></div>}
 					>
 					<Grid container spacing={8} className={ classes.container }>

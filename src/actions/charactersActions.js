@@ -48,8 +48,9 @@ export function fetchCharacterById(id) {
 
 export function onLoadMore(filter) {
 	return (dispatch) => {
-		let filterObj = Object.assign({}, filter, { offset: filter.offset + filter.count })
-		return _search({ dispatch, filter: filterObj, dispatchTypeSuccess: LOAD_MORE_SUCCESS, dispatchTypeRejected: LOAD_MORE_REJECTED });
+		let updatedFilter = Object.assign({}, filter, { offset: filter.offset + filter.count });
+		updateFilters(updatedFilter)
+		return _search({ dispatch, filter: updatedFilter, dispatchTypeSuccess: LOAD_MORE_SUCCESS, dispatchTypeRejected: LOAD_MORE_REJECTED });
 	}
 }
 

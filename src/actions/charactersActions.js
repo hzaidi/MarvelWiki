@@ -13,11 +13,6 @@ export const FETCH_CHARACTER_BY_ID_SUCCESS = 'character:GetOneById';
 export const FETCH_CHARACTER_BY_ID_REJECTED = 'character:GetOneByIdRejected';
 export const UPDATE_FILTERS = 'character:UpdateFilters';
 
-export function updateFilters(filter) {
-	return (dispatch) => {
-		dispatch({ type: UPDATE_FILTERS, payload: filter });
-	}
-}
 
 export function fetchCharacters(filter) {
 	return (dispatch) => {

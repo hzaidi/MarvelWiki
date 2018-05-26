@@ -3,15 +3,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Grid from '@material-ui/core/Grid';
 import Badge from '@material-ui/core/Badge';
-import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { fetchCharacterById } from '../../actions/charactersActions';
 import { fetchComicsByCharacterId, onLoadMore as loadMoreComics } from '../../actions/comicsActions';
-import { fetchEventsByCharacterId } from '../../actions/eventsActions';
-import { fetchSeriesByCharacterId } from '../../actions/seriesActions';
+import { fetchEventsByCharacterId, onLoadMore as loadMoreEvents } from '../../actions/eventsActions';
+import { fetchSeriesByCharacterId, onLoadMore as loadMoreSeries } from '../../actions/seriesActions';
 import CharacterDetailsTopSection from '../../presentation-components/character-details-top-section/character-details-top-section'
 import CharacterResourceTypeDetails from '../../presentation-components/character-resource-type-details/character-resource-type-details'
 
@@ -53,15 +51,15 @@ class CharacterContainer extends Component {
 		const { fetchComicsByCharacterId, fetchEventsByCharacterId, fetchSeriesByCharacterId, character } = this.props;
 		if(!Object.keys(character).length) { return []; }
 		let resourceType = [];
-		if(character.comics.items.length) { resourceType.push({typeName: COMICS, stateName: 'comicsState', resourceCount: character.comics.available, dataCall: fetchComicsByCharacterId }) }
-		if(character.events.items.length) { resourceType.push({typeName: EVENTS, stateName: 'eventsState', resourceCount: character.events.available, dataCall: fetchEventsByCharacterId }) }
-		if(character.series.items.length) { resourceType.push({typeName: SERIES, stateName: 'seriesState', resourceCount: character.series.available, dataCall: fetchSeriesByCharacterId }) }
+		if(character.comics.items.length) { resourceType.push({typeName: COMICS, stateName: 'comicsState', resourceCount: character.comics.available, dataCall: fetchComicsByCharacterId, loadMoreCall: this.loadMoreComicsTrigger }) }
+		if(character.events.items.length) { resourceType.push({typeName: EVENTS, stateName: 'eventsState', resourceCount: character.events.available, dataCall: fetchEventsByCharacterId, loadMoreCall: this.loadMoreEventsTrigger }) }
+		if(character.series.items.length) { resourceType.push({typeName: SERIES, stateName: 'seriesState', resourceCount: character.series.available, dataCall: fetchSeriesByCharacterId, loadMoreCall: this.loadMoreSeriesTrigger}) }
 		return resourceType;
 	}
 
 	componentDidMount() {
-		const { fetchingCharacter, fetchCharacterById, character, params } = this.props;
-		fetchCharacterById(this.props.params.characterId).then(this.triggerDataCall.bind(this));
+		const { fetchCharacterById, params } = this.props;
+		fetchCharacterById(params.characterId).then(this.triggerDataCall.bind(this));
 	};
 
 	handleChange = (event, value) => {
@@ -75,9 +73,19 @@ class CharacterContainer extends Component {
 	}
 
 	loadMoreComicsTrigger() {
-		const { loadMoreComics, updateFiltersForComics, comicsState, params } = this.props;
+		const { loadMoreComics, comicsState, params } = this.props;
 		const { filter } = comicsState;
 		loadMoreComics(params.characterId, filter);
+	}
+	loadMoreEventsTrigger() {
+		const { loadMoreEvents, eventsState, params } = this.props;
+		const { filter } = eventsState;
+		loadMoreEvents(params.characterId, filter);
+	}
+	loadMoreSeriesTrigger() {
+		const { loadMoreSeries, seriesState, params } = this.props;
+		const { filter } = seriesState;
+		loadMoreSeries(params.characterId, filter);
 	}
 
 	renderContent() {
@@ -113,7 +121,7 @@ class CharacterContainer extends Component {
 										key={ r.typeName }
 										resourceTypeString={ r.typeName }
 										resourceTypeData={ this.props[r.stateName] }
-										loadMore={ this.loadMoreComicsTrigger.bind(this) }
+										loadMore={ r.loadMoreCall.bind(this) }
 									/>
 							})
 						}
@@ -155,7 +163,9 @@ const mapActionsToProp = {
 	fetchComicsByCharacterId,
 	fetchEventsByCharacterId,
 	fetchSeriesByCharacterId,
-	loadMoreComics
+	loadMoreComics,
+	loadMoreEvents,
+	loadMoreSeries
 }
 
 export default compose(

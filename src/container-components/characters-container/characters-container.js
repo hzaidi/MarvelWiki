@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { fetchCharacters, filterCharacters, onLoadMore, updateFilters } from '../../actions/charactersActions';
+import { fetchCharacters, filterCharacters, onLoadMore } from '../../actions/charactersActions';
 import CharactersList from '../../presentation-components/characters-list/characters-list'
 import CharacterSearchFilter from '../../presentation-components/character-search-filter/character-search-filter';
 import ImageTileLoading from '../../presentation-components/image-tile-loading/image-tile-loading';
@@ -34,21 +34,21 @@ class CharactersContainer extends Component {
 	}
 
 	onChangeFilterText(event) {
-		const { filterCharacters, filter, updateFilters } = this.props;
+		const { filterCharacters, filter } = this.props;
 		event.persist();
 		const updatedFilter = Object.assign({}, filter, { nameStartsWith: event.target.value });
 		filterCharacters(updatedFilter);
 	}
 
 	onChangeOrderBy(event) {
-		const { fetchCharacters, filter, updateFilters } = this.props;
+		const { fetchCharacters, filter } = this.props;
 		event.persist();
 		const updatedFilter = Object.assign({}, filter, { orderBy: event.target.value });
 		fetchCharacters(updatedFilter);
 	}
 
 	onChangeModifiedSince(event) {
-		const { fetchCharacters, filter, updateFilters } = this.props;
+		const { fetchCharacters, filter } = this.props;
 		event.persist();
 		const updatedFilter = Object.assign({}, filter, { modifiedSince: `${event.target.value}-01-01` });
 		fetchCharacters(updatedFilter);
@@ -117,8 +117,7 @@ const mapStateToProps = (state, props) => {
 const mapActionsToProp = {
 	fetchCharacters,
 	filterCharacters,
-	onLoadMore,
-	updateFilters
+	onLoadMore
 }
 
 export default compose(

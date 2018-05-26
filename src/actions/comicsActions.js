@@ -9,13 +9,6 @@ export const FETCHING = 'comics:AjaxCallToFetch';
 export const SEARCHING = 'comics:Searching';
 export const LOAD_MORE_SUCCESS = 'comcis:LoadMoreSuccess';
 export const LOAD_MORE_REJECTED = 'comcis:LoadMoreRejected';
-export const UPDATE_FILTERS = 'comics:UpdateFilters';
-
-export function updateFilters(filter) {
-	return (dispatch) => {
-		dispatch({ type: UPDATE_FILTERS, payload: filter });
-	}
-}
 
 export function fetchComicsByCharacterId(id, filter = {}) {
 	return (dispatch) => {
@@ -27,7 +20,6 @@ export function fetchComicsByCharacterId(id, filter = {}) {
 export function onLoadMore(id, filter) {
 	return (dispatch) => {
 		let filterObj = Object.assign({}, filter, { offset: filter.offset + filter.count });
-		updateFilters(filterObj);
 		return _search({ id, dispatch, filter: filterObj, dispatchTypeSuccess: LOAD_MORE_SUCCESS, dispatchTypeRejected: LOAD_MORE_REJECTED });
 	}
 }

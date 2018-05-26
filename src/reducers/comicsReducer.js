@@ -1,7 +1,6 @@
 import Comic from '../objects/comics';
 import { FETCH_COMICS_BY_CHARACTER_ID_SUCCESS,
 		//FETCH_COMICS_BY_CHARACTER_ID_REJECTED,
-		UPDATE_FILTERS,
 		LOAD_MORE_SUCCESS,
 		FETCHING } from '../actions/comicsActions'
 export default function(state = {
@@ -10,7 +9,8 @@ export default function(state = {
 	filter:{
 		limit: 24,
 		offset: 0,
-		total: 0
+		total: 0,
+		count: 0
 	},
 	fetching: true,
 	searching: false
@@ -19,7 +19,7 @@ export default function(state = {
 		case FETCH_COMICS_BY_CHARACTER_ID_SUCCESS:
 			return { ...state,
 					collection: payload.data.results.map(c => new Comic(c)),
-					filter: _payLoadToMetaRecord(payload.data),
+					filter: _payLoadToMetaRecord({ ...state.filter, ...payload.data }),
 					fetching: false,
 					searching: false };
 		case LOAD_MORE_SUCCESS:
@@ -30,10 +30,6 @@ export default function(state = {
 				searching: false }
 		case FETCHING:
 			return { ...state, fetching: true };
-		case UPDATE_FILTERS:
-			return { ...state,
-				filter: payload
-			}
 		default:
 			return state;
 	}

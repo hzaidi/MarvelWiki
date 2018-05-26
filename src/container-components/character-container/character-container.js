@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { fetchCharacterById } from '../../actions/charactersActions';
-import { fetchComicsByCharacterId, onLoadMore as loadMoreComics, updateFilters as updateFiltersForComics } from '../../actions/comicsActions';
+import { fetchComicsByCharacterId, onLoadMore as loadMoreComics } from '../../actions/comicsActions';
 import { fetchEventsByCharacterId } from '../../actions/eventsActions';
 import { fetchSeriesByCharacterId } from '../../actions/seriesActions';
 import CharacterDetailsTopSection from '../../presentation-components/character-details-top-section/character-details-top-section'
@@ -75,7 +75,6 @@ class CharacterContainer extends Component {
 	}
 
 	loadMoreComicsTrigger() {
-		console.log('fired')
 		const { loadMoreComics, updateFiltersForComics, comicsState, params } = this.props;
 		const { filter } = comicsState;
 		loadMoreComics(params.characterId, filter);
@@ -156,8 +155,7 @@ const mapActionsToProp = {
 	fetchComicsByCharacterId,
 	fetchEventsByCharacterId,
 	fetchSeriesByCharacterId,
-	loadMoreComics,
-	updateFiltersForComics
+	loadMoreComics
 }
 
 export default compose(

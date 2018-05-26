@@ -22,6 +22,7 @@ export function updateFilters(filter) {
 export function fetchCharacters(filter) {
 	return (dispatch) => {
 		dispatch({ type: FETCHING });
+		dispatch({ type: UPDATE_FILTERS, payload: filter });
 		return _search({ dispatch, filter, dispatchTypeSuccess: FETCH_CHARACTERS_SUCCESS, dispatchTypeRejected: FETCH_CHARACTERS_REJECTED  })
 	}
 }
@@ -29,6 +30,7 @@ export function fetchCharacters(filter) {
 export function filterCharacters(filter) {
 	return (dispatch) => {
 		dispatch({ type: SEARCHING });
+		dispatch({ type: UPDATE_FILTERS, payload: filter });
 		return _debounceSearch(dispatch, filter);
 	}
 }
@@ -49,7 +51,7 @@ export function fetchCharacterById(id) {
 export function onLoadMore(filter) {
 	return (dispatch) => {
 		let updatedFilter = Object.assign({}, filter, { offset: filter.offset + filter.count });
-		updateFilters(updatedFilter)
+		dispatch({ type: UPDATE_FILTERS, payload: updatedFilter });
 		return _search({ dispatch, filter: updatedFilter, dispatchTypeSuccess: LOAD_MORE_SUCCESS, dispatchTypeRejected: LOAD_MORE_REJECTED });
 	}
 }

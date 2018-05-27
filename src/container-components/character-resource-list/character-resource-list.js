@@ -54,25 +54,26 @@ class CharacterResourceList extends Component {
 
 	triggerDataCall(){
 		const { character } = this.props;
-		console.log(this.props)
 		const selectedResource = this.resources[this.state.value];
-		selectedResource.dataCall(character.id);
+		if(selectedResource) {
+			selectedResource.dataCall(character.id);
+		}
 	}
 
 	loadMoreComicsTrigger() {
-		const { loadMoreComics, comicsState, params } = this.props;
+		const { loadMoreComics, comicsState, character } = this.props;
 		const { filter } = comicsState;
-		loadMoreComics(params.characterId, filter);
+		loadMoreComics(character.id, filter);
 	}
 	loadMoreEventsTrigger() {
-		const { loadMoreEvents, eventsState, params } = this.props;
+		const { loadMoreEvents, eventsState, character } = this.props;
 		const { filter } = eventsState;
-		loadMoreEvents(params.characterId, filter);
+		loadMoreEvents(character.id, filter);
 	}
 	loadMoreSeriesTrigger() {
-		const { loadMoreSeries, seriesState, params } = this.props;
+		const { loadMoreSeries, seriesState, character } = this.props;
 		const { filter } = seriesState;
-		loadMoreSeries(params.characterId, filter);
+		loadMoreSeries(character.id, filter);
 	}
 
 	onClick(id){

@@ -35,7 +35,7 @@ const CharacterResourceTypeList = (props) => {
 	function renderContent() {
 		if(resourceTypeData.fetching){
 			return (
-				<ImageTileLoading xs={6} sm={6} md={2} lg={2}/>
+				<ImageTileLoading xs={6} sm={3} md={2} lg={2}/>
 			)
 		}else{
 			return (
@@ -49,7 +49,7 @@ const CharacterResourceTypeList = (props) => {
 					<Grid container spacing={24} justify="center">
 						{
 							resourceTypeData.collection.map(resource => (
-								<Grid key={ resource.id } xs={6} sm={6} md={2} lg={2} item>
+								<Grid key={ resource.id } xs={6} sm={3} md={2} lg={2} item>
 									<ImageTile
 										id={resource.id}
 										variant="body1"

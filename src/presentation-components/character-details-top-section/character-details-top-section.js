@@ -62,9 +62,11 @@ const CharacterDetailsTopSection = (props) => {
 					<img className={ classes.avatar } src={ character.imageUrl('standard_fantastic') } alt={ character.name } />
 				</Grow>
 				<Slide direction="left" in={ character != null } mountOnEnter unmountOnExit>
-					<Typography className={ classes.name } gutterBottom variant="display2" color="textSecondary">
-						{ character.name }
-					</Typography>
+					<div className={ classes.name }>
+						<Typography  gutterBottom variant="display2" color="textSecondary">
+							{ character.name }
+						</Typography>
+					</div>
 				</Slide>
 			</div>
 			<div className={ classes.content }>

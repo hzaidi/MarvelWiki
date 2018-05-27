@@ -29,14 +29,18 @@ const styles = theme => ({
 
 class CharacterContainer extends Component {
 
+	state = {
+		fetching: true
+	}
+
 	componentDidMount() {
 		const { fetchCharacterById, params } = this.props;
-		fetchCharacterById(params.characterId);
+		fetchCharacterById(params.characterId).then(_ => this.setState({ fetching: false }));
 	};
 
 	renderContent() {
 		const { fetchingCharacter, character , classes, match } = this.props;
-		if(fetchingCharacter || !Object.keys(character).length)  {
+		if(this.state.fetching || fetchingCharacter || !Object.keys(character).length)  {
 			return (
 				<CircularProgress
 					className={ classes.progress }
@@ -44,7 +48,7 @@ class CharacterContainer extends Component {
 					size={75}
 				/>
 			)
-		} else {
+		}else {
 			return (
 				<div className={ classes.contentContainer }>
 					<CharacterDetailsTopSection character={ character } />

@@ -9,9 +9,10 @@ const styles = theme => ({
 
 class CharacterResourceDetail extends Component {
   	render() {
+		const { character } = this.props;
 		return (
 			<div>
-				this is a details component
+				{ character.id }
 			</div>
 		);
   	}

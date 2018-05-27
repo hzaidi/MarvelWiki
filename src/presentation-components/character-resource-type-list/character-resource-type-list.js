@@ -24,10 +24,13 @@ const styles = theme => ({
 });
 
 
-const CharacterResourceTypeDetails = (props) => {
-	const { classes, resourceTypeData, resourceTypeString, loadMore } = props;
+const CharacterResourceTypeList = (props) => {
+	const { classes, resourceTypeData, resourceTypeString, loadMore, onClick } = props;
 	function loadFunc() {
 		loadMore();
+	}
+	function onClickTile(id){
+		onClick(id);
 	}
 	function renderContent() {
 		if(resourceTypeData.fetching){
@@ -54,7 +57,7 @@ const CharacterResourceTypeDetails = (props) => {
 										imageUrl={ resource.imageUrl }
 										imageSize="portrait_uncanny"
 										noWrap={ false }
-										onClick={ () => {} }/>
+										onClick={ onClickTile }/>
 								</Grid>
 							))
 						}
@@ -77,11 +80,12 @@ const CharacterResourceTypeDetails = (props) => {
 }
 
 
-CharacterResourceTypeDetails.propTypes = {
+CharacterResourceTypeList.propTypes = {
 	resourceTypeString: PropTypes.string,
 	resourceTypeData: PropTypes.object.isRequired,
 	loadMore: PropTypes.func.isRequired,
+	onClick: PropTypes.func.isRequired,
 	classes: PropTypes.object.isRequired,
   };
 
-  export default withStyles(styles)(CharacterResourceTypeDetails);
+  export default withStyles(styles)(CharacterResourceTypeList);

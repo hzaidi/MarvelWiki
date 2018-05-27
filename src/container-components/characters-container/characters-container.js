@@ -57,7 +57,7 @@ class CharactersContainer extends Component {
 
 	onClickCharacter(id) {
 		const { history } = this.props;
-		history.push(`/character/${id}`);
+		history.push(`/character/${id}/resources`);
 	}
 
 	onLoadMoreTrigger() {

@@ -3,19 +3,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Badge from '@material-ui/core/Badge';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import { Route } from 'react-router-dom'
 import { fetchCharacterById } from '../../actions/charactersActions';
-import { fetchComicsByCharacterId, onLoadMore as loadMoreComics } from '../../actions/comicsActions';
-import { fetchEventsByCharacterId, onLoadMore as loadMoreEvents } from '../../actions/eventsActions';
-import { fetchSeriesByCharacterId, onLoadMore as loadMoreSeries } from '../../actions/seriesActions';
 import CharacterDetailsTopSection from '../../presentation-components/character-details-top-section/character-details-top-section'
-import CharacterResourceTypeDetails from '../../presentation-components/character-resource-type-details/character-resource-type-details'
-
-const COMICS = 'Comics';
-const EVENTS = 'Events';
-const SERIES = 'Series';
+import CharacterResourceList from '../character-resource-list/character-resource-list';
+import CharacterResourceDetail from '../character-resource-detail/character-resource-detail';
 
 const styles = theme => ({
 	container:{
@@ -28,68 +20,22 @@ const styles = theme => ({
 	progress: {
 	  	margin: theme.spacing.unit * 2,
 	},
-	alignButtons:{
-		textAlign: 'center'
-	},
 	buttonContainer: {
 		marginTop:20
-	},
-	padding: {
-		padding: `0 ${theme.spacing.unit * 2}px`,
 	}
 });
 
 
 
 class CharacterContainer extends Component {
-	//Local Component State
-	state = {
-		value: 0
-	};
-
-	get resources() {
-		const { fetchComicsByCharacterId, fetchEventsByCharacterId, fetchSeriesByCharacterId, character } = this.props;
-		if(!Object.keys(character).length) { return []; }
-		let resourceType = [];
-		if(character.comics.items.length) { resourceType.push({typeName: COMICS, stateName: 'comicsState', resourceCount: character.comics.available, dataCall: fetchComicsByCharacterId, loadMoreCall: this.loadMoreComicsTrigger }) }
-		if(character.events.items.length) { resourceType.push({typeName: EVENTS, stateName: 'eventsState', resourceCount: character.events.available, dataCall: fetchEventsByCharacterId, loadMoreCall: this.loadMoreEventsTrigger }) }
-		if(character.series.items.length) { resourceType.push({typeName: SERIES, stateName: 'seriesState', resourceCount: character.series.available, dataCall: fetchSeriesByCharacterId, loadMoreCall: this.loadMoreSeriesTrigger}) }
-		return resourceType;
-	}
 
 	componentDidMount() {
 		const { fetchCharacterById, params } = this.props;
-		fetchCharacterById(params.characterId).then(this.triggerDataCall.bind(this));
+		fetchCharacterById(params.characterId);
 	};
-
-	handleChange = (event, value) => {
-		this.setState({ value },this.triggerDataCall.bind(this));
-	};
-
-	triggerDataCall(){
-		const { params } = this.props;
-		const selectedResource = this.resources[this.state.value];
-		selectedResource.dataCall(params.characterId);
-	}
-
-	loadMoreComicsTrigger() {
-		const { loadMoreComics, comicsState, params } = this.props;
-		const { filter } = comicsState;
-		loadMoreComics(params.characterId, filter);
-	}
-	loadMoreEventsTrigger() {
-		const { loadMoreEvents, eventsState, params } = this.props;
-		const { filter } = eventsState;
-		loadMoreEvents(params.characterId, filter);
-	}
-	loadMoreSeriesTrigger() {
-		const { loadMoreSeries, seriesState, params } = this.props;
-		const { filter } = seriesState;
-		loadMoreSeries(params.characterId, filter);
-	}
 
 	renderContent() {
-		const { fetchingCharacter, character , classes } = this.props;
+		const { fetchingCharacter, character , classes, match } = this.props;
 		if(fetchingCharacter || !Object.keys(character).length)  {
 			return (
 				<CircularProgress
@@ -103,28 +49,8 @@ class CharacterContainer extends Component {
 				<div className={ classes.contentContainer }>
 					<CharacterDetailsTopSection character={ character } />
 					<div className={ classes.buttonContainer }>
-						<Tabs value={this.state.value} onChange={this.handleChange} centered indicatorColor="secondary" textColor="secondary">
-						{
-							this.resources.map(r => {
-								return <Tab key={ r.typeName } label={
-									<Badge className={classes.padding} color="secondary" badgeContent={r.resourceCount}>
-										{ r.typeName }
-									</Badge>
-								}/>
-							})
-						}
-						</Tabs>
-						{
-							this.resources.map((r, idx) => {
-								return this.state.value === idx &&
-									<CharacterResourceTypeDetails
-										key={ r.typeName }
-										resourceTypeString={ r.typeName }
-										resourceTypeData={ this.props[r.stateName] }
-										loadMore={ r.loadMoreCall.bind(this) }
-									/>
-							})
-						}
+						<Route path={`${match.url}/resources`} render={ (props) => <CharacterResourceList {...props} character={ character }/>} />
+						<Route path={`${match.url}/:type/:id`} render={ (props) => <CharacterResourceDetail {...props} character={ character }/>} />
 					</div>
 				</div>
 
@@ -143,29 +69,17 @@ class CharacterContainer extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-	const { params } = props.match;
+	const { params } = props.match //match has the prop of params
 	const { character } = state.charactersState;
 	const fetchingCharacter = state.charactersState.fetching;
-	const { comic, ...comicsState } = state.comicsState;
-	const { event, ...eventsState } = state.eventsState;
-	const { serial, ...seriesState } = state.seriesState;
 	return {
 		params,
 		character,
-		fetchingCharacter,
-		comicsState,
-		eventsState,
-		seriesState
+		fetchingCharacter
 	}
 }
 const mapActionsToProp = {
-	fetchCharacterById,
-	fetchComicsByCharacterId,
-	fetchEventsByCharacterId,
-	fetchSeriesByCharacterId,
-	loadMoreComics,
-	loadMoreEvents,
-	loadMoreSeries
+	fetchCharacterById
 }
 
 export default compose(

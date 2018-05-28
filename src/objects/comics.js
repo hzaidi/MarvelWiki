@@ -7,6 +7,9 @@ const Comic = (comic) => {
 			return `${comic.thumbnail.path}/${size}.${comic.thumbnail.extension}`;
 		}
 	}
+
+	comic.imagesUrl = comic.images.map(image => `${image.path}.${image.extension}`)
+
 	return comic;
 }
 

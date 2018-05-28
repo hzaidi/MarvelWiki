@@ -9,6 +9,7 @@ import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import Typography from '@material-ui/core/Typography';
 import ImageTile from '../../presentation-components/image-tile/image-tile';
+import ImageSlider from '../../presentation-components/image-slider/image-slider'
 import { fetchComicById } from '../../actions/comicsActions'
 
 const styles = theme => ({
@@ -30,9 +31,11 @@ class CharacterResourceDetail extends Component {
 		fetching: true
 	}
 	componentDidMount() {
-		const { fetchComicById, params } = this.props;
-		fetchComicById(params.id).then(_ => this.setState({ fetching: false }));;
+		const { fetchComicById, params, comic } = this.props;
+		fetchComicById(params.id).then(_ => this.setState({ fetching: false }));
 	}
+
+
 
 	renderContent(){
 		const { fetchingComic, comic, classes } = this.props;
@@ -49,16 +52,29 @@ class CharacterResourceDetail extends Component {
 				<div  className={ classes.contentContainer }>
 					<Grid container>
 						<Grid xs={12} sm={12} md={5} lg={5} item>
-							<ImageTile
-								id={comic.id}
-								title={ comic.title }
-								imageUrl={ comic.imageUrl }
-								onClick={ () => {} }
-								variant="headline"
-								noWrap={ false }
-								animateOnHover={ false }/>
+							<ImageSlider imagesUrl={ comic.imagesUrl }/>
+							{/* <div className={ classes.imagesContainer }>
+
+								{
+									comic.imagesUrl.map(url => {
+										return <div key={ url } className={ classes.image }><ImageTile
+											id={comic.id}
+											title={ comic.title }
+											imageUrl={ url }
+											onClick={ () => {} }
+											variant="headline"
+											noWrap={ false }
+											animateOnHover={ false }/></div>
+										})
+								}
+							</div> */}
 						</Grid>
 						<Grid xs={12} sm={12} md={7} lg={7} item>
+							<div>
+								<Typography variant="body1" color="textSecondary">
+									{ comic.description }
+								</Typography>
+							</div>
 							<div>
 								<Typography variant="body1" color="textSecondary">
 									Characters in the Comic

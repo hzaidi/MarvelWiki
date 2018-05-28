@@ -68,7 +68,7 @@ const ImageTile = (props) => {
 							width={ width }
 							height={ height }
 							className={ classes.img }
-							src={ props.imageUrl(imageSize) }
+							src={ typeof props.imageUrl === 'string' ? props.imageUrl : props.imageUrl(imageSize) }
 							alt={ props.title }
 						/>
 					</div>
@@ -86,7 +86,7 @@ ImageTile.propTypes = {
 	noWrap: PropTypes.bool,
 	imageSize: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
-	imageUrl: PropTypes.func.isRequired,
+	imageUrl: PropTypes.oneOfType([ PropTypes.string, PropTypes.func ]),
 	classes: PropTypes.object.isRequired,
 	animateOnHover: PropTypes.bool
   };

@@ -69,9 +69,6 @@ const CharacterResourceTypeList = (props) => {
 
 	return (
 		<div className={ classes.container }>
-			<Typography gutterBottom variant="display1" noWrap={ true } color="default" className={ classes.header }>
-				{ resourceTypeString }
-			</Typography>
 			<div className={ classes.contentContainer }>
 				{ renderContent() }
 			</div>

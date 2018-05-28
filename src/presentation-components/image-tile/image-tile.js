@@ -8,7 +8,8 @@ import Fade from '@material-ui/core/Fade';
 const styles = theme => ({
 	container: {
 		position: 'relative',
-		transition: '0.70s'
+		transition: '0.70s',
+		width: '100%'
 	},
 	title:{
 		position: 'absolute',
@@ -28,13 +29,13 @@ const styles = theme => ({
 		}
 	},
 	buttonWrapper:{
-		padding:0
+		padding:0,
+		width: '100%'
 	}
 });
 
 const default_width = '100%';
 const default_height = '100%';
-const default_image_size = 'portrait_incredible';
 const default_variant = 'headline';
 const default_color = 'default';
 const defualt_noWrap = true;
@@ -43,10 +44,11 @@ const ImageTile = (props) => {
 	const { classes } = props;
 	const width = props.width ? props.width : default_width;
 	const height = props.height ? props.height : default_height;
-	const imageSize = props.imageSize ? props.imageSize : default_image_size;
+	const imageSize = props.imageSize === undefined ? null : props.imageSize;
 	const variant = props.variant ? props.variant : default_variant;
 	const color = props.color ? props.color : default_color;
 	const noWrap = props.noWrap === undefined ? defualt_noWrap : props.noWrap;
+	const animateOnHover = props.animateOnHover === undefined ? true : props.animateOnHover;
 	const onClickTile = () => {
 		props.onClick(props.id);
 	}
@@ -54,7 +56,7 @@ const ImageTile = (props) => {
 		<Button className={ classes.buttonWrapper }>
 			<Fade in={ props.imageUrl != null } style={{ transformOrigin: '0 0 0' }}>
 				<div className={ classes.container } >
-					<div className={classes.card} onClick={ onClickTile }>
+					<div className={ animateOnHover ? classes.card : {} } onClick={ onClickTile }>
 						{	props.title && props.title.length > 0 &&
 							<div className={ classes.title } title={ props.title }>
 								<Typography variant={ variant } noWrap={ noWrap } color={ color }>
@@ -82,9 +84,11 @@ ImageTile.propTypes = {
 	title: PropTypes.string,
 	variant: PropTypes.string,
 	noWrap: PropTypes.bool,
+	imageSize: PropTypes.string,
 	onClick: PropTypes.func.isRequired,
 	imageUrl: PropTypes.func.isRequired,
 	classes: PropTypes.object.isRequired,
+	animateOnHover: PropTypes.bool
   };
 
   export default withStyles(styles)(ImageTile);

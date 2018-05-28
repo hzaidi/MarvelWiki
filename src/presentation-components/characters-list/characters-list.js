@@ -40,6 +40,7 @@ const CharactersList = (props) => {
 										<ImageTile
 											id={character.id}
 											title={ character.name }
+											imageSize="portrait_fantastic"
 											imageUrl={ character.imageUrl }
 											onClick={ props.onClickCharacter }/>
 									</Grid>

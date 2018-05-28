@@ -5,10 +5,25 @@ import { filterToQueryString } from '../helper/objectHelper';
 
 export const FETCH_COMICS_BY_CHARACTER_ID_SUCCESS = 'comics:ComicsByCharacterId'
 export const FETCH_COMICS_BY_CHARACTER_ID_REJECTED = 'comics:ComicsByCharacterIdRejected'
+export const FETCH_COMICS_BY_ID_REJECTED = 'comics:ComicsByIdRejected';
+export const FETCH_COMICS_BY_ID_SUCCESS = 'comics:ComicsByIdSuccess';
 export const FETCHING = 'comics:AjaxCallToFetch';
 export const SEARCHING = 'comics:Searching';
 export const LOAD_MORE_SUCCESS = 'comcis:LoadMoreSuccess';
 export const LOAD_MORE_REJECTED = 'comcis:LoadMoreRejected';
+
+export function fetchComicById(id, filter = {}) {
+	return (dispatch) => {
+		dispatch({ type: FETCHING });
+		return axios.get(`${baseUrl}/comics/${id}`)
+			.then(response => {
+				dispatch({ type: FETCH_COMICS_BY_ID_SUCCESS, payload: response.data });
+			})
+			.catch(err => {
+				dispatch({ type: FETCH_COMICS_BY_ID_REJECTED, payload: err });
+			});
+	}
+}
 
 export function fetchComicsByCharacterId(id, filter = {}) {
 	return (dispatch) => {

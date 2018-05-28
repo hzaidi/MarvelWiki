@@ -1,6 +1,6 @@
 import Comic from '../objects/comics';
 import { FETCH_COMICS_BY_CHARACTER_ID_SUCCESS,
-		//FETCH_COMICS_BY_CHARACTER_ID_REJECTED,
+		FETCH_COMICS_BY_ID_SUCCESS,
 		LOAD_MORE_SUCCESS,
 		FETCHING } from '../actions/comicsActions'
 export default function(state = {
@@ -16,6 +16,10 @@ export default function(state = {
 	searching: false
 }, { type, payload }) {
 	switch (type) {
+		case FETCH_COMICS_BY_ID_SUCCESS:
+			return { ...state,
+				comic: new Comic(payload.data.results[0]),
+				fetching: false }
 		case FETCH_COMICS_BY_CHARACTER_ID_SUCCESS:
 			return { ...state,
 					collection: payload.data.results.map(c => new Comic(c)),

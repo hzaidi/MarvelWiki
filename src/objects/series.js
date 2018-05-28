@@ -1,6 +1,12 @@
 
 const Serial = (serial) => {
-	serial.imageUrl = (size = 'portrait_fantastic') => `${serial.thumbnail.path}/${size}.${serial.thumbnail.extension}`;
+	serial.imageUrl = (size = null) => {
+		if(size === null) {
+			return `${serial.thumbnail.path}.${serial.thumbnail.extension}`;
+		}else{
+			return `${serial.thumbnail.path}/${size}.${serial.thumbnail.extension}`;
+		}
+	}
 	return serial;
 }
 

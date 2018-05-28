@@ -11,7 +11,7 @@ const styles = theme => ({
 	container: {
 		width: '90%',
 		margin: '0 auto',
-		paddingTop: 85
+		paddingTop: 120
 	},
 	sticky: {
 		position: 'fixed',

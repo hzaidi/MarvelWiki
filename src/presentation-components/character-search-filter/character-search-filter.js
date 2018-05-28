@@ -23,7 +23,7 @@ const styles = theme => ({
 		flexDirection: 'row',
 		backgroundColor:'#383838',
 		padding: 15,
-		paddingTop: 70,
+		paddingTop: 80,
 		marginBottom: '10px;',
 		boxSizing: 'border-box'
 	},

@@ -18,18 +18,18 @@ export default function(state = {
 	switch (type) {
 		case FETCH_COMICS_BY_ID_SUCCESS:
 			return { ...state,
-				comic: new Comic(payload.data.results[0]),
+				comic: new Comic(payload.results[0]),
 				fetching: false }
 		case FETCH_COMICS_BY_CHARACTER_ID_SUCCESS:
 			return { ...state,
-					collection: payload.data.results.map(c => new Comic(c)),
-					filter: _payLoadToMetaRecord({ ...state.filter, ...payload.data }),
+					collection: payload.results.map(c => new Comic(c)),
+					filter: _payLoadToMetaRecord({ ...state.filter, ...payload }),
 					fetching: false,
 					searching: false };
 		case LOAD_MORE_SUCCESS:
 			return { ...state,
-				collection: state.collection.concat(payload.data.results.map(c => new Comic(c))),
-				filter: _payLoadToMetaRecord({ ...state.filter, ...payload.data }),
+				collection: state.collection.concat(payload.results.map(c => new Comic(c))),
+				filter: _payLoadToMetaRecord({ ...state.filter, ...payload }),
 				fetching: false,
 				searching: false }
 		case FETCHING:

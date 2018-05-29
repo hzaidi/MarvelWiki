@@ -27,7 +27,7 @@ const CharactersList = (props) => {
 		if(props.characters.length) {
 			return (
 				<InfiniteScroll
-						pageStart={0}
+						pageStart={ 1 }
 						initialLoad={ false }
 						loadMore={loadFunc}
 						hasMore={ (props.characters.length < filter.total) }
@@ -41,6 +41,7 @@ const CharactersList = (props) => {
 											id={character.id}
 											title={ character.name }
 											imageSize="portrait_fantastic"
+											threshold={ 100 }
 											imageUrl={ character.imageUrl }
 											onClick={ props.onClickCharacter }/>
 									</Grid>

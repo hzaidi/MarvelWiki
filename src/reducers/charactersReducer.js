@@ -17,7 +17,7 @@ export default function(state = {
 	filter:{
 		limit: 24,
 		offset: 0,
-		total: 0,
+		//total: 0,
 		nameStartsWith: '',
 		orderBy: 'name',
 		modifiedSince: '2010-01-01'
@@ -28,14 +28,14 @@ export default function(state = {
 	switch (type) {
 		case FETCH_CHARACTERS_SUCCESS:
 			return { ...state,
-					collection: payload.data.results.map(c => new Character(c)),
-					filter: _payLoadToMetaRecord({ ...state.filter, ...payload.data }),
+					collection: payload.results.map(c => new Character(c)),
+					filter: _payLoadToMetaRecord({ ...state.filter, ...payload }),
 					fetching: false,
 					searching: false };
 		case LOAD_MORE_SUCCESS:
 			return { ...state,
-					collection: state.collection.concat(payload.data.results.map(c => new Character(c))),
-					filter: _payLoadToMetaRecord({ ...state.filter, ...payload.data }),
+					collection: state.collection.concat(payload.results.map(c => new Character(c))),
+					filter: _payLoadToMetaRecord({ ...state.filter, ...payload }),
 					fetching: false,
 					searching: false }
 		case FETCH_CHARACTERS_REJECTED:
@@ -46,7 +46,7 @@ export default function(state = {
 			return { ...state, searching: true };
 		case FETCH_CHARACTER_BY_ID_SUCCESS:
 			return { ...state,
-					character: new Character(payload.data.results[0]),
+					character: new Character(payload.results[0]),
 					fetching: false };
 		case UPDATE_FILTERS:
 			return { ...state,

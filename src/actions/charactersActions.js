@@ -14,10 +14,11 @@ export const FETCH_CHARACTER_BY_ID_REJECTED = 'character:GetOneByIdRejected';
 export const UPDATE_FILTERS = 'character:UpdateFilters';
 
 
+
+
 export function fetchCharacters(filter) {
 	return (dispatch) => {
 		dispatch({ type: FETCHING });
-		dispatch({ type: UPDATE_FILTERS, payload: filter });
 		return _search({ dispatch, filter, dispatchTypeSuccess: FETCH_CHARACTERS_SUCCESS, dispatchTypeRejected: FETCH_CHARACTERS_REJECTED  })
 	}
 }
@@ -35,7 +36,7 @@ export function fetchCharacterById(id) {
 		dispatch({ type: FETCHING });
 		return axios.get(`${baseUrl}/characters/${id}`)
 			.then(response => {
-				dispatch({ type: FETCH_CHARACTER_BY_ID_SUCCESS, payload: response.data});
+				dispatch({ type: FETCH_CHARACTER_BY_ID_SUCCESS, payload: response.data.data});
 			})
 			.catch(err => {
 				dispatch({ type: FETCH_CHARACTER_BY_ID_REJECTED, payload: err});
@@ -46,7 +47,6 @@ export function fetchCharacterById(id) {
 export function onLoadMore(filter) {
 	return (dispatch) => {
 		let updatedFilter = Object.assign({}, filter, { offset: filter.offset + filter.count });
-		dispatch({ type: UPDATE_FILTERS, payload: updatedFilter });
 		return _search({ dispatch, filter: updatedFilter, dispatchTypeSuccess: LOAD_MORE_SUCCESS, dispatchTypeRejected: LOAD_MORE_REJECTED });
 	}
 }
@@ -56,14 +56,13 @@ let _debounceSearch = debounce((dispatch, filter) => {
 	return _search({dispatch, filter, dispatchTypeSuccess: FETCH_CHARACTERS_SUCCESS, dispatchTypeRejected: FETCH_CHARACTERS_REJECTED })
 }, 1000)
 
-
 function _search({ dispatch, filter = {}, dispatchTypeSuccess , dispatchTypeRejected }) {
 	const { total, count, ...newFilterObj } = filter;
 	let filterToQueryStringVal = filterToQueryString(newFilterObj);
 	let queryString = (filterToQueryStringVal.length) ? `?${filterToQueryStringVal}` : '';
 	return axios.get(`${baseUrl}/characters${queryString}`)
 		.then(response => {
-			dispatch({ type: dispatchTypeSuccess, payload: response.data});
+			dispatch({ type: dispatchTypeSuccess, payload: Object.assign(response.data.data, filter)});
 		})
 		.catch(err => {
 			dispatch({ type: dispatchTypeRejected, payload: err});

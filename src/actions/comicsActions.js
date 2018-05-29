@@ -17,7 +17,7 @@ export function fetchComicById(id, filter = {}) {
 		dispatch({ type: FETCHING });
 		return axios.get(`${baseUrl}/comics/${id}`)
 			.then(response => {
-				dispatch({ type: FETCH_COMICS_BY_ID_SUCCESS, payload: response.data });
+				dispatch({ type: FETCH_COMICS_BY_ID_SUCCESS, payload: response.data.data });
 			})
 			.catch(err => {
 				dispatch({ type: FETCH_COMICS_BY_ID_REJECTED, payload: err });
@@ -46,7 +46,7 @@ function _search({ id, dispatch, filter = {}, dispatchTypeSuccess , dispatchType
 	let queryString = (filterToQueryStringVal.length) ? `?${filterToQueryStringVal}` : '';
 	return axios.get(`${baseUrl}/characters/${id}/comics${queryString}`)
 		.then(response => {
-			dispatch({ type: dispatchTypeSuccess, payload: response.data});
+			dispatch({ type: dispatchTypeSuccess, payload: response.data.data });
 		})
 		.catch(err => {
 			dispatch({ type: dispatchTypeRejected, payload: err});

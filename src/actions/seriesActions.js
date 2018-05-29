@@ -31,7 +31,7 @@ function _search({ id, dispatch, filter = {}, dispatchTypeSuccess , dispatchType
 	let queryString = (filterToQueryStringVal.length) ? `?${filterToQueryStringVal}` : '';
 	return axios.get(`${baseUrl}/characters/${id}/series${queryString}`)
 			.then(response => {
-				dispatch({ type: dispatchTypeSuccess, payload: response.data});
+				dispatch({ type: dispatchTypeSuccess, payload: response.data.data });
 			})
 			.catch(err => {
 				dispatch({ type: dispatchTypeRejected, payload: err});

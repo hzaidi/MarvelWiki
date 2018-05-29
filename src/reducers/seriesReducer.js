@@ -15,14 +15,14 @@ export default function(state = {
 	switch (type) {
 		case FETCH_SERIES_BY_CHARACTER_ID_SUCCESS:
 			return { ...state,
-					collection: payload.data.results.map(c => new Serial(c)),
-					filter: _payLoadToMetaRecord(payload.data),
+					collection: payload.results.map(c => new Serial(c)),
+					filter: _payLoadToMetaRecord(payload),
 					fetching: false,
 					searching: false };
 		case LOAD_MORE_SUCCESS:
 			return { ...state,
-				collection: state.collection.concat(payload.data.results.map(c => new Serial(c))),
-				filter: _payLoadToMetaRecord({ ...state.filter, ...payload.data }),
+				collection: state.collection.concat(payload.results.map(c => new Serial(c))),
+				filter: _payLoadToMetaRecord({ ...state.filter, ...payload }),
 				fetching: false,
 				searching: false }
 		case FETCHING:

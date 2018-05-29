@@ -30,6 +30,7 @@ const CharactersList = (props) => {
 						pageStart={ 1 }
 						initialLoad={ false }
 						loadMore={loadFunc}
+						threshold={ 100 }
 						hasMore={ (props.characters.length < filter.total) }
 						loader={<div className={ classes.loader } key={0}><CircularProgress className={ classes.progress } color="secondary" size={50}/></div>}
 					>
@@ -41,7 +42,6 @@ const CharactersList = (props) => {
 											id={character.id}
 											title={ character.name }
 											imageSize="portrait_fantastic"
-											threshold={ 100 }
 											imageUrl={ character.imageUrl }
 											onClick={ props.onClickCharacter }/>
 									</Grid>

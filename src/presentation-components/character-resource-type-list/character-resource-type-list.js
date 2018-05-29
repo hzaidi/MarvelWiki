@@ -39,9 +39,10 @@ const CharacterResourceTypeList = (props) => {
 		}else{
 			return (
 				<InfiniteScroll
-					pageStart={0}
+					pageStart={ 1 }
 					initialLoad={ false }
 					loadMore={ loadFunc }
+					threshold={ 100 }
 					hasMore={ (resourceTypeData.collection.length < resourceTypeData.filter.total) }
 					loader={<div className={ classes.loader } key={0}><CircularProgress color="secondary" size={40}/></div>}
 				>

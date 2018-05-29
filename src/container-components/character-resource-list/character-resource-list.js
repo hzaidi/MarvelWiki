@@ -55,7 +55,7 @@ class CharacterResourceList extends Component {
 	triggerDataCall(){
 		const { character } = this.props;
 		const selectedResource = this.resources[this.state.value];
-		if(selectedResource) {
+		if(selectedResource && !this.props[selectedResource.stateName].collection.length) {
 			selectedResource.dataCall(character.id);
 		}
 	}

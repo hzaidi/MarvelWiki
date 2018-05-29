@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import ImageTile from '../image-tile/image-tile';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Typography from '@material-ui/core/Typography';
 import InfiniteScroll from 'react-infinite-scroller';
 import ImageTileLoading from '../image-tile-loading/image-tile-loading'
 
@@ -25,7 +24,7 @@ const styles = theme => ({
 
 
 const CharacterResourceTypeList = (props) => {
-	const { classes, resourceTypeData, resourceTypeString, loadMore, onClick } = props;
+	const { classes, resourceTypeData, loadMore, onClick } = props;
 	function loadFunc() {
 		loadMore();
 	}

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Carousel from 'nuka-carousel';
 
 
@@ -27,7 +26,7 @@ const ImageSlider = (props) => {
 				 wrapAround={ imagesUrl.length === 1 ? false : true }>
 				{
 					imagesUrl.map((url, index) => {
-						return <img key={ index } src={ url } onLoad={_handleLoadImage} />
+						return <img key={ index } alt={ url } src={ url } onLoad={_handleLoadImage} />
 					})
 				}
 			</Carousel>

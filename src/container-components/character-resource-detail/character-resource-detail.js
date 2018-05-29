@@ -8,7 +8,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import Typography from '@material-ui/core/Typography';
-import ImageTile from '../../presentation-components/image-tile/image-tile';
 import ImageSlider from '../../presentation-components/image-slider/image-slider'
 import { fetchComicById } from '../../actions/comicsActions'
 
@@ -18,11 +17,21 @@ const styles = theme => ({
 		justifyContent: 'center'
 	},
 	contentContainer: {
-		width: '100%',
-		boxSizing: 'border-box'
+		width: '90%',
+		boxSizing: 'border-box',
+		margin: '0 auto'
 	},
 	chip: {
 		margin: theme.spacing.unit,
+	},
+	description:{
+		backgroundColor: '#2e2e2e',
+		padding: 10,
+		borderRadius: 10,
+		boxShadow: '3px 3px 20px 2px #2b2b2b',
+	},
+	sections:{
+		marginBottom: 20
 	}
 });
 
@@ -31,7 +40,7 @@ class CharacterResourceDetail extends Component {
 		fetching: true
 	}
 	componentDidMount() {
-		const { fetchComicById, params, comic } = this.props;
+		const { fetchComicById, params } = this.props;
 		fetchComicById(params.id).then(_ => this.setState({ fetching: false }));
 	}
 
@@ -50,33 +59,21 @@ class CharacterResourceDetail extends Component {
 		}else {
 			return (
 				<div  className={ classes.contentContainer }>
-					<Grid container>
+					<Grid container spacing={16}>
 						<Grid xs={12} sm={12} md={5} lg={5} item>
+							<Typography variant="display1" color="textSecondary">
+								{ comic.title }
+							</Typography>
 							<ImageSlider imagesUrl={ comic.imagesUrl }/>
-							{/* <div className={ classes.imagesContainer }>
-
-								{
-									comic.imagesUrl.map(url => {
-										return <div key={ url } className={ classes.image }><ImageTile
-											id={comic.id}
-											title={ comic.title }
-											imageUrl={ url }
-											onClick={ () => {} }
-											variant="headline"
-											noWrap={ false }
-											animateOnHover={ false }/></div>
-										})
-								}
-							</div> */}
 						</Grid>
 						<Grid xs={12} sm={12} md={7} lg={7} item>
-							<div>
-								<Typography variant="body1" color="textSecondary">
+							<div className={ classes.sections }>
+								<Typography className={ classes.description } gutterBottom variant="body1" color="textSecondary">
 									{ comic.description }
 								</Typography>
 							</div>
-							<div>
-								<Typography variant="body1" color="textSecondary">
+							<div className={ classes.sections }>
+								<Typography variant="title" color="textSecondary">
 									Characters in the Comic
 								</Typography>
 								{
@@ -93,8 +90,8 @@ class CharacterResourceDetail extends Component {
 									})
 								}
 							</div>
-							<div>
-								<Typography variant="body1" color="textSecondary">
+							<div className={ classes.sections }>
+								<Typography variant="title" color="textSecondary">
 									Creators of the Comic
 								</Typography>
 								{
@@ -105,7 +102,7 @@ class CharacterResourceDetail extends Component {
 														<FaceIcon />
 													</Avatar>
 												}
-												label={ c.name }
+												label={ `${c.name} - ${c.role}` }
 												className={classes.chip}
 										/>
 									})

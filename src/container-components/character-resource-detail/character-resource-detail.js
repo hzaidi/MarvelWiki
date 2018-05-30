@@ -32,6 +32,9 @@ const styles = theme => ({
 	},
 	sections:{
 		marginBottom: 20
+	},
+	subParagraph:{
+		margin: 0
 	}
 });
 
@@ -44,7 +47,9 @@ class CharacterResourceDetail extends Component {
 		fetchComicById(params.id).then(_ => this.setState({ fetching: false }));
 	}
 
-
+	contentMarkup(content) {
+		return { __html: content };
+	}
 
 	renderContent(){
 		const { fetchingComic, comic, classes } = this.props;
@@ -68,45 +73,108 @@ class CharacterResourceDetail extends Component {
 						</Grid>
 						<Grid xs={12} sm={12} md={7} lg={7} item>
 							<div className={ classes.sections }>
-								<Typography className={ classes.description } gutterBottom variant="body1" color="textSecondary">
-									{ comic.description }
-								</Typography>
+								<Typography
+									className={ classes.description }
+									gutterBottom
+									variant="body1"
+									dangerouslySetInnerHTML={ this.contentMarkup(comic.description) }
+									color="textSecondary" />
 							</div>
 							<div className={ classes.sections }>
-								<Typography variant="title" color="textSecondary">
-									Characters in the Comic
-								</Typography>
-								{
-									comic.characters.items.map(c => {
-										return <Chip key={ c.resourceURI }
-												avatar={
-													<Avatar>
-														<FaceIcon />
-													</Avatar>
-												}
-												label={ c.name }
-												className={classes.chip}
-										/>
-									})
-								}
-							</div>
-							<div className={ classes.sections }>
-								<Typography variant="title" color="textSecondary">
-									Creators of the Comic
-								</Typography>
-								{
-									comic.creators.items.map(c => {
-										return <Chip key={ c.resourceURI }
-												avatar={
-													<Avatar>
-														<FaceIcon />
-													</Avatar>
-												}
-												label={ `${c.name} - ${c.role}` }
-												className={classes.chip}
-										/>
-									})
-								}
+								<Grid container spacing={16}>
+									<Grid xs={12} sm={12} md={4} lg={4} item>
+										<Typography gutterBottom variant="title" color="textSecondary">
+											About the book
+										</Typography>
+										<div className={ classes.sections }>
+											<Typography variant="subheading" color="textSecondary">
+												Page Count:
+											</Typography>
+											<Typography variant="caption" color="textSecondary">
+												{ comic.pageCount } Pages
+											</Typography>
+										</div>
+										{
+											comic.prices.length > 0 &&
+												<div className={ classes.sections }>
+													<Typography variant="subheading" color="textSecondary">
+													Prices:
+													</Typography>
+													<Typography variant="caption" color="textSecondary">
+														{
+															comic.prices.map(p => {
+																return <p className={ classes.subParagraph } key={p.type}>{ `${p.type} - ${p.price}` }</p>
+															})
+														}
+													</Typography>
+												</div>
+										}
+										{
+											comic.isbn.length > 0 &&
+												<div className={ classes.sections }>
+													<Typography variant="subheading" color="textSecondary">
+														ISBN:
+													</Typography>
+													<Typography variant="caption" color="textSecondary">
+														{ comic.isbn }
+													</Typography>
+												</div>
+										}
+										{
+											comic.dates.length > 0 &&
+												<div className={ classes.sections }>
+													<Typography variant="subheading" color="textSecondary">
+														Dates:
+													</Typography>
+													<Typography variant="caption" color="textSecondary">
+														{
+															comic.dates.map(p => {
+																return <p className={ classes.subParagraph } key={p.type}>{ `${p.type} - ${(new Date(p.date)).toLocaleDateString()}` }</p>
+															})
+														}
+													</Typography>
+												</div>
+										}
+									</Grid>
+									<Grid xs={12} sm={12} md={8} lg={8} item>
+										<div className={ classes.sections }>
+											<Typography variant="title" color="textSecondary">
+												Characters in the Comic
+											</Typography>
+											{
+												comic.characters.items.map(c => {
+													return <Chip key={ c.resourceURI }
+															avatar={
+																<Avatar>
+																	<FaceIcon />
+																</Avatar>
+															}
+															label={ c.name }
+															className={classes.chip}
+													/>
+												})
+											}
+										</div>
+										<div className={ classes.sections }>
+											<Typography variant="title" color="textSecondary">
+												Creators of the Comic
+											</Typography>
+											{
+												comic.creators.items.map(c => {
+													return <Chip key={ c.resourceURI }
+															avatar={
+																<Avatar>
+																	<FaceIcon />
+																</Avatar>
+															}
+															label={ `${c.name} - ${c.role}` }
+															className={classes.chip}
+													/>
+												})
+											}
+										</div>
+									</Grid>
+								</Grid>
 							</div>
 						</Grid>
 					</Grid>

@@ -102,16 +102,22 @@ class SeriesDetail extends Component {
 												Rating: { `${series.rating}` }
 											</Typography>
 										</div>
-										<div className={ classes.sections }>
-											<Typography variant="subheading" color="textSecondary">
-												Next Series: { `${series.next.name}` }
-											</Typography>
-										</div>
-										<div className={ classes.sections }>
-											<Typography variant="subheading" color="textSecondary">
-												Previous Series: { `${series.previous.name}` }
-											</Typography>
-										</div>
+										{
+											series.next &&
+											<div className={ classes.sections }>
+												<Typography variant="subheading" color="textSecondary">
+													Next Series: { `${series.next.name}` }
+												</Typography>
+											</div>
+										}
+										{
+											series.previous &&
+											<div className={ classes.sections }>
+												<Typography variant="subheading" color="textSecondary">
+													Previous Series: { `${series.previous.name}` }
+												</Typography>
+											</div>
+										}
 									</Grid>
 									<Grid xs={12} sm={12} md={8} lg={8} item>
 										<div className={ classes.sections }>

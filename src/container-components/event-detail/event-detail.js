@@ -96,16 +96,22 @@ class EventDetail extends Component {
 												{ `${(new Date(event.start)).toLocaleDateString()} - ${(new Date(event.end)).toLocaleDateString()}` }
 											</Typography>
 										</div>
-										<div className={ classes.sections }>
-											<Typography variant="subheading" color="textSecondary">
-												Next Event: { `${event.next.name}` }
-											</Typography>
-										</div>
-										<div className={ classes.sections }>
-											<Typography variant="subheading" color="textSecondary">
-												Previous Event: { `${event.previous.name}` }
-											</Typography>
-										</div>
+										{
+											event.next &&
+											<div className={ classes.sections }>
+												<Typography variant="subheading" color="textSecondary">
+													Next Event: { `${event.next.name}` }
+												</Typography>
+											</div>
+										}
+										{
+											event.previous &&
+											<div className={ classes.sections }>
+												<Typography variant="subheading" color="textSecondary">
+													Previous Event: { `${event.previous.name}` }
+												</Typography>
+											</div>
+										}
 									</Grid>
 									<Grid xs={12} sm={12} md={8} lg={8} item>
 										<div className={ classes.sections }>

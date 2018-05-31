@@ -90,10 +90,7 @@ class ComicDetail extends Component {
 										</Typography>
 										<div className={ classes.sections }>
 											<Typography variant="subheading" color="textSecondary">
-												Page Count:
-											</Typography>
-											<Typography variant="caption" color="textSecondary">
-												{ comic.pageCount } Pages
+												Page Count: { comic.pageCount } Pages
 											</Typography>
 										</div>
 										{

@@ -5,10 +5,27 @@ import { filterToQueryString } from '../helper/objectHelper';
 
 export const FETCH_SERIES_BY_CHARACTER_ID_SUCCESS = 'series:SeriesByCharacterId'
 export const FETCH_SERIES_BY_CHARACTER_ID_REJECTED = 'series:SeriesByCharacterIdRejected'
+export const FETCH_SERIES_BY_ID_REJECTED = 'series:SeriesByIdRejected';
+export const FETCH_SERIES_BY_ID_SUCCESS = 'series:SeriesByIdSuccess';
 export const FETCHING = 'series:AjaxCallToFetch';
 export const SEARCHING = 'series:Searching';
 export const LOAD_MORE_SUCCESS = 'series:LoadMoreSuccess';
 export const LOAD_MORE_REJECTED = 'series:LoadMoreRejected';
+
+
+export function fetchSeriesById(id, filter = {}) {
+	return (dispatch) => {
+		dispatch({ type: FETCHING });
+		return axios.get(`${baseUrl}/series/${id}`)
+			.then(response => {
+				dispatch({ type: FETCH_SERIES_BY_ID_SUCCESS, payload: response.data.data });
+			})
+			.catch(err => {
+				dispatch({ type: FETCH_SERIES_BY_ID_REJECTED, payload: err });
+			});
+	}
+}
+
 
 export function fetchSeriesByCharacterId(id, filter = {}) {
 	return (dispatch) => {

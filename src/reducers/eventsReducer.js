@@ -1,6 +1,6 @@
 import Event from '../objects/events';
 import { FETCH_EVENTS_BY_CHARACTER_ID_SUCCESS,
-		//FETCH_EVENTS_BY_CHARACTER_ID_REJECTED,
+		FETCH_EVENT_BY_ID_SUCCESS,
 		LOAD_MORE_SUCCESS,
 		FETCHING } from '../actions/eventsActions'
 export default function(state = {
@@ -13,6 +13,10 @@ export default function(state = {
 	searching: false
 }, { type, payload }) {
 	switch (type) {
+		case FETCH_EVENT_BY_ID_SUCCESS:
+			return { ...state,
+				event: new Event(payload.results[0]),
+				fetching: false }
 		case FETCH_EVENTS_BY_CHARACTER_ID_SUCCESS:
 			return { ...state,
 					collection: payload.results.map(c => new Event(c)),

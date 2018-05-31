@@ -62,7 +62,7 @@ function _search({ dispatch, filter = {}, dispatchTypeSuccess , dispatchTypeReje
 	let queryString = (filterToQueryStringVal.length) ? `?${filterToQueryStringVal}` : '';
 	return axios.get(`${baseUrl}/characters${queryString}`)
 		.then(response => {
-			dispatch({ type: dispatchTypeSuccess, payload: Object.assign(response.data.data, filter)});
+			dispatch({ type: dispatchTypeSuccess, payload: Object.assign({}, filter, response.data.data)});
 		})
 		.catch(err => {
 			dispatch({ type: dispatchTypeRejected, payload: err});

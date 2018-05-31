@@ -7,7 +7,9 @@ import { Route } from 'react-router-dom'
 import { fetchCharacterById } from '../../actions/charactersActions';
 import CharacterDetailsTopSection from '../../presentation-components/character-details-top-section/character-details-top-section'
 import CharacterResourceList from '../character-resource-list/character-resource-list';
-import CharacterResourceDetail from '../character-resource-detail/character-resource-detail';
+import ComicDetail from '../comic-detail/comic-detail';
+import EventDetail from '../event-detail/event-detail'
+import SeriesDetail from '../series-detail/series-detail'
 
 const styles = theme => ({
 	container:{
@@ -54,7 +56,9 @@ class CharacterContainer extends Component {
 					<CharacterDetailsTopSection character={ character } />
 					<div className={ classes.buttonContainer }>
 						<Route path={`${match.url}/resources`} render={ (props) => <CharacterResourceList {...props} character={ character }/>} />
-						<Route path={`${match.url}/:type/:id`} render={ (props) => <CharacterResourceDetail {...props} character={ character }/>} />
+						<Route path={`${match.url}/Comics/:id`} render={ (props) => <ComicDetail {...props} character={ character }/>} />
+						<Route path={`${match.url}/Events/:id`} render={ (props) => <EventDetail {...props} character={ character }/>} />
+						<Route path={`${match.url}/Series/:id`} render={ (props) => <SeriesDetail {...props} character={ character }/>} />
 					</div>
 				</div>
 

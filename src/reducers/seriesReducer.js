@@ -1,11 +1,11 @@
 import Serial from '../objects/series';
 import { FETCH_SERIES_BY_CHARACTER_ID_SUCCESS,
-		//FETCH_SERIES_BY_CHARACTER_ID_REJECTED,
+		FETCH_SERIES_BY_ID_SUCCESS,
 		LOAD_MORE_SUCCESS,
 		FETCHING } from '../actions/seriesActions'
 export default function(state = {
 	collection: [],
-	serial: {},
+	series: {},
 	filter:{
 		limit: 24
 	},
@@ -13,6 +13,10 @@ export default function(state = {
 	searching: false
 }, { type, payload }) {
 	switch (type) {
+		case FETCH_SERIES_BY_ID_SUCCESS:
+			return { ...state,
+				series: new Serial(payload.results[0]),
+				fetching: false }
 		case FETCH_SERIES_BY_CHARACTER_ID_SUCCESS:
 			return { ...state,
 					collection: payload.results.map(c => new Serial(c)),

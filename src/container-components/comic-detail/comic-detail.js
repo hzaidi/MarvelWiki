@@ -38,7 +38,7 @@ const styles = theme => ({
 	}
 });
 
-class CharacterResourceDetail extends Component {
+class ComicDetail extends Component {
 	state = {
 		fetching: true
 	}
@@ -56,7 +56,6 @@ class CharacterResourceDetail extends Component {
 		if(this.state.fetching || fetchingComic || !Object.keys(comic).length)  {
 			return (
 				<CircularProgress
-					className={ classes.progress }
 					color="secondary"
 					size={75}
 				/>
@@ -72,14 +71,17 @@ class CharacterResourceDetail extends Component {
 							<ImageSlider imagesUrl={ comic.imagesUrl }/>
 						</Grid>
 						<Grid xs={12} sm={12} md={7} lg={7} item>
-							<div className={ classes.sections }>
-								<Typography
-									className={ classes.description }
-									gutterBottom
-									variant="body1"
-									dangerouslySetInnerHTML={ this.contentMarkup(comic.description) }
-									color="textSecondary" />
-							</div>
+							{
+								comic.description && comic.description.length > 0 &&
+								<div className={ classes.sections }>
+									<Typography
+										className={ classes.description }
+										gutterBottom
+										variant="body1"
+										dangerouslySetInnerHTML={ this.contentMarkup(comic.description) }
+										color="textSecondary" />
+								</div>
+							}
 							<div className={ classes.sections }>
 								<Grid container spacing={16}>
 									<Grid xs={12} sm={12} md={4} lg={4} item>
@@ -210,7 +212,7 @@ const mapActionsToProp = {
 }
 
 export default compose(
-	withStyles(styles, { name: 'CharacterResourceDetail' }),
+	withStyles(styles, { name: 'ComicDetail' }),
 	connect(mapStateToProps, mapActionsToProp)
-)(CharacterResourceDetail);
+)(ComicDetail);
 

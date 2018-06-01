@@ -1,3 +1,4 @@
+
 import Character from '../objects/character';
 import {
 	FETCH_CHARACTERS_SUCCESS,
@@ -6,8 +7,7 @@ import {
 	SEARCHING,
 	FETCH_CHARACTER_BY_ID_SUCCESS,
 	UPDATE_FILTERS,
-	LOAD_MORE_SUCCESS,
-	//LOAD_MORE_REJECTED
+	LOAD_MORE_SUCCESS
 } from '../actions/charactersActions';
 
 

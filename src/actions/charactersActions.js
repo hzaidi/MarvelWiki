@@ -2,6 +2,7 @@ import axios from 'axios'
 import { baseUrl } from '../resolvedUrl';
 import debounce from 'debounce';
 import { filterToQueryString } from '../helper/objectHelper';
+import { seedDbWithCharacters } from '../firebaseActions/characterAction';
 
 export const FETCH_CHARACTERS_SUCCESS = 'characters:GetAll';
 export const FETCH_CHARACTERS_REJECTED = 'characters:GetAllRejected';
@@ -12,8 +13,6 @@ export const LOAD_MORE_REJECTED = 'characters:LoadMoreRejected';
 export const FETCH_CHARACTER_BY_ID_SUCCESS = 'character:GetOneById';
 export const FETCH_CHARACTER_BY_ID_REJECTED = 'character:GetOneByIdRejected';
 export const UPDATE_FILTERS = 'character:UpdateFilters';
-
-
 
 
 export function fetchCharacters(filter) {
@@ -62,6 +61,7 @@ function _search({ dispatch, filter = {}, dispatchTypeSuccess , dispatchTypeReje
 	let queryString = (filterToQueryStringVal.length) ? `?${filterToQueryStringVal}` : '';
 	return axios.get(`${baseUrl}/characters${queryString}`)
 		.then(response => {
+			seedDbWithCharacters(response.data.data.results);
 			dispatch({ type: dispatchTypeSuccess, payload: Object.assign({}, filter, response.data.data)});
 		})
 		.catch(err => {

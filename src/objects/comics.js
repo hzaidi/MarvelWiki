@@ -1,4 +1,3 @@
-
 const Comic = (comic) => {
 	comic.imageUrl = (size = null) => {
 		if(size === null) {

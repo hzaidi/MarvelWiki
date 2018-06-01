@@ -2,19 +2,21 @@ import Comic from '../objects/comics';
 import { FETCH_COMICS_BY_CHARACTER_ID_SUCCESS,
 		FETCH_COMICS_BY_ID_SUCCESS,
 		LOAD_MORE_SUCCESS,
+		RESET_STATE,
 		FETCHING } from '../actions/comicsActions'
-export default function(state = {
-	collection: [],
-	comic: {},
-	filter:{
-		limit: 24,
-		offset: 0,
-		total: 0,
-		count: 0
-	},
-	fetching: true,
-	searching: false
-}, { type, payload }) {
+const initialState = () => {
+	return {
+		collection: [],
+		comic: {},
+		filter:{
+			limit: 24
+		},
+		fetching: true,
+		searching: false
+	};
+}
+
+export default function(state = initialState(), { type, payload }) {
 	switch (type) {
 		case FETCH_COMICS_BY_ID_SUCCESS:
 			return { ...state,
@@ -34,6 +36,8 @@ export default function(state = {
 				searching: false }
 		case FETCHING:
 			return { ...state, fetching: true };
+		case RESET_STATE:
+			return { ...state, ...initialState() }
 		default:
 			return state;
 	}

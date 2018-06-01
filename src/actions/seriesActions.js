@@ -11,7 +11,13 @@ export const FETCHING = 'series:AjaxCallToFetch';
 export const SEARCHING = 'series:Searching';
 export const LOAD_MORE_SUCCESS = 'series:LoadMoreSuccess';
 export const LOAD_MORE_REJECTED = 'series:LoadMoreRejected';
+export const RESET_STATE = 'comcis:ResetState';
 
+export function resetState() {
+	return (dispatch) => {
+		dispatch({ type: RESET_STATE });
+	}
+}
 
 export function fetchSeriesById(id, filter = {}) {
 	return (dispatch) => {

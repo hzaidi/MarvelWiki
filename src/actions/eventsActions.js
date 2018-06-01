@@ -11,7 +11,13 @@ export const FETCHING = 'events:AjaxCallToFetch';
 export const SEARCHING = 'events:Searching';
 export const LOAD_MORE_SUCCESS = 'events:LoadMoreSuccess';
 export const LOAD_MORE_REJECTED = 'events:LoadMoreRejected';
+export const RESET_STATE = 'comcis:ResetState';
 
+export function resetState() {
+	return (dispatch) => {
+		dispatch({ type: RESET_STATE });
+	}
+}
 
 export function fetchEventById(id, filter = {}) {
 	return (dispatch) => {

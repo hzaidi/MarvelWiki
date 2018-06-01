@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Route } from 'react-router-dom'
 import { fetchCharacterById } from '../../actions/charactersActions';
+import { resetState as resetComicState } from '../../actions/comicsActions';
 import CharacterDetailsTopSection from '../../presentation-components/character-details-top-section/character-details-top-section'
 import CharacterResourceList from '../character-resource-list/character-resource-list';
 import ComicDetail from '../comic-detail/comic-detail';
@@ -39,6 +40,11 @@ class CharacterContainer extends Component {
 		const { fetchCharacterById, params } = this.props;
 		fetchCharacterById(params.characterId).then(_ => this.setState({ fetching: false }));
 	};
+
+	componentWillUnmount() {
+		const { resetComicState } = this.props;
+		resetComicState();
+	}
 
 	renderContent() {
 		const { fetchingCharacter, character , classes, match } = this.props;
@@ -87,7 +93,8 @@ const mapStateToProps = (state, props) => {
 	}
 }
 const mapActionsToProp = {
-	fetchCharacterById
+	fetchCharacterById,
+	resetComicState
 }
 
 export default compose(

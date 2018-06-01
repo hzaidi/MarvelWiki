@@ -11,6 +11,13 @@ export const FETCHING = 'comics:AjaxCallToFetch';
 export const SEARCHING = 'comics:Searching';
 export const LOAD_MORE_SUCCESS = 'comcis:LoadMoreSuccess';
 export const LOAD_MORE_REJECTED = 'comcis:LoadMoreRejected';
+export const RESET_STATE = 'comcis:ResetState';
+
+export function resetState() {
+	return (dispatch) => {
+		dispatch({ type: RESET_STATE });
+	}
+}
 
 export function fetchComicById(id, filter = {}) {
 	return (dispatch) => {

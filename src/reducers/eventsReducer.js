@@ -2,16 +2,22 @@ import Event from '../objects/events';
 import { FETCH_EVENTS_BY_CHARACTER_ID_SUCCESS,
 		FETCH_EVENT_BY_ID_SUCCESS,
 		LOAD_MORE_SUCCESS,
-		FETCHING } from '../actions/eventsActions'
-export default function(state = {
-	collection: [],
-	event: {},
-	filter:{
-		limit: 24
-	},
-	fetching: true,
-	searching: false
-}, { type, payload }) {
+		RESET_STATE,
+		FETCHING } from '../actions/eventsActions';
+
+const initialState = () => {
+	return {
+		collection: [],
+		event: {},
+		filter:{
+			limit: 24
+		},
+		fetching: true,
+		searching: false
+	};
+}
+
+export default function(state = initialState(), { type, payload }) {
 	switch (type) {
 		case FETCH_EVENT_BY_ID_SUCCESS:
 			return { ...state,
@@ -31,6 +37,8 @@ export default function(state = {
 				searching: false }
 		case FETCHING:
 			return { ...state, fetching: true };
+		case RESET_STATE:
+			return { ...state, ...initialState() }
 		default:
 			return state;
 	}

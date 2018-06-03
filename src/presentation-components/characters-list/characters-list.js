@@ -66,10 +66,8 @@ const CharactersList = (props) => {
 														onLove={ onLove }
 														onLike={ onLike }
 														onDislike={ onDislike }/>
-												}/>
-											{/* <div className={ classes.ratingContainer }>
-
-											</div> */}
+												}
+												/>
 										</div>
 									</Grid>
 						})

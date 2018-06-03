@@ -2,7 +2,16 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { fetchCharacters, filterCharacters, onLoadMore, onCharacterLike, onCharacterDislike, onCharacterLove } from '../../actions/charactersActions';
+import { fetchCharacters,
+	filterCharacters,
+	onLoadMore,
+	onCharacterLike,
+	onCharacterDislike,
+	onCharacterLove,
+	likesRef,
+	lovesRef,
+	dislikesRef
+} from '../../actions/charactersActions';
 import CharactersList from '../../presentation-components/characters-list/characters-list'
 import CharacterSearchFilter from '../../presentation-components/character-search-filter/character-search-filter';
 import ImageTileLoading from '../../presentation-components/image-tile-loading/image-tile-loading';
@@ -25,12 +34,8 @@ const styles = theme => ({
 class CharactersContainer extends Component {
 
   	componentDidMount() {
-		const { fetchCharacters,  collection, filter } = this.props;
-		/*
-			This if check ensures you are not coming to this componenet for the first time
-			and does not make the call that can add duplicate records
-		*/
-		if(!collection.length){	fetchCharacters(filter); }
+		const { fetchCharacters, likesRef, lovesRef, dislikesRef, collection, filter } = this.props;
+		if(!collection.length){	fetchCharacters(filter).then(_ => { Promise.all([ likesRef(), lovesRef(), dislikesRef() ]) }) }
 	}
 
 	onChangeFilterText(event) {
@@ -71,7 +76,7 @@ class CharactersContainer extends Component {
 	}
 
 	onLike(characterId) {
-		const { onCharacterLike, user } = this.props;
+		const { fireOnCharacterLike, onCharacterLike, user } = this.props;
 		onCharacterLike(characterId, user);
 	}
 
@@ -140,7 +145,10 @@ const mapActionsToProp = {
 	onLoadMore,
 	onCharacterLike,
 	onCharacterLove,
-	onCharacterDislike
+	onCharacterDislike,
+	likesRef,
+	lovesRef,
+	dislikesRef
 }
 
 export default compose(

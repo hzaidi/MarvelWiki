@@ -8,15 +8,19 @@ import {
 	FETCH_CHARACTER_BY_ID_SUCCESS,
 	UPDATE_FILTERS,
 	LOAD_MORE_SUCCESS,
-	LIKE_CHARACTER,
-	LOVE_CHARACTER,
-	DISLIKE_CHARACTER
+	// LIKE_CHARACTER,
+	// LOVE_CHARACTER,
+	// DISLIKE_CHARACTER,
+	CHARACTERS_BY_LIKE,
+	CHARACTERS_BY_LOVE,
+	CHARACTERS_BY_DISLIKE
 } from '../actions/charactersActions';
 
 
 export default function(state = {
 	collection: [],
 	character: {},
+	likes: {},
 	filter:{
 		limit: 24,
 		offset: 0,
@@ -53,21 +57,43 @@ export default function(state = {
 		case UPDATE_FILTERS:
 			return { ...state,
 				filter: payload }
-		case LIKE_CHARACTER:
+		// case LIKE_CHARACTER:
+		// 	return { ...state,
+		// 			collection: state.collection.map(character => character.id === payload.characterId ? { ...character, likes: [ ...character.likes, { uid: payload.uid, displayName: payload.displayName } ]} : character )
+		// 		}
+		// case LOVE_CHARACTER:
+		// 	return { ...state,
+		// 		collection: state.collection.map(character => character.id === payload.characterId ? { ...character, loves: [ ...character.loves, { uid: payload.uid, displayName: payload.displayName } ]} : character )
+		// 	}
+		// case DISLIKE_CHARACTER:
+			// return { ...state,
+			// 	collection: state.collection.map(character => character.id === payload.characterId ? { ...character, dislikes: [ ...character.dislikes, { uid: payload.uid, displayName: payload.displayName } ]} : character )
+			// }
+		case CHARACTERS_BY_LIKE:
 			return { ...state,
-					collection: state.collection.map(character => character.id === payload.characterId ? { ...character, likes: [ ...character.likes, { uid: payload.uid, displayName: payload.displayName } ]} : character )
-				}
-		case LOVE_CHARACTER:
-			return { ...state,
-				collection: state.collection.map(character => character.id === payload.characterId ? { ...character, loves: [ ...character.loves, { uid: payload.uid, displayName: payload.displayName } ]} : character )
+				likes: payload ? {} : payload,
+				collection: state.collection.map(character => (payload && payload[character.id]) ? { ...character, likes: objectToArray(payload[character.id]) } : character)
 			}
-		case DISLIKE_CHARACTER:
+		case CHARACTERS_BY_LOVE:
 			return { ...state,
-				collection: state.collection.map(character => character.id === payload.characterId ? { ...character, dislikes: [ ...character.dislikes, { uid: payload.uid, displayName: payload.displayName } ]} : character )
+				likes: payload ? {} : payload,
+				collection: state.collection.map(character => (payload && payload[character.id]) ? { ...character, loves: objectToArray(payload[character.id]) } : character)
+			}
+		case CHARACTERS_BY_DISLIKE:
+			return { ...state,
+				likes: payload ? {} : payload,
+				collection: state.collection.map(character => (payload && payload[character.id]) ? { ...character, dislikes: objectToArray(payload[character.id]) } : character)
 			}
 		default:
 			return state;
 	}
+}
+
+function objectToArray(object){
+	return Object.keys(object).reduce((prev, curr) => {
+		prev.push(object[curr])
+		return prev;
+	}, [])
 }
 
 function _payLoadToMetaRecord(data) {

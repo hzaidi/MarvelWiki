@@ -21,6 +21,9 @@ const styles = theme => ({
 	buttons: {
 		flexGrow: 1,
 		minWidth: 65
+	},
+	icons:{
+		marginRight: 10
 	}
 });
 
@@ -45,17 +48,17 @@ const RatingPanel = (props) => {
 		<div className={ classes.container }>
 			<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(props.loves) } </div> } placement="bottom">
 				<Button onClick={ onClickLove } className={ classes.buttons } color="secondary" aria-label="Love it">
-					<FavoriteIcon />
+					<FavoriteIcon className={ classes.icons } /> { props.loves.length > 0 ? props.loves.length : null }
 				</Button>
 			</Tooltip>
 			<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(props.likes) } </div> } placement="bottom">
 				<Button onClick={ onClickLike } className={ classes.buttons } color="primary" aria-label="Like it">
-					<ThumbUp />
+					<ThumbUp className={ classes.icons } /> { props.likes.length > 0 ? props.likes.length : null }
 				</Button>
 			</Tooltip>
 			<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(props.dislikes) } </div> } placement="bottom">
 				<Button onClick={ onClickDislike } className={ classes.buttons } aria-label="Don't like it">
-					<ThumbDown />
+					<ThumbDown className={ classes.icons } /> { props.dislikes.length > 0 ? props.dislikes.length : null }
 				</Button>
 			</Tooltip>
 		</div>

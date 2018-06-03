@@ -1,13 +1,33 @@
 import firebase from '../firebaseConfig';
 const db = firebase.database();
 
-export function onCharacterLike(characterId){
-	console.log('Character id i want to like', characterId);
+export const likesRef = db.ref(`likesToCharacter/`);
+export const lovesRef = db.ref(`lovesToCharacter/`);
+export const dislikesRef = db.ref(`dislikesToCharacter/`);
 
+export function onCharacterLike(characterId, user){
+	return db.ref(`likesToCharacter/${characterId}`).push({
+		id: user.uid,
+		displayName: user.displayName
+	});
+}
+
+export function onCharacterlove(characterId, user){
+	return db.ref(`lovesToCharacter/${characterId}`).push({
+		id: user.uid,
+		displayName: user.displayName
+	});
+}
+
+export function onCharacterDislike(characterId, user){
+	return db.ref(`dislikesToCharacter/${characterId}`).push({
+		id: user.uid,
+		displayName: user.displayName
+	});
 }
 
 export function seedDbWithCharacter(character){
-	db.ref(`characters/${character.id}`).once('value').then((snapshot) => {
+	return db.ref(`characters/${character.id}`).once('value').then((snapshot) => {
 		if(!snapshot.val()) {
 			db.ref(`characters/${character.id}`).set({
 				id: character.id,

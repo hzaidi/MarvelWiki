@@ -20,6 +20,12 @@ const styles = theme => ({
 		padding: '2% 5%',
 		boxSizing: 'border-box'
 	},
+	footer: {
+		position: 'absolute',
+		bottom: 0,
+		width: '100%',
+		boxSizing: 'border-box'
+	},
 	card: {
 		cursor: 'pointer',
 		transition: '0.40s',
@@ -49,14 +55,16 @@ const ImageTile = (props) => {
 	const color = props.color ? props.color : default_color;
 	const noWrap = props.noWrap === undefined ? defualt_noWrap : props.noWrap;
 	const animateOnHover = props.animateOnHover === undefined ? true : props.animateOnHover;
+	const footer = props.footer === undefined ? null : props.footer;
 	const onClickTile = () => {
 		props.onClick(props.id);
 	}
 	return (
-		<Button className={ classes.buttonWrapper }>
+
 			<Fade in={ props.imageUrl != null } style={{ transformOrigin: '0 0 0' }}>
 				<div className={ classes.container } >
-					<div className={ animateOnHover ? classes.card : {} } onClick={ onClickTile }>
+					<div className={ animateOnHover ? classes.card : {} }>
+						<Button className={ classes.buttonWrapper } onClick={ onClickTile }>
 						{	props.title && props.title.length > 0 &&
 							<div className={ classes.title } title={ props.title }>
 								<Typography variant={ variant } noWrap={ noWrap } color={ color }>
@@ -71,10 +79,17 @@ const ImageTile = (props) => {
 							src={ typeof props.imageUrl === 'string' ? props.imageUrl : props.imageUrl(imageSize) }
 							alt={ props.title }
 						/>
+						</Button>
+						{
+							footer &&
+							<footer className={ classes.footer }>
+								{ props.footer }
+							</footer>
+						}
 					</div>
 				</div>
 			</Fade>
-		</Button>
+
 	)
 }
 
@@ -82,6 +97,7 @@ const ImageTile = (props) => {
 ImageTile.propTypes = {
 	id: PropTypes.number.isRequired,
 	title: PropTypes.string,
+	footer: PropTypes.element,
 	variant: PropTypes.string,
 	noWrap: PropTypes.bool,
 	imageSize: PropTypes.string,

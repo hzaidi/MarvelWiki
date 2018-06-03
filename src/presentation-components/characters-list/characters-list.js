@@ -56,17 +56,20 @@ const CharactersList = (props) => {
 												title={ character.name }
 												imageSize="portrait_fantastic"
 												imageUrl={ character.imageUrl }
-												onClick={ onClickCharacter }/>
-											<div className={ classes.ratingContainer }>
-												<RatingPanel
-													id={ character.id }
-													likes={ character.likes }
-													loves={ character.loves }
-													dislikes={ character.dislikes }
-													onLove={ onLove }
-													onLike={ onLike }
-													onDislike={ onDislike }/>
-											</div>
+												onClick={ onClickCharacter }
+												footer={
+													<RatingPanel
+														id={ character.id }
+														likes={ character.likes }
+														loves={ character.loves }
+														dislikes={ character.dislikes }
+														onLove={ onLove }
+														onLike={ onLike }
+														onDislike={ onDislike }/>
+												}/>
+											{/* <div className={ classes.ratingContainer }>
+
+											</div> */}
 										</div>
 									</Grid>
 						})

@@ -7,6 +7,9 @@ const Character = (character) => {
 			return `${character.thumbnail.path}/${size}.${character.thumbnail.extension}`;
 		}
 	}
+	character.loves = [];
+	character.likes = [];
+	character.dislikes = [];
 	return character;
 }
 

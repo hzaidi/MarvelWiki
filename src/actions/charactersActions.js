@@ -2,7 +2,7 @@ import axios from 'axios'
 import { baseUrl } from '../resolvedUrl';
 import debounce from 'debounce';
 import { filterToQueryString } from '../helper/objectHelper';
-import { seedDbWithCharacters } from '../firebaseActions/characterAction';
+import { seedDbWithCharacters, onCharacterLike as fbOnCharacterLike } from '../firebaseActions/characterAction';
 
 export const FETCH_CHARACTERS_SUCCESS = 'characters:GetAll';
 export const FETCH_CHARACTERS_REJECTED = 'characters:GetAllRejected';
@@ -13,7 +13,34 @@ export const LOAD_MORE_REJECTED = 'characters:LoadMoreRejected';
 export const FETCH_CHARACTER_BY_ID_SUCCESS = 'character:GetOneById';
 export const FETCH_CHARACTER_BY_ID_REJECTED = 'character:GetOneByIdRejected';
 export const UPDATE_FILTERS = 'character:UpdateFilters';
+export const LIKE_CHARACTER = 'character:LikeChracter';
+export const LOVE_CHARACTER = 'character:LoveChracter';
+export const DISLIKE_CHARACTER = 'character:DislikeChracter';
 
+
+export function onCharacterLike(characterId, user){
+	return (dispatch) => {
+		//fbOnCharacterLike(characterId);
+		dispatch({ type: LIKE_CHARACTER, payload: { characterId, ...user } })
+	}
+
+}
+
+export function onCharacterLove(characterId, user){
+	return (dispatch) => {
+		//fbOnCharacterLike(characterId);
+		dispatch({ type: LOVE_CHARACTER, payload: { characterId, ...user } })
+	}
+
+}
+
+export function onCharacterDislike(characterId, user){
+	return (dispatch) => {
+		//fbOnCharacterLike(characterId);
+		dispatch({ type: DISLIKE_CHARACTER, payload: { characterId, ...user } })
+	}
+
+}
 
 export function fetchCharacters(filter) {
 	return (dispatch) => {

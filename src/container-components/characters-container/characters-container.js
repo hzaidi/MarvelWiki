@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import { fetchCharacters, filterCharacters, onLoadMore } from '../../actions/charactersActions';
+import { fetchCharacters, filterCharacters, onLoadMore, onCharacterLike, onCharacterDislike, onCharacterLove } from '../../actions/charactersActions';
 import CharactersList from '../../presentation-components/characters-list/characters-list'
 import CharacterSearchFilter from '../../presentation-components/character-search-filter/character-search-filter';
 import ImageTileLoading from '../../presentation-components/image-tile-loading/image-tile-loading';
@@ -65,6 +65,21 @@ class CharactersContainer extends Component {
 		onLoadMore(filter);
 	}
 
+	onLove(characterId) {
+		const { onCharacterLove, user } = this.props;
+		onCharacterLove(characterId, user);
+	}
+
+	onLike(characterId) {
+		const { onCharacterLike, user } = this.props;
+		onCharacterLike(characterId, user);
+	}
+
+	onDislike(characterId) {
+		const { onCharacterDislike, user } = this.props;
+		onCharacterDislike(characterId, user);
+	}
+
 	renderContent() {
 		const { fetching, collection, filter } = this.props;
 		if (fetching || !Object.keys(collection).length) {
@@ -77,6 +92,9 @@ class CharactersContainer extends Component {
 					characters={ collection }
 					onClickCharacter={ this.onClickCharacter.bind(this) }
 					loadMore={ this.onLoadMoreTrigger.bind(this) }
+					onLove={ this.onLove.bind(this) }
+					onLike={ this.onLike.bind(this) }
+					onDislike={ this.onDislike.bind(this) }
 					filter={ filter }
 				/>
 			)
@@ -107,17 +125,22 @@ class CharactersContainer extends Component {
 
 const mapStateToProps = (state, props) => {
 	const { collection, fetching, searching, filter } = state.charactersState;
+	const { user } = state.userState;
 	return {
 		collection,
 		fetching,
 		searching,
-		filter
+		filter,
+		user
 	}
 }
 const mapActionsToProp = {
 	fetchCharacters,
 	filterCharacters,
-	onLoadMore
+	onLoadMore,
+	onCharacterLike,
+	onCharacterLove,
+	onCharacterDislike
 }
 
 export default compose(

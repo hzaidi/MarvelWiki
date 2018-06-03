@@ -7,7 +7,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Typography from '@material-ui/core/Typography';
 import Face from '@material-ui/icons/Face';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { login, logout, checkAuthentication } from './actions/userActions';
@@ -34,6 +33,9 @@ const styles = theme => ({
 	},
 	j2:{
 		flex: '1 1 auto'
+	},
+	icon:{
+		marginRight: 10
 	}
 });
 
@@ -55,13 +57,13 @@ class App extends Component {
 							<div>
 								{
 									userState.isAuthenticated ?
-										<Button onClick={ logout } className={classes.button} variant="flat" size="small">
-											<AccountCircle />
+										<Button onClick={ logout } variant="flat" size="small">
+											<AccountCircle className={classes.icon} />
 											{ userState.user.displayName }
 										</Button>
 										:
-										<Button onClick={ login } className={classes.button} variant="flat" size="small">
-											<Face />
+										<Button onClick={ login } variant="flat" size="small">
+											<Face className={classes.icon} />
 											Login
 										</Button>
 								}

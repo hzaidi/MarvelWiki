@@ -7,7 +7,10 @@ import {
 	SEARCHING,
 	FETCH_CHARACTER_BY_ID_SUCCESS,
 	UPDATE_FILTERS,
-	LOAD_MORE_SUCCESS
+	LOAD_MORE_SUCCESS,
+	LIKE_CHARACTER,
+	LOVE_CHARACTER,
+	DISLIKE_CHARACTER
 } from '../actions/charactersActions';
 
 
@@ -17,7 +20,6 @@ export default function(state = {
 	filter:{
 		limit: 24,
 		offset: 0,
-		//total: 0,
 		nameStartsWith: '',
 		orderBy: 'name',
 		modifiedSince: '2010-01-01'
@@ -50,7 +52,18 @@ export default function(state = {
 					fetching: false };
 		case UPDATE_FILTERS:
 			return { ...state,
-				filter: payload
+				filter: payload }
+		case LIKE_CHARACTER:
+			return { ...state,
+					collection: state.collection.map(character => character.id === payload.characterId ? { ...character, likes: [ ...character.likes, { uid: payload.uid, displayName: payload.displayName } ]} : character )
+				}
+		case LOVE_CHARACTER:
+			return { ...state,
+				collection: state.collection.map(character => character.id === payload.characterId ? { ...character, loves: [ ...character.loves, { uid: payload.uid, displayName: payload.displayName } ]} : character )
+			}
+		case DISLIKE_CHARACTER:
+			return { ...state,
+				collection: state.collection.map(character => character.id === payload.characterId ? { ...character, dislikes: [ ...character.dislikes, { uid: payload.uid, displayName: payload.displayName } ]} : character )
 			}
 		default:
 			return state;

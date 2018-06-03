@@ -1,6 +1,10 @@
 import firebase from '../firebaseConfig';
 const db = firebase.database();
 
+export function onCharacterLike(characterId){
+	console.log('Character id i want to like', characterId);
+
+}
 
 export function seedDbWithCharacter(character){
 	db.ref(`characters/${character.id}`).once('value').then((snapshot) => {

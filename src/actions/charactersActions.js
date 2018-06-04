@@ -23,13 +23,16 @@ export const UPDATE_FILTERS = 'character:UpdateFilters';
 export const CHARACTERS_BY_LIKE = 'character:CharactersByLike';
 export const CHARACTERS_BY_LOVE = 'character:CharactersByLove';
 export const CHARACTERS_BY_DISLIKE = 'character:CharactersByDislike';
+export const LIKE_CHARACTER = 'character:LikeChracter';
+export const LOVE_CHARACTER = 'character:LoveChracter';
+export const DISLIKE_CHARACTER = 'character:DislikeChracter';
 
 
 export function likesRef() {
 	return (dispatch) => {
 		return fireDbLikesRef.on('value', (snapshot) => {
 			let items = snapshot.val();
-			dispatch({ type: CHARACTERS_BY_LIKE, payload: items })
+			dispatch({ type: CHARACTERS_BY_LIKE, payload: { type: 'likes', items } })
 		});
 	}
 }
@@ -39,7 +42,7 @@ export function lovesRef() {
 	return (dispatch) => {
 		return fireDbLovesRef.on('value', (snapshot) => {
 			let items = snapshot.val();
-			dispatch({ type: CHARACTERS_BY_LOVE, payload: items })
+			dispatch({ type: CHARACTERS_BY_LOVE, payload: { type: 'loves', items } })
 		});
 	}
 }
@@ -50,7 +53,7 @@ export function dislikesRef() {
 	return (dispatch) => {
 		return fireDbDislikeRef.on('value', (snapshot) => {
 			let items = snapshot.val();
-			dispatch({ type: CHARACTERS_BY_DISLIKE, payload: items })
+			dispatch({ type: CHARACTERS_BY_DISLIKE, payload: { type: 'dislikes', items } })
 		});
 	}
 }
@@ -58,21 +61,21 @@ export function dislikesRef() {
 
 export function onCharacterLike(characterId, user){
 	return (dispatch) => {
-		fireDbOnCharacterLike(characterId, user);
+		return fireDbOnCharacterLike(characterId, user).then(_ => dispatch({ type: LIKE_CHARACTER, payload: { type: 'likes', data: { characterId, user } } }));
 	}
 
 }
 
 export function onCharacterLove(characterId, user){
 	return (dispatch) => {
-		fireDbOnCharacterLove(characterId, user);
+		return fireDbOnCharacterLove(characterId, user).then(_ => dispatch({ type: LOVE_CHARACTER, payload: { type: 'loves', data: { characterId, user } } }));
 	}
 
 }
 
 export function onCharacterDislike(characterId, user){
 	return (dispatch) => {
-		fireDbOnCharacterDislike(characterId, user);
+		return fireDbOnCharacterDislike(characterId, user).then(_ => dispatch({ type: DISLIKE_CHARACTER, payload: { type: 'dislikes', data: { characterId, user } } }));
 	}
 }
 

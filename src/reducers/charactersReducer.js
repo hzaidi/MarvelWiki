@@ -8,9 +8,9 @@ import {
 	FETCH_CHARACTER_BY_ID_SUCCESS,
 	UPDATE_FILTERS,
 	LOAD_MORE_SUCCESS,
-	// LIKE_CHARACTER,
-	// LOVE_CHARACTER,
-	// DISLIKE_CHARACTER,
+	LIKE_CHARACTER,
+	LOVE_CHARACTER,
+	DISLIKE_CHARACTER,
 	CHARACTERS_BY_LIKE,
 	CHARACTERS_BY_LOVE,
 	CHARACTERS_BY_DISLIKE
@@ -59,17 +59,18 @@ export default function(state = {
 		case UPDATE_FILTERS:
 			return { ...state,
 				filter: payload }
+		case LIKE_CHARACTER:
+		case LOVE_CHARACTER:
+		case DISLIKE_CHARACTER:
+			return { ...state,
+				collection: state.collection.map(character => character.id === payload.data.characterId ? { ...character, [ payload.type ]: [ ...character[ payload.type ], { uid: payload.data.user.uid, displayName: payload.data.user.displayName } ]} : character )
+			}
 		case CHARACTERS_BY_LIKE:
-			return { ...state,
-				likes: payload ? payload : {},
-			}
 		case CHARACTERS_BY_LOVE:
-			return { ...state,
-				loves: payload ? payload : {},
-			}
 		case CHARACTERS_BY_DISLIKE:
 			return { ...state,
-				dislikes: payload ? payload : {},
+				[ payload.type ]: payload.items ? payload.items : {}
+				//collection: state.collection.map(character => (state[ payload.type ][ character.id ]) ? { ...character, [payload.type]: objectToArray(state[ payload.type ][ character.id ]) } : character )
 			}
 		default:
 			return state;

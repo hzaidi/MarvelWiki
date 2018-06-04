@@ -12,7 +12,7 @@ const styles = theme => ({
 		boxSizing: 'border-box',
 		display: 'flex',
 		justifyContent: 'center',
-		background: '#000'
+		zIndex: 1
 	},
 	buttonContainer:{
 		display: 'flex',

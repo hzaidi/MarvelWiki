@@ -26,6 +26,16 @@ const styles = theme => ({
 		width: '100%',
 		boxSizing: 'border-box'
 	},
+	footerBackground: {
+		zIndex: 0,
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+		pointerEvents: 'none',
+		backgroundImage: 'linear-gradient(to bottom, rgba(255,255,255, 0), rgba(0,0,0, 1) 90%)',
+		width: '100%',
+		height: '5em'
+	},
 	card: {
 		cursor: 'pointer',
 		transition: '0.40s',
@@ -83,6 +93,7 @@ const ImageTile = (props) => {
 						{
 							footer &&
 							<footer className={ classes.footer }>
+								<div className={ classes.footerBackground }></div>
 								{ props.footer }
 							</footer>
 						}

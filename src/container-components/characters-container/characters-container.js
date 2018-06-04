@@ -71,18 +71,18 @@ class CharactersContainer extends Component {
 	}
 
 	onLove(characterId) {
-		const { onCharacterLove, user } = this.props;
-		onCharacterLove(characterId, user);
+		const { isAuthenticated, onCharacterLove, user } = this.props;
+		if(isAuthenticated) { onCharacterLove(characterId, user); }
 	}
 
 	onLike(characterId) {
-		const { fireOnCharacterLike, onCharacterLike, user } = this.props;
-		onCharacterLike(characterId, user);
+		const { isAuthenticated, fireOnCharacterLike, onCharacterLike, user } = this.props;
+		if(isAuthenticated) { onCharacterLike(characterId, user); }
 	}
 
 	onDislike(characterId) {
-		const { onCharacterDislike, user } = this.props;
-		onCharacterDislike(characterId, user);
+		const { isAuthenticated, onCharacterDislike, user } = this.props;
+		if(isAuthenticated) { onCharacterDislike(characterId, user); }
 	}
 
 	renderContent() {
@@ -130,13 +130,14 @@ class CharactersContainer extends Component {
 
 const mapStateToProps = (state, props) => {
 	const { collection, fetching, searching, filter } = state.charactersState;
-	const { user } = state.userState;
+	const { user, isAuthenticated } = state.userState;
 	return {
 		collection,
 		fetching,
 		searching,
 		filter,
-		user
+		user,
+		isAuthenticated
 	}
 }
 const mapActionsToProp = {

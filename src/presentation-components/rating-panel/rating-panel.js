@@ -7,6 +7,12 @@ import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import Tooltip from '@material-ui/core/Tooltip';
 
+const NOCOLOR = '#909090';
+const REDCOLOR = '#c35454';
+const BLUECOLOR = '#7293d0';
+const ORANGECOLOR = '#cba07b';
+
+
 const styles = theme => ({
 	container: {
 		boxSizing: 'border-box',
@@ -47,18 +53,18 @@ const RatingPanel = (props) => {
 	return (
 		<div className={ classes.container }>
 			<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(props.loves) } </div> } placement="bottom">
-				<Button onClick={ onClickLove } className={ classes.buttons } color="secondary" aria-label="Love it">
-					<FavoriteIcon className={ classes.icons } /> { props.loves.length > 0 ? props.loves.length : null }
+				<Button onClick={ onClickLove } className={ classes.buttons } aria-label="Love it">
+					<FavoriteIcon style={{color: props.loves.length > 0 ? REDCOLOR : NOCOLOR }} className={ classes.icons } /> { props.loves.length > 0 ? props.loves.length : null }
 				</Button>
 			</Tooltip>
 			<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(props.likes) } </div> } placement="bottom">
-				<Button onClick={ onClickLike } className={ classes.buttons } color="primary" aria-label="Like it">
-					<ThumbUp className={ classes.icons } /> { props.likes.length > 0 ? props.likes.length : null }
+				<Button onClick={ onClickLike } className={ classes.buttons } aria-label="Like it">
+					<ThumbUp style={{color:  props.likes.length > 0 ? BLUECOLOR : NOCOLOR }} className={ classes.icons } /> { props.likes.length > 0 ? props.likes.length : null }
 				</Button>
 			</Tooltip>
 			<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(props.dislikes) } </div> } placement="bottom">
 				<Button onClick={ onClickDislike } className={ classes.buttons } aria-label="Don't like it">
-					<ThumbDown className={ classes.icons } /> { props.dislikes.length > 0 ? props.dislikes.length : null }
+					<ThumbDown style={{color: props.dislikes.length > 0 ? ORANGECOLOR : NOCOLOR }} className={ classes.icons } /> { props.dislikes.length > 0 ? props.dislikes.length : null }
 				</Button>
 			</Tooltip>
 		</div>

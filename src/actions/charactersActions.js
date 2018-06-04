@@ -20,9 +20,6 @@ export const LOAD_MORE_REJECTED = 'characters:LoadMoreRejected';
 export const FETCH_CHARACTER_BY_ID_SUCCESS = 'character:GetOneById';
 export const FETCH_CHARACTER_BY_ID_REJECTED = 'character:GetOneByIdRejected';
 export const UPDATE_FILTERS = 'character:UpdateFilters';
-// export const LIKE_CHARACTER = 'character:LikeChracter';
-// export const LOVE_CHARACTER = 'character:LoveChracter';
-// export const DISLIKE_CHARACTER = 'character:DislikeChracter';
 export const CHARACTERS_BY_LIKE = 'character:CharactersByLike';
 export const CHARACTERS_BY_LOVE = 'character:CharactersByLove';
 export const CHARACTERS_BY_DISLIKE = 'character:CharactersByDislike';
@@ -30,7 +27,7 @@ export const CHARACTERS_BY_DISLIKE = 'character:CharactersByDislike';
 
 export function likesRef() {
 	return (dispatch) => {
-		fireDbLikesRef.on('value', (snapshot) => {
+		return fireDbLikesRef.on('value', (snapshot) => {
 			let items = snapshot.val();
 			dispatch({ type: CHARACTERS_BY_LIKE, payload: items })
 		});
@@ -40,7 +37,7 @@ export function likesRef() {
 
 export function lovesRef() {
 	return (dispatch) => {
-		fireDbLovesRef.on('value', (snapshot) => {
+		return fireDbLovesRef.on('value', (snapshot) => {
 			let items = snapshot.val();
 			dispatch({ type: CHARACTERS_BY_LOVE, payload: items })
 		});
@@ -51,7 +48,7 @@ export function lovesRef() {
 
 export function dislikesRef() {
 	return (dispatch) => {
-		fireDbDislikeRef.on('value', (snapshot) => {
+		return fireDbDislikeRef.on('value', (snapshot) => {
 			let items = snapshot.val();
 			dispatch({ type: CHARACTERS_BY_DISLIKE, payload: items })
 		});

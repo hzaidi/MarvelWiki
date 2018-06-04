@@ -35,7 +35,7 @@ class CharactersContainer extends Component {
 
   	componentDidMount() {
 		const { fetchCharacters, likesRef, lovesRef, dislikesRef, collection, filter } = this.props;
-		if(!collection.length){	fetchCharacters(filter).then(_ => { Promise.all([ likesRef(), lovesRef(), dislikesRef() ]) }) }
+		if(!collection.length) { Promise.all([ likesRef(), lovesRef(), dislikesRef() ]).then(_ => fetchCharacters(filter)); }
 	}
 
 	onChangeFilterText(event) {
@@ -76,7 +76,7 @@ class CharactersContainer extends Component {
 	}
 
 	onLike(characterId) {
-		const { isAuthenticated, fireOnCharacterLike, onCharacterLike, user } = this.props;
+		const { isAuthenticated, onCharacterLike, user } = this.props;
 		if(isAuthenticated) { onCharacterLike(characterId, user); }
 	}
 

@@ -62,15 +62,24 @@ export default function(state = {
 		case LIKE_CHARACTER:
 		case LOVE_CHARACTER:
 		case DISLIKE_CHARACTER:
-			return { ...state,
-				collection: state.collection.map(character => character.id === payload.data.characterId ? { ...character, [ payload.type ]: [ ...character[ payload.type ], { uid: payload.data.user.uid, displayName: payload.data.user.displayName } ]} : character )
+			return { ...state
+				//collection: state.collection.map(character => character.id === payload.data.characterId ? { ...character, [ payload.type ]: [ ...character[ payload.type ], { uid: payload.data.user.uid, displayName: payload.data.user.displayName } ]} : character )
 			}
 		case CHARACTERS_BY_LIKE:
 		case CHARACTERS_BY_LOVE:
 		case CHARACTERS_BY_DISLIKE:
+			debugger;
 			return { ...state,
-				[ payload.type ]: payload.items ? payload.items : {}
-				//collection: state.collection.map(character => (state[ payload.type ][ character.id ]) ? { ...character, [payload.type]: objectToArray(state[ payload.type ][ character.id ]) } : character )
+				[ payload.type ]: payload.items ? payload.items : {},
+				collection: state.collection.map(character => {
+					if(payload.items === null){
+						return { ...character, [payload.type]: [] };
+					}else if(payload.items[ character.id ]){
+						return { ...character, [payload.type]: objectToArray(payload.items[ character.id ]) };
+					}else{
+						return character;
+					}
+				})
 			}
 		default:
 			return state;

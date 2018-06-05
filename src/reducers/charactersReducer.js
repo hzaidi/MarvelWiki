@@ -68,7 +68,6 @@ export default function(state = {
 		case CHARACTERS_BY_LIKE:
 		case CHARACTERS_BY_LOVE:
 		case CHARACTERS_BY_DISLIKE:
-			debugger;
 			return { ...state,
 				[ payload.type ]: payload.items ? payload.items : {},
 				collection: state.collection.map(character => {

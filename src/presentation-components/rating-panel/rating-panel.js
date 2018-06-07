@@ -64,7 +64,7 @@ const RatingPanel = (props) => {
 	const renderTooltipSection = ({ list, handler, color = NOCOLOR, type }) => {
 		if(list.length > 0) {
 			return (
-				<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(props.loves) } </div> } placement="bottom">
+				<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(list) } </div> } placement="bottom">
 					{ renderButton({ list, handler, color, type}) }
 				</Tooltip>
 			)

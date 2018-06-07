@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
 import Tooltip from '@material-ui/core/Tooltip';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 const NOCOLOR = '#909090';
 const REDCOLOR = '#c35454';
@@ -16,20 +18,12 @@ const ORANGECOLOR = '#cba07b';
 const styles = theme => ({
 	container: {
 		boxSizing: 'border-box',
-		display: 'flex',
-		justifyContent: 'center',
 		zIndex: 1
 	},
-	buttonContainer:{
+	flexBox:{
 		display: 'flex',
 		justifyContent: 'center',
-	},
-	buttons: {
-		flexGrow: 1,
-		minWidth: 65
-	},
-	icons:{
-		marginRight: 10
+		alignItems: 'center'
 	}
 });
 
@@ -47,26 +41,51 @@ const RatingPanel = (props) => {
 	}
 
 	const displayNames = (list) => {
-		if(!list.length) { return '...'; }
+		if(!list.length) { return null; }
 		return list.map((l, i) => <div key={ i }>{ l.displayName }<br/></div>);
 	}
+
+	const iconType = ({ list, color = NOCOLOR, type }) => {
+		let Component = type;
+		return ( <Component style={{color: list.length > 0 ? color : NOCOLOR }} className={ classes.icons }/> )
+	}
+
+	const renderButton = ({ list, handler, color = NOCOLOR, type }) => {
+		return (
+			<IconButton onClick={ handler } className={ classes.buttons } aria-label="Love it">
+				{ iconType({ list, color, type }) }
+				<Typography variant="headline" noWrap={ true } style={{color: list.length > 0 ? color : NOCOLOR }}>
+					{ list.length > 0 ? list.length : null }
+				</Typography>
+			</IconButton>
+		);
+	}
+
+	const renderTooltipSection = ({ list, handler, color = NOCOLOR, type }) => {
+		if(list.length > 0) {
+			return (
+				<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(props.loves) } </div> } placement="bottom">
+					{ renderButton({ list, handler, color, type}) }
+				</Tooltip>
+			)
+		}else{
+			return ( renderButton({ list, handler, color, type })  )
+		}
+	}
+
 	return (
 		<div className={ classes.container }>
-			<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(props.loves) } </div> } placement="bottom">
-				<Button onClick={ onClickLove } className={ classes.buttons } aria-label="Love it">
-					<FavoriteIcon style={{color: props.loves.length > 0 ? REDCOLOR : NOCOLOR }} className={ classes.icons } /> { props.loves.length > 0 ? props.loves.length : null }
-				</Button>
-			</Tooltip>
-			<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(props.likes) } </div> } placement="bottom">
-				<Button onClick={ onClickLike } className={ classes.buttons } aria-label="Like it">
-					<ThumbUp style={{color:  props.likes.length > 0 ? BLUECOLOR : NOCOLOR }} className={ classes.icons } /> { props.likes.length > 0 ? props.likes.length : null }
-				</Button>
-			</Tooltip>
-			<Tooltip className={ classes.buttonContainer } enterDelay={300} title={ <div> { displayNames(props.dislikes) } </div> } placement="bottom">
-				<Button onClick={ onClickDislike } className={ classes.buttons } aria-label="Don't like it">
-					<ThumbDown style={{color: props.dislikes.length > 0 ? ORANGECOLOR : NOCOLOR }} className={ classes.icons } /> { props.dislikes.length > 0 ? props.dislikes.length : null }
-				</Button>
-			</Tooltip>
+			<Grid container spacing={8} direction="row">
+				<Grid item xs={4} lg={4} md={4} className={ classes.flexBox }>
+					{ renderTooltipSection({ list: props.loves, handler: onClickLove, color: REDCOLOR, type: FavoriteIcon }) }
+				</Grid>
+				<Grid item xs={4} lg={4} md={4} className={ classes.flexBox }>
+					{ renderTooltipSection({ list: props.likes, handler: onClickLike, color: BLUECOLOR, type: ThumbUp }) }
+				</Grid>
+				<Grid item xs={4} lg={4} md={4} className={ classes.flexBox }>
+					{ renderTooltipSection({ list: props.dislikes, handler: onClickDislike, color: ORANGECOLOR, type: ThumbDown }) }
+				</Grid>
+			</Grid>
 		</div>
 	)
 }

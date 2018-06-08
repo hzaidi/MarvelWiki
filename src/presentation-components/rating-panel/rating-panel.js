@@ -8,6 +8,7 @@ import ThumbDown from '@material-ui/icons/ThumbDown';
 import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { UserContext } from '../../context/userContext';
 
 const NOCOLOR = '#909090';
 const REDCOLOR = '#c35454';
@@ -52,12 +53,18 @@ const RatingPanel = (props) => {
 
 	const renderButton = ({ list, handler, color = NOCOLOR, type }) => {
 		return (
-			<IconButton onClick={ handler } className={ classes.buttons } aria-label="Love it">
-				{ iconType({ list, color, type }) }
-				<Typography variant="headline" noWrap={ true } style={{color: list.length > 0 ? color : NOCOLOR }}>
-					{ list.length > 0 ? list.length : null }
-				</Typography>
-			</IconButton>
+			<UserContext.Consumer>
+			{
+				user => (
+					<IconButton onClick={ handler } disabled={ !user.isAuthenticated } className={ classes.buttons } aria-label="Love it">
+						{ iconType({ list, color, type }) }
+						<Typography variant="headline" noWrap={ true } style={{color: list.length > 0 ? color : NOCOLOR }}>
+							{ list.length > 0 ? list.length : null }
+						</Typography>
+					</IconButton>
+				)
+			}
+			</UserContext.Consumer>
 		);
 	}
 

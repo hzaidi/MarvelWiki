@@ -53,18 +53,20 @@ const RatingPanel = (props) => {
 
 	const renderButton = ({ list, handler, color = NOCOLOR, type }) => {
 		return (
-			<UserContext.Consumer>
-			{
-				user => (
-					<IconButton onClick={ handler } disabled={ !user.isAuthenticated } className={ classes.buttons } aria-label="Love it">
-						{ iconType({ list, color, type }) }
-						<Typography variant="headline" noWrap={ true } style={{color: list.length > 0 ? color : NOCOLOR }}>
-							{ list.length > 0 ? list.length : null }
-						</Typography>
-					</IconButton>
-				)
-			}
-			</UserContext.Consumer>
+			<div>
+				<UserContext.Consumer>
+				{
+					user => (
+						<IconButton onClick={ handler } disabled={ !user.isAuthenticated } className={ classes.buttons } aria-label="Love it">
+							{ iconType({ list, color, type }) }
+							<Typography variant="headline" noWrap={ true } style={{color: list.length > 0 ? color : NOCOLOR }}>
+								{ list.length > 0 ? list.length : null }
+							</Typography>
+						</IconButton>
+					)
+				}
+				</UserContext.Consumer>
+			</div>
 		);
 	}
 

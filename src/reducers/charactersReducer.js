@@ -76,7 +76,7 @@ export default function(state = {
 					}else if(payload.items[ character.id ]){
 						return { ...character, [payload.type]: objectToArray(payload.items[ character.id ]) };
 					}else{
-						return character;
+						return { ...character, [payload.type]: [] };
 					}
 				})
 			}

@@ -61,21 +61,21 @@ export function dislikesRef() {
 
 export function onCharacterLike(characterId, user){
 	return (dispatch) => {
-		return fireDbOnCharacterLike(characterId, user).then(_ => dispatch({ type: LIKE_CHARACTER, payload: { type: 'likes', data: { characterId, user } } }));
+		return fireDbOnCharacterLike(characterId, user)//.then(_ => dispatch({ type: LIKE_CHARACTER, payload: { type: 'likes', data: { characterId, user } } }));
 	}
 
 }
 
 export function onCharacterLove(characterId, user){
 	return (dispatch) => {
-		return fireDbOnCharacterLove(characterId, user).then(_ => dispatch({ type: LOVE_CHARACTER, payload: { type: 'loves', data: { characterId, user } } }));
+		return fireDbOnCharacterLove(characterId, user)//.then(_ => dispatch({ type: LOVE_CHARACTER, payload: { type: 'loves', data: { characterId, user } } }));
 	}
 
 }
 
 export function onCharacterDislike(characterId, user){
 	return (dispatch) => {
-		return fireDbOnCharacterDislike(characterId, user).then(_ => dispatch({ type: DISLIKE_CHARACTER, payload: { type: 'dislikes', data: { characterId, user } } }));
+		return fireDbOnCharacterDislike(characterId, user)//.then(_ => dispatch({ type: DISLIKE_CHARACTER, payload: { type: 'dislikes', data: { characterId, user } } }));
 	}
 }
 

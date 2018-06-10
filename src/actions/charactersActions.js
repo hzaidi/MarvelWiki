@@ -8,7 +8,8 @@ import { seedDbWithCharacters,
 	onCharacterDislike as fireDbOnCharacterDislike,
 	likesRef as fireDbLikesRef,
 	lovesRef as fireDbLovesRef,
-	dislikesRef as fireDbDislikeRef
+	dislikesRef as fireDbDislikeRef,
+	getCharacterByName as fireDbGetCharacterByName
 } from '../firebaseActions/characterAction';
 
 export const FETCH_CHARACTERS_SUCCESS = 'characters:GetAll';
@@ -76,6 +77,12 @@ export function onCharacterLove(characterId, user){
 export function onCharacterDislike(characterId, user){
 	return (dispatch) => {
 		return fireDbOnCharacterDislike(characterId, user)//.then(_ => dispatch({ type: DISLIKE_CHARACTER, payload: { type: 'dislikes', data: { characterId, user } } }));
+	}
+}
+
+export function onGetCharacterByName(displayName) {
+	return (dispatch) => {
+		return fireDbGetCharacterByName(displayName);
 	}
 }
 

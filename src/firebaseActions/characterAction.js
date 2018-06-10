@@ -37,6 +37,10 @@ export function getCharacterById(id) {
 	return db.ref(`characters/${id}`).once('value')
 }
 
+export function getCharacterByName(name) {
+	return db.ref(`characters`).orderByChild("name").startAt(name).endAt(`${name}\uf8ff`).once('value');
+}
+
 
 function _updateUserActionOnAResourceToFireBase({ resource, characterId, user }) {
 	return db.ref(`${resource}/${characterId}`).orderByChild("id").equalTo(user.uid).once('value', function(snapshot){

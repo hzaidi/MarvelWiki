@@ -1,5 +1,6 @@
 
 import Character from '../objects/character';
+import { objectToArray } from '../helper/objectHelper';
 import {
 	FETCH_CHARACTERS_SUCCESS,
 	FETCH_CHARACTERS_REJECTED,
@@ -92,13 +93,6 @@ function processCharacter(state, character) {
 			loves: (state.loves[character.id]) ? objectToArray(state.loves[character.id]) : [],
 			dislikes: (state.dislikes[character.id]) ? objectToArray(state.dislikes[character.id]) : []
 		};
-}
-
-function objectToArray(object){
-	return Object.keys(object).reduce((prev, curr) => {
-		prev.push(object[curr])
-		return prev;
-	}, [])
 }
 
 function _payLoadToMetaRecord(data) {

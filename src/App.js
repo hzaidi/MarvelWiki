@@ -57,20 +57,26 @@ class App extends Component {
 							<Toolbar>
 								<img className={ classes.topLogo } src={ logo } alt="Marvel Logo" width="150" height="50"/>
 								<Button href="#flat-buttons" component={ Link } to="/" variant="flat" size="small">
-									<Home className={classes.icon} />
-									Dashboard
-								</Button>
-								<Button href="#flat-buttons" component={ Link } to="/characters-list" variant="flat" size="small">
 									<PersonPin className={classes.icon} />
 									Characters List
 								</Button>
+								<UserContext.Consumer>
+								{
+									user => (
+										<Button disabled={ !user.isAuthenticated } href="#flat-buttons" component={ Link } to="/dashboard" variant="flat" size="small">
+											<Home className={classes.icon} />
+											Dashboard
+										</Button>
+									)
+								}
+								</UserContext.Consumer>
 								<div className={ classes.j2 }></div>
 								<LoginLogoutButton login={ login } logout={ logout }/>
 							</Toolbar>
 						</AppBar>
 						<div className={ classes.routeContainer }>
-							<Route exact path="/" component={DashboardContainer}/>
-							<Route exact path="/characters-list" component={CharactersContainer}/>
+							<Route exact path="/" component={CharactersContainer}/>
+							<Route exact path="/dashboard" component={DashboardContainer}/>
 							<Route path="/character/:characterId" component={CharacterContainer}/>
 						</div>
 					</MuiThemeProvider>

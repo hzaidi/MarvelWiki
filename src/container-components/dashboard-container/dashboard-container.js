@@ -32,6 +32,7 @@ class DashboardContainer extends Component {
 						<CharactersTeam />
 					</Grid>
 					<Grid item xs={12} lg={6} md={6} className={ classes.flexBox }>
+						{/* <CharactersTeam /> */}
 					</Grid>
 				</Grid>
 			</div>

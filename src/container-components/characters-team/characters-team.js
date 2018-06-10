@@ -1,16 +1,41 @@
 import React, { Component } 	from 'react';
 import { compose } 				from 'redux';
 import { connect } 				from 'react-redux';
+import { objectToArray }		from '../../helper/objectHelper';
 import { withStyles } 			from '@material-ui/core/styles';
 import Typography 				from '@material-ui/core/Typography';
-import Modal 					from '@material-ui/core/Modal';
+import InputAdornment 			from '@material-ui/core/InputAdornment'
 import TextField 				from '@material-ui/core/TextField';
+import SearchCircle 			from '@material-ui/icons/Search';
+import CircularProgress 		from '@material-ui/core/CircularProgress';
+import Modal 					from '@material-ui/core/Modal';
+import Avatar 					from '@material-ui/core/Avatar';
 import CharactersGroup			from '../../presentation-components/characters-group/characters-group'
+import { onGetCharacterByName } from '../../actions/charactersActions'
 
 const styles = theme => ({
 	modal: {
-		background: '#2e2e2e'
-	}
+		background: '#2e2e2e',
+		width: 500,
+		padding: 20,
+	},
+	avatarContainer:{
+		display: 'flex',
+		justifyContent: 'center',
+		flexWrap: 'wrap',
+		height: 150
+	},
+	avatar: {
+		alignSelf: 'center',
+		margin: 10,
+		width: 80,
+		height: 80,
+		transition: '0.40s',
+		'&:hover':{
+			transition: '0.40s',
+			transform: 'scale(1.3)'
+		}
+	},
 });
 
 function rand() {
@@ -31,17 +56,28 @@ function getModalStyle() {
 class CharactersTeam extends Component {
 	state = {
 		open: false,
-		searching: false
+		searching: false,
+		filterCharacters: []
 	};
 	handleOpen = () => {
 		this.setState({ open: true });
 	};
 
 	handleClose = () => {
-		this.setState({ open: false });
+		this.setState({ open: false, filterCharacters: [] });
 	};
-	onChangeFilterText = () => {
-
+	onChangeFilterText = (evt) => {
+		const { onGetCharacterByName } = this.props;
+		const searchText = evt.target.value;
+		if(!searchText.length) {
+			this.setState({ filterCharacters: [] })
+		}else{
+			onGetCharacterByName(searchText).then(snapshot => {
+				const snapshotValue = snapshot.val();
+				var values = (snapshotValue) ? objectToArray(snapshotValue) : [];
+				this.setState({ filterCharacters: values.slice(0, 4) })
+			});
+		}
 	}
   	render() {
 		const { classes } = this.props;
@@ -62,12 +98,30 @@ class CharactersTeam extends Component {
 					onClose={this.handleClose}
 				>
 				<div style={getModalStyle()} className={classes.modal}>
-					<Typography variant="title" id="modal-title">
-						Text in a modal
-					</Typography>
-					<Typography variant="subheading" id="simple-modal-description">
-						Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-					</Typography>
+					<TextField
+						type="search"
+						label="Search your hero"
+						onChange={ this.onChangeFilterText.bind(this) }
+						InputProps={{
+							startAdornment: (
+								<InputAdornment position="start">
+									{ this.state.searching ? <CircularProgress color="secondary" size={25} /> : <SearchCircle /> }
+								</InputAdornment>
+							),
+						}}
+					/>
+					<div className={ classes.avatarContainer }>
+					{
+						this.state.filterCharacters.map(character => {
+							return <Avatar
+									className={ classes.avatar }
+									key={ character.id }
+									alt={ character.name }
+									src={ `${character.thumbnail.path}.${character.thumbnail.extension}` }
+								/>
+						})
+					}
+					</div>
 				</div>
 				</Modal>
 			</div>
@@ -81,7 +135,7 @@ const mapStateToProps = (state, props) => {
 	}
 }
 const mapActionsToProp = {
-
+	onGetCharacterByName
 }
 
 export default compose(

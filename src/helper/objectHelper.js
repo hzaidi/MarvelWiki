@@ -8,3 +8,10 @@ export const filterToQueryString = (filter) => {
 export const pick = (object, props) => {
 	return props.reduce((a, c) => ({ ...a, [c]: object[c] }), {});
 }
+
+export const objectToArray = (object) => {
+	return Object.keys(object).reduce((prev, curr) => {
+		prev.push(object[curr])
+		return prev;
+	}, [])
+}

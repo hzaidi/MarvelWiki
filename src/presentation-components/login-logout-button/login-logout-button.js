@@ -9,6 +9,9 @@ import { UserContext } from '../../context/userContext';
 const styles = theme => ({
 	container: {
 
+	},
+	icon:{
+		marginRight: 10
 	}
 });
 

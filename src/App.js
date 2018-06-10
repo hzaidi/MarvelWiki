@@ -5,12 +5,16 @@ import { withStyles } from '@material-ui/core/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Home from '@material-ui/icons/Home';
+import PersonPin from '@material-ui/icons/PersonPin';
+import Button from '@material-ui/core/Button';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import { login, logout, checkAuthentication } from './actions/userActions';
-import logo from './logo.png'
+import logo from './logo.png';
 import { UserContext } from './context/userContext';
-import CharactersContainer from './container-components/characters-container/characters-container'
-import CharacterContainer from './container-components/character-container/character-container'
+import CharactersContainer from './container-components/characters-container/characters-container';
+import CharacterContainer from './container-components/character-container/character-container';
+import DashboardContainer from './container-components/dashboard-container/dashboard-container';
 import LoginLogoutButton from './presentation-components/login-logout-button/login-logout-button';
 
 const theme = createMuiTheme({
@@ -52,12 +56,21 @@ class App extends Component {
 						<AppBar position="fixed" color="default">
 							<Toolbar>
 								<img className={ classes.topLogo } src={ logo } alt="Marvel Logo" width="150" height="50"/>
+								<Button href="#flat-buttons" component={ Link } to="/" variant="flat" size="small">
+									<Home className={classes.icon} />
+									Dashboard
+								</Button>
+								<Button href="#flat-buttons" component={ Link } to="/characters-list" variant="flat" size="small">
+									<PersonPin className={classes.icon} />
+									Characters List
+								</Button>
 								<div className={ classes.j2 }></div>
 								<LoginLogoutButton login={ login } logout={ logout }/>
 							</Toolbar>
 						</AppBar>
 						<div className={ classes.routeContainer }>
-							<Route exact path="/" component={CharactersContainer}/>
+							<Route exact path="/" component={DashboardContainer}/>
+							<Route exact path="/characters-list" component={CharactersContainer}/>
 							<Route path="/character/:characterId" component={CharacterContainer}/>
 						</div>
 					</MuiThemeProvider>

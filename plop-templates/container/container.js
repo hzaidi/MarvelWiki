@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+import React, { Component } 	from 'react';
+import { compose } 				from 'redux';
+import { connect } 				from 'react-redux';
+import { withStyles } 			from '@material-ui/core/styles';
 
 const styles = theme => ({
 
@@ -11,7 +11,7 @@ class {{ properCase name }} extends Component {
   	render() {
 		return (
 			<div>
-				This is a test Container Component
+				This is a {{ properCase name }} Container Component
 			</div>
 		);
   	}

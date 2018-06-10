@@ -39,6 +39,9 @@ const styles = theme => ({
 			transform: 'scale(1.3)'
 		}
 	},
+	textField:{
+		width: '100%'
+	}
 });
 
 function rand() {
@@ -94,9 +97,10 @@ class CharactersTeam extends Component {
 		return (
 			<div>
 				<TextField
+					className={ classes.textField  }
 					id="with-placeholder"
-					label="With placeholder"
-					placeholder="Placeholder"
+					label="Team Name"
+					placeholder="Name of the team e.g. Avengers"
 					className={classes.textField}
 					margin="normal"
 				/>
@@ -109,6 +113,7 @@ class CharactersTeam extends Component {
 				>
 				<div style={getModalStyle()} className={classes.modal}>
 					<TextField
+						className={ classes.textField  }
 						type="search"
 						label="Search your hero"
 						onChange={ this.onChangeFilterText.bind(this) }

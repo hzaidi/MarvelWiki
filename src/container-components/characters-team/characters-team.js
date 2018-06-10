@@ -92,6 +92,10 @@ class CharactersTeam extends Component {
 		this.handleClose()
 	}
 
+	removeCharacter = (character) => {
+		this.setState({ selectedCharacters: this.state.selectedCharacters.filter(c => c !== character)})
+	}
+
   	render() {
 		const { classes } = this.props;
 		return (
@@ -104,7 +108,11 @@ class CharactersTeam extends Component {
 					className={classes.textField}
 					margin="normal"
 				/>
-				<CharactersGroup openModal={ this.handleOpen } selectedCharacters={ this.state.selectedCharacters } />
+				<CharactersGroup
+					openModal={ this.handleOpen }
+					selectedCharacters={ this.state.selectedCharacters }
+					removeCharacter={ this.removeCharacter }
+					/>
 				<Modal
 					aria-labelledby="simple-modal-title"
 					aria-describedby="simple-modal-description"

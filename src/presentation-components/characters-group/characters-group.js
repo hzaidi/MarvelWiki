@@ -49,6 +49,10 @@ const CharactersGroup = (props) => {
 		props.openModal(tileNumber);
 	}
 
+	const onRemoveCharacter = (character) => {
+		props.removeCharacter(character);
+	}
+
 	return (
 		<div className={ classes.container }>
 			<div className={ classes.flexContainer }>
@@ -65,7 +69,7 @@ const CharactersGroup = (props) => {
 									imageUrl={ `${character.thumbnail.path}.${character.thumbnail.extension}` }
 									onClick={ () => {} }
 								/>
-								<IconButton color="secondary" className={classes.removeButton}>
+								<IconButton onClick={ () => onRemoveCharacter(character) } color="secondary" className={classes.removeButton}>
 									<RemoveCircle />
 								</IconButton>
 							</div>
@@ -88,7 +92,8 @@ const CharactersGroup = (props) => {
 CharactersGroup.propTypes = {
 	classes: PropTypes.object.isRequired,
 	openModal: PropTypes.func.isRequired,
-	selectedCharacters: PropTypes.array.isRequired
+	selectedCharacters: PropTypes.array.isRequired,
+	removeCharacter: PropTypes.func.isRequired
   };
 
   export default withStyles(styles)(CharactersGroup);

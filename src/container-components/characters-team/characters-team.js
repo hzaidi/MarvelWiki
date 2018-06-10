@@ -60,9 +60,11 @@ class CharactersTeam extends Component {
 	state = {
 		open: false,
 		searching: false,
-		filterCharacters: []
+		filterCharacters: [],
+		selectedCharacters: []
 	};
-	handleOpen = () => {
+
+	handleOpen = (row, col) => {
 		this.setState({ open: true });
 	};
 
@@ -82,6 +84,11 @@ class CharactersTeam extends Component {
 			});
 		}
 	}
+	onCharacterSelect = (character) => {
+		this.setState({ selectedCharacters: [...this.state.selectedCharacters, character] })
+		this.handleClose()
+	}
+
   	render() {
 		const { classes } = this.props;
 		return (
@@ -93,7 +100,7 @@ class CharactersTeam extends Component {
 					className={classes.textField}
 					margin="normal"
 				/>
-				<CharactersGroup add={ this.handleOpen } />
+				<CharactersGroup openModal={ this.handleOpen } selectedCharacters={ this.state.selectedCharacters } />
 				<Modal
 					aria-labelledby="simple-modal-title"
 					aria-describedby="simple-modal-description"
@@ -118,6 +125,7 @@ class CharactersTeam extends Component {
 						this.state.filterCharacters.map(character => {
 							return	<Tooltip enterDelay={300} key={ character.id } title={ character.name } placement="bottom">
 										<Avatar
+											onClick={ () => this.onCharacterSelect(character) }
 											key={ character.id }
 											className={ classes.avatar }
 											alt={ character.name }

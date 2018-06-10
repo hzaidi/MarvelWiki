@@ -74,7 +74,7 @@ const ImageTile = (props) => {
 			<Fade in={ props.imageUrl != null } style={{ transformOrigin: '0 0 0' }}>
 				<div className={ classes.container } >
 					<div className={ animateOnHover ? classes.card : {} }>
-						<Button className={ classes.buttonWrapper } onClick={ onClickTile }>
+						<Button className={ classes.buttonWrapper } onClick={ onClickTile } style={{ width, height }}>
 						{	props.title && props.title.length > 0 &&
 							<div className={ classes.title } title={ props.title }>
 								<Typography variant={ variant } noWrap={ noWrap } color={ color }>
@@ -109,6 +109,8 @@ ImageTile.propTypes = {
 	id: PropTypes.number.isRequired,
 	title: PropTypes.string,
 	footer: PropTypes.element,
+	width: PropTypes.number,
+	height: PropTypes.number,
 	variant: PropTypes.string,
 	noWrap: PropTypes.bool,
 	imageSize: PropTypes.string,

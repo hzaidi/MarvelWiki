@@ -3,7 +3,7 @@ import { compose } 				from 'redux';
 import { connect } 				from 'react-redux';
 import { objectToArray }		from '../../helper/objectHelper';
 import { withStyles } 			from '@material-ui/core/styles';
-import Typography 				from '@material-ui/core/Typography';
+import Tooltip 					from '@material-ui/core/Tooltip';
 import InputAdornment 			from '@material-ui/core/InputAdornment'
 import TextField 				from '@material-ui/core/TextField';
 import SearchCircle 			from '@material-ui/icons/Search';
@@ -26,13 +26,16 @@ const styles = theme => ({
 		height: 150
 	},
 	avatar: {
+		cursor: 'pointer',
 		alignSelf: 'center',
 		margin: 10,
 		width: 80,
 		height: 80,
 		transition: '0.40s',
+		border: '2px solid transparent',
 		'&:hover':{
 			transition: '0.40s',
+			border: '2px solid #fff',
 			transform: 'scale(1.3)'
 		}
 	},
@@ -113,12 +116,14 @@ class CharactersTeam extends Component {
 					<div className={ classes.avatarContainer }>
 					{
 						this.state.filterCharacters.map(character => {
-							return <Avatar
-									className={ classes.avatar }
-									key={ character.id }
-									alt={ character.name }
-									src={ `${character.thumbnail.path}.${character.thumbnail.extension}` }
-								/>
+							return	<Tooltip enterDelay={300} key={ character.id } title={ character.name } placement="bottom">
+										<Avatar
+											key={ character.id }
+											className={ classes.avatar }
+											alt={ character.name }
+											src={ `${character.thumbnail.path}.${character.thumbnail.extension}` }
+										/>
+									</Tooltip>
 						})
 					}
 					</div>

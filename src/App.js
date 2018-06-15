@@ -16,6 +16,7 @@ import CharactersContainer from './container-components/characters-container/cha
 import CharacterContainer from './container-components/character-container/character-container';
 import DashboardContainer from './container-components/dashboard-container/dashboard-container';
 import LoginLogoutButton from './presentation-components/login-logout-button/login-logout-button';
+import PrivateRoute from './presentation-components/private-route/private-route';
 
 const theme = createMuiTheme({
 	palette: {
@@ -63,7 +64,7 @@ class App extends Component {
 								<UserContext.Consumer>
 								{
 									user => (
-										<Button disabled={ !user.isAuthenticated } href="#flat-buttons" component={ Link } to="/dashboard" variant="flat" size="small">
+										user.isAuthenticated && <Button href="#flat-buttons" component={ Link } to="/dashboard" variant="flat" size="small">
 											<Home className={classes.icon} />
 											Dashboard
 										</Button>
@@ -76,7 +77,7 @@ class App extends Component {
 						</AppBar>
 						<div className={ classes.routeContainer }>
 							<Route exact path="/" component={CharactersContainer}/>
-							<Route exact path="/dashboard" component={DashboardContainer}/>
+							<PrivateRoute path="/dashboard" component={DashboardContainer}/>
 							<Route path="/character/:characterId" component={CharacterContainer}/>
 						</div>
 					</MuiThemeProvider>

@@ -24,9 +24,6 @@ export const UPDATE_FILTERS = 'character:UpdateFilters';
 export const CHARACTERS_BY_LIKE = 'character:CharactersByLike';
 export const CHARACTERS_BY_LOVE = 'character:CharactersByLove';
 export const CHARACTERS_BY_DISLIKE = 'character:CharactersByDislike';
-export const LIKE_CHARACTER = 'character:LikeChracter';
-export const LOVE_CHARACTER = 'character:LoveChracter';
-export const DISLIKE_CHARACTER = 'character:DislikeChracter';
 
 
 export function likesRef() {

@@ -1,19 +1,40 @@
-import React, { Component } 	from 'react';
-import { compose } 				from 'redux';
-import { connect } 				from 'react-redux';
-import { objectToArray }		from '../../helper/objectHelper';
-import { withStyles } 			from '@material-ui/core/styles';
-import Tooltip 					from '@material-ui/core/Tooltip';
-import InputAdornment 			from '@material-ui/core/InputAdornment'
-import TextField 				from '@material-ui/core/TextField';
-import SearchCircle 			from '@material-ui/icons/Search';
-import CircularProgress 		from '@material-ui/core/CircularProgress';
-import Modal 					from '@material-ui/core/Modal';
-import Avatar 					from '@material-ui/core/Avatar';
-import CharactersGroup			from '../../presentation-components/characters-group/characters-group'
-import { onGetCharacterByName } from '../../actions/charactersActions'
+import React, { Component } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { objectToArray } from '../../helper/objectHelper';
+import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+import InputAdornment from '@material-ui/core/InputAdornment'
+import TextField from '@material-ui/core/TextField';
+import SearchCircle from '@material-ui/icons/Search';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Modal from '@material-ui/core/Modal';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Save from '@material-ui/icons/Save';
+import CharactersGroup	from '../../presentation-components/characters-group/characters-group';
+import { onGetCharacterByName } from '../../actions/charactersActions';
+import { onUpdateuserTeamPreference } from '../../actions/userActions';
 
 const styles = theme => ({
+	container:{
+		background: '#2e2e2e',
+		padding: 20,
+		position: 'relative',
+		'&:before': {
+			position: 'absolute',
+			zIndex: -1,
+			boxShadow: 'rgba(64, 64, 64, 0.8) 0px 0px 40px 5px',
+			height: '0.63rem',
+			left: '2%',
+			width: '96%',
+			bottom: '0px',
+			transform: 'translateZ(0px)',
+			background: 'transparent',
+			borderRadius: '60%',
+			content: 'no-close-quote'
+		}
+	},
 	modal: {
 		background: '#2e2e2e',
 		width: 500,
@@ -64,7 +85,8 @@ class CharactersTeam extends Component {
 		open: false,
 		searching: false,
 		filterCharacters: [],
-		selectedCharacters: []
+		selectedCharacters: [],
+		teamName: ''
 	};
 
 	handleOpen = (row, col) => {
@@ -87,6 +109,11 @@ class CharactersTeam extends Component {
 			});
 		}
 	}
+
+	onChangeTeamName = (evt) => {
+		this.setState({ teamName: evt.target.value });
+	}
+
 	onCharacterSelect = (character) => {
 		this.setState({ selectedCharacters: [...this.state.selectedCharacters, character] })
 		this.handleClose()
@@ -99,13 +126,14 @@ class CharactersTeam extends Component {
   	render() {
 		const { classes } = this.props;
 		return (
-			<div>
+			<div className={ classes.container }>
 				<TextField
 					className={ classes.textField  }
 					id="with-placeholder"
 					label="Team Name"
 					placeholder="Name of the team e.g. Avengers"
 					className={classes.textField}
+					onBlur={ this.onChangeTeamName.bind(this) }
 					margin="normal"
 				/>
 				<CharactersGroup
@@ -113,6 +141,11 @@ class CharactersTeam extends Component {
 					selectedCharacters={ this.state.selectedCharacters }
 					removeCharacter={ this.removeCharacter }
 					/>
+				<div>
+					<Button variant="contained" color="default" aria-label="add" className={classes.button}>
+						<Save />Save
+					</Button>
+				</div>
 				<Modal
 					aria-labelledby="simple-modal-title"
 					aria-describedby="simple-modal-description"
@@ -156,12 +189,15 @@ class CharactersTeam extends Component {
 }
 
 const mapStateToProps = (state, props) => {
+	const { user, isAuthenticated } = state.userState;
 	return {
-
+		user,
+		isAuthenticated
 	}
 }
 const mapActionsToProp = {
-	onGetCharacterByName
+	onGetCharacterByName,
+	onUpdateuserTeamPreference
 }
 
 export default compose(

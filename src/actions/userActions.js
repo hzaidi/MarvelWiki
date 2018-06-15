@@ -1,8 +1,16 @@
 import { auth, provider } from '../firebaseConfig';
+import { updateUserTeamPreference } from '../firebaseActions/userAction';
+
 export const LOGIN = 'user:Login';
 export const LOGOUT = 'user:Logout';
 
 
+
+export function onUpdateuserTeamPreference(team, user){
+	return (dispatch) => {
+		return updateUserTeamPreference(team, user)
+	}
+}
 
 export function checkAuthentication() {
 	return (dispatch) => {

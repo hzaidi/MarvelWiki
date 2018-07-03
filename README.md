@@ -7,6 +7,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Firebase (Data store)
 - Marvel developer Api (https://developer.marvel.com/docs)
 - Plop (https://plopjs.com/ - To generate files with consistency)
+- Netlify (for CI/CD)
 
 ## Following link can be used to see the Demo
 https://marvelwiki.netlify.com/
